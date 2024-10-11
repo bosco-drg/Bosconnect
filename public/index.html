@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon//apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon//favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon//favicon-16x16.png">
+    <link rel="manifest" href="favicon//site.webmanifest">
+
+    <title>Bosconnect</title>
+
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+
+    <script>
+        var firebaseConfig = {
+            apiKey: "AIzaSyBluSTtDBKsxPEBhWRs-42WyvwxFodY8RQ",
+            authDomain: "bosco-nnect.firebaseapp.com",
+            databaseURL: "https://bosco-nnect-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "bosco-nnect",
+            storageBucket: "bosco-nnect.appspot.com",
+            messagingSenderId: "761637578037",
+            appId: "1:761637578037:web:a3cb9789fa5d1e87a9d87c"
+        };
+    </script>
+</head>
+
+<body>
+    <header>
+        <div class="header-container">
+            <div class="connexion">BOSCONNECT 1</div>
+        </div>
+    </header>
+
+    <main>
+        <section class="login-page">
+            <div class="login-container">
+                <h2>Connexion</h2>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <input type="email" id="loginEmail" placeholder="Adresse e-mail" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" id="loginPassword" placeholder="Mot de passe" required>
+                    </div>
+                    <button type="submit" class="btn">Se connecter</button>
+                </form>
+                <p id="loginErrorMessage" class="error-message"></p>
+                <p>Vous n'avez pas de compte ? <a href="#" id="goToSignup">Créer un compte</a></p>
+            </div>
+
+            <div class="signup-container hidden">
+                <h2>Créer un compte</h2>
+                <form id="signupForm">
+                    <div class="form-group">
+                        <input type="email" id="signupEmail" placeholder="Adresse e-mail" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" id="signupPassword" placeholder="Mot de passe" required>
+                    </div>
+                    <button type="submit" class="btn">S'inscrire</button>
+                </form>
+                <p id="signupErrorMessage" class="error-message"></p>
+                <p>Vous avez déjà un compte ? <a href="#" id="goToLogin">Se connecter</a></p>
+            </div>
+        </section>
+
+        <section id="content" class="hidden">
+            <div class="dashboard">
+                <div class="orders-container">
+
+                    <div class="switch-container">
+                        <label for="device1Switch">Appareil 1</label>
+                        <label class="switch">
+                            <input type="checkbox" id="device1Switch">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="switch-container">
+                        <label for="device2Switch">Appareil 2</label>
+                        <label class="switch">
+                            <input type="checkbox" id="device2Switch">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="slider-container">
+                        <label for="intensitySlider">Intensité: <span id="sliderValue">50</span>%</label>
+                        <input type="range" id="intensitySlider" min="0" max="100" value="50">
+                    </div>
+                </div>
+
+                <div class="info-container">
+                    <p>Température : <span id="temperature"></span> °C</p>
+                    <p>Pression : <span id="pressure"></span> hPa</p>
+                    <p>Luminosité : <span id="brightness"></span> Lux</p>
+                    <p>Quantité de Gaz : <span id="gas"></span></p>
+                </div>
+
+                <div id="dangerMessage" class="danger-message hidden"></div>
+
+                <div class="temperature-container">
+                    <div id="temperature-chart"></div>
+                    <div class="chart-controls">
+                        <label for="temperature-points">Nombre de points de données :</label>
+                        <input type="number" id="temperature-points" min="1" value="2">
+                        <button onclick="updateTemperatureChart()">Mettre à jour le graphique</button>
+                    </div>
+
+                </div>
+
+                <div class="brightness-container">
+
+                    <div id="brightness-chart"></div>
+                    <div class="chart-controls">
+                        <label for="brightness-points">Nombre de points de données :</label>
+                        <input type="number" id="brightness-points" min="1" value="2">
+                        <button onclick="updateBrightnessChart()">Mettre à jour le graphique</button>
+                    </div>
+
+                </div>
+
+                <div class="pressure-container">
+
+                    <div id="pressure-chart"></div>
+                    <div class="chart-controls">
+                        <label for="pressure-points">Nombre de points de données :</label>
+                        <input type="number" id="pressure-points" min="1" value="2">
+                        <button onclick="updatePressureChart()">Mettre à jour le graphique</button>
+                    </div>
+                </div>
+
+                <div class="logout-container">
+                    <button id="logoutButton" class="btn">DECONNEXION</button>
+                </div>
+            </div>
+        </section>
+
+
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <p>&copy; 2024 BOSCONNECT. Tous droits réservés.</p>
+            <p>
+                <a href="#privacy-policy">Politique de confidentialité</a> |
+                <a href="#terms">Conditions d'utilisation</a>
+            </p>
+        </div>
+    </footer>
+</body>
+
+</html>
