@@ -1,16 +1,16 @@
 #ifndef FIREBASE_H
 #define FIREBASE_H
 
+#include <Arduino.h>
+
 #define WIFI_SSID "Reseau Gloglo"
-#define WIFI_PASSWORD "GloGlo317682"
+#define WIFI_PASS "GloGlo317682"
+
+#define USER_MAIL "bosco.adresseprojet@gmail.com"
+#define USER_PASS "GEII1234!"
 
 #define API_KEY "AIzaSyBluSTtDBKsxPEBhWRs-42WyvwxFodY8RQ"
 #define DATABASE_URL "https://bosco-nnect-default-rtdb.europe-west1.firebasedatabase.app/"
-
-#define ADMIN_EMAIL "bosco.adresseprojet@gmail.com"
-#define ADMIN_PASSWORD "GEII1234!"
-
-#define IUD_USER "-O8HoWxypcSDv8EvYaTi"
 
 typedef struct data_firebase
 {
@@ -23,19 +23,8 @@ typedef struct data_firebase
   bool finder3;
   int pwm;
 
-
 } data_firebase;
 
-extern volatile data_firebase firebase;
-
-
-void init_firebase(void);
-void write_recurrent_sensor_firebase(void);
-void write_instant_sensor_firebase(void);
-void write_tor_firebase(void);
-void read_tor_firebase(void);
-// void read_tor_ESP32(void);
-// void write_tor_ESP32(void);
-
+extern data_firebase firebase;
 
 #endif

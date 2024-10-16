@@ -10,66 +10,58 @@ let brightnessData = [];
 
 auth.onAuthStateChanged(handleAuthStateChange);
 
-document.getElementById('loginForm').addEventListener('submit', function (event) {
-    event.preventDefault();
-    const email = document.getElementById('loginEmail').value;
-    const password = document.getElementById('loginPassword').value;
-    auth.signInWithEmailAndPassword(email, password)
-        .then((userCredential) => {
-            document.getElementById('loginErrorMessage').textContent = '';
-        })
-        .catch((error) => {
-            document.getElementById('loginErrorMessage').textContent = 'Adresse mail ou mot de passe incorrect';
+document.addEventListener('DOMContentLoaded', function() {
+    const loginForm = document.getElementById('loginForm');
+    if (loginForm) {
+        loginForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            auth.signInWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    const errorMessage = document.getElementById('loginErrorMessage');
+                    if (errorMessage) {
+                        errorMessage.textContent = '';
+                    }
+                })
+                .catch((error) => {
+                    const errorMessage = document.getElementById('loginErrorMessage');
+                    if (errorMessage) {
+                        errorMessage.textContent = 'Adresse mail ou mot de passe incorrect';
+                    }
+                    console.error('Login error:', error);
+                });
         });
+    } else {
+        console.error('Login form not found');
+    }
 });
 
-document.getElementById('signupForm').addEventListener('submit', function (event) {
-    event.preventDefault();
-
-    const email = document.getElementById('signupEmail').value;
-    const password = document.getElementById('signupPassword').value;
-    const signupErrorMessage = document.getElementById('signupErrorMessage');
-
-    auth.createUserWithEmailAndPassword(email, password)
-        .then((userCredential) => {
-            signupErrorMessage.textContent = 'Compte créé avec succès !';
-            document.getElementById('signupForm').reset();
-        })
-        .catch((error) => {
-            signupErrorMessage.textContent = 'Erreur lors de la création du compte';
+const logoutButton = document.getElementById('logoutButton');
+if (logoutButton) {
+    logoutButton.addEventListener('click', function () {
+        auth.signOut().then(() => {
+            console.log('User signed out successfully');
+        }).catch((error) => {
+            console.error('Error signing out:', error);
         });
-});
-
-document.getElementById('logoutButton').addEventListener('click', function () {
-    auth.signOut().then(() => {
-    }).catch((error) => {
-        console.error('Error signing out:', error);
     });
-});
-
-document.getElementById('goToSignup').addEventListener('click', function (event) {
-    event.preventDefault();
-    document.querySelector('.login-container').classList.add('hidden');
-    document.querySelector('.signup-container').classList.remove('hidden');
-});
-
-document.getElementById('goToLogin').addEventListener('click', function (event) {
-    event.preventDefault();
-    document.querySelector('.signup-container').classList.add('hidden');
-    document.querySelector('.login-container').classList.remove('hidden');
-});
-
-///////////////////////////////////////////////------FONCTIONS-------///////////////////////////////////////////////
+} else {
+    console.error('Logout button not found');
+}
 
 function handleAuthStateChange(user) {
     if (user) {
-
         currentUser = user;
         userId = user.uid;
 
-        document.querySelector('.signup-container').classList.add('hidden');
-        document.querySelector('.login-container').classList.add('hidden');
-        document.getElementById('content').classList.remove('hidden');
+        const signupContainer = document.querySelector('.signup-container');
+        const loginContainer = document.querySelector('.login-container');
+        const content = document.getElementById('content');
+
+        if (signupContainer) signupContainer.classList.add('hidden');
+        if (loginContainer) loginContainer.classList.add('hidden');
+        if (content) content.classList.remove('hidden');
 
         fetchTemperature();
         fetchPressure();
@@ -78,14 +70,17 @@ function handleAuthStateChange(user) {
         initializeDevice2();
         initializeIntensitySlider();
         readInstantDate();
-
     } else {
-
         currentUser = null;
         userId = null;
-        document.getElementById('content').classList.add('hidden');
-        document.querySelector('.signup-container').classList.add('hidden');
-        document.querySelector('.login-container').classList.remove('hidden');
+
+        const content = document.getElementById('content');
+        const signupContainer = document.querySelector('.signup-container');
+        const loginContainer = document.querySelector('.login-container');
+
+        if (content) content.classList.add('hidden');
+        if (signupContainer) signupContainer.classList.add('hidden');
+        if (loginContainer) loginContainer.classList.remove('hidden');
     }
 }
 

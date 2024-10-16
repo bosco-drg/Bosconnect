@@ -2,7 +2,7 @@
 // SquareLine Studio version: SquareLine Studio 1.4.2
 // LVGL version: 8.3.11
 // Project name: SquareLine_Project
-
+/*
 #include "ui.h"
 
 void set_device1_on(lv_event_t * e)
@@ -30,32 +30,7 @@ void sliderdimmer(lv_event_t * e)
 	// Your code here
 }
 
-void ssidwifi(lv_event_t * e)
-{
-	// Your code here
-}
-
-void passwordwifi(lv_event_t * e)
-{
-	// Your code here
-}
-
-void adressemailuser(lv_event_t * e)
-{
-	// Your code here
-}
-
-void passworduser(lv_event_t * e)
-{
-	// Your code here
-}
-
 void resetfirebase(lv_event_t * e)
-{
-	// Your code here
-}
-
-void allreset(lv_event_t * e)
 {
 	// Your code here
 }
@@ -64,3 +39,4 @@ void rfidnewpass(lv_event_t * e)
 {
 	// Your code here
 }
+*/

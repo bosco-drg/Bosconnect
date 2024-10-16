@@ -1,6 +1,8 @@
 #include <lvgl.h>
+#include <Arduino.h>
 #include <TFT_eSPI.h>
 #include <ui.h>
+#include <stdio.h>
 
 #include "firebase.h"
 #include "gpio.h"
@@ -14,53 +16,89 @@ TFT_eSPI tft = TFT_eSPI(screenWidth, screenHeight);
 
 void my_disp_flush(lv_disp_drv_t *disp, const lv_area_t *area, lv_color_t *color_p)
 {
-    uint32_t w = (area->x2 - area->x1 + 1);
-    uint32_t h = (area->y2 - area->y1 + 1);
+  uint32_t w = (area->x2 - area->x1 + 1);
+  uint32_t h = (area->y2 - area->y1 + 1);
 
-    tft.startWrite();
-    tft.setAddrWindow(area->x1, area->y1, w, h);
-    tft.pushColors((uint16_t *)&color_p->full, w * h, true);
-    tft.endWrite();
+  tft.startWrite();
+  tft.setAddrWindow(area->x1, area->y1, w, h);
+  tft.pushColors((uint16_t *)&color_p->full, w * h, true);
+  tft.endWrite();
 
-    lv_disp_flush_ready(disp);
+  lv_disp_flush_ready(disp);
 }
 
 void my_touchpad_read(lv_indev_drv_t *indev_driver, lv_indev_data_t *data)
 {
-    uint16_t touchX = 0, touchY = 0;
-    bool touched = tft.getTouch(&touchX, &touchY, 600);
-    if (!touched)
-        data->state = LV_INDEV_STATE_REL;
-    else
-    {
-        data->state = LV_INDEV_STATE_PR;
-        data->point.x = touchX;
-        data->point.y = touchY;
-    }
+  uint16_t touchX = 0, touchY = 0;
+  bool touched = tft.getTouch(&touchX, &touchY, 600);
+  if (!touched)
+    data->state = LV_INDEV_STATE_REL;
+  else
+  {
+    data->state = LV_INDEV_STATE_PR;
+    data->point.x = touchX;
+    data->point.y = touchY;
+  }
 }
 
 void init_displays_tft()
 {
-    uint16_t calData[5] = {320, 3477, 271, 3409, 4};
-    tft.setTouch(calData);
-    lv_init();
-    tft.begin();
-    tft.setRotation(2);
+  uint16_t calData[5] = {320, 3477, 271, 3409, 4};
+  tft.setTouch(calData);
+  lv_init();
+  tft.begin();
+  tft.setRotation(2);
 
-    lv_disp_draw_buf_init(&draw_buf, buf, NULL, screenWidth * screenHeight / 10);
+  lv_disp_draw_buf_init(&draw_buf, buf, NULL, screenWidth * screenHeight / 10);
 
-    static lv_disp_drv_t disp_drv;
-    lv_disp_drv_init(&disp_drv);
-    disp_drv.hor_res = screenWidth;
-    disp_drv.ver_res = screenHeight;
-    disp_drv.flush_cb = my_disp_flush;
-    disp_drv.draw_buf = &draw_buf;
-    lv_disp_drv_register(&disp_drv);
-    static lv_indev_drv_t indev_drv;
-    lv_indev_drv_init(&indev_drv);
-    indev_drv.type = LV_INDEV_TYPE_POINTER;
-    indev_drv.read_cb = my_touchpad_read;
-    lv_indev_drv_register(&indev_drv);
+  static lv_disp_drv_t disp_drv;
+  lv_disp_drv_init(&disp_drv);
+  disp_drv.hor_res = screenWidth;
+  disp_drv.ver_res = screenHeight;
+  disp_drv.flush_cb = my_disp_flush;
+  disp_drv.draw_buf = &draw_buf;
+  lv_disp_drv_register(&disp_drv);
+  static lv_indev_drv_t indev_drv;
+  lv_indev_drv_init(&indev_drv);
+  indev_drv.type = LV_INDEV_TYPE_POINTER;
+  indev_drv.read_cb = my_touchpad_read;
+  lv_indev_drv_register(&indev_drv);
 
-    ui_init();
+  ui_init();
+}
+
+void set_device1_on(lv_event_t *e)
+{
+  firebase.finder1 = true;
+}
+
+void set_device1_off(lv_event_t *e)
+{
+  firebase.finder1 = false;
+}
+
+void set_device2_on(lv_event_t *e)
+{
+  firebase.finder2 = true;
+}
+
+void set_device2_off(lv_event_t *e)
+{
+  firebase.finder2 = false;
+}
+
+void sliderdimmer(lv_event_t *e)
+{
+  lv_obj_t *slider = lv_event_get_target(e);
+  firebase.pwm = lv_slider_get_value(slider);
+}
+
+void resetfirebase(lv_event_t * e)
+{
+  // Your code here
+}
+
+void rfidnewpass(lv_event_t *e)
+{
+  // Implémentez la logique de changement de mot de passe RFID ici
 }

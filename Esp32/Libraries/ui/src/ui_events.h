@@ -15,12 +15,7 @@ void set_device1_off(lv_event_t * e);
 void set_device2_on(lv_event_t * e);
 void set_device2_off(lv_event_t * e);
 void sliderdimmer(lv_event_t * e);
-void ssidwifi(lv_event_t * e);
-void passwordwifi(lv_event_t * e);
-void adressemailuser(lv_event_t * e);
-void passworduser(lv_event_t * e);
 void resetfirebase(lv_event_t * e);
-void allreset(lv_event_t * e);
 void rfidnewpass(lv_event_t * e);
 
 #ifdef __cplusplus
