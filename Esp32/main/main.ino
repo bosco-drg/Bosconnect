@@ -54,10 +54,11 @@ long getTimestamp()
 
 void read_sensor_ESP32()
 {
-  firebase.gas = 0;         // analogRead(GAZ_SENSOR);
-  firebase.brightness = 0;  // lightMeter.readLightLevel();
-  firebase.temperature = 0; // bmp.readTemperature();
-  firebase.pressure = 0;    // bmp.readPressure() / 100.0;
+  float ratio = (3.3 - analogRead(GAZ_SENSOR) * (3.3 / 4095.0)) / (analogRead(GAZ_SENSOR) * (3.3 / 4095.0));
+  firebase.gas = pow(10, (log10(ratio * 10.0 / 10.0) - 2.7) / -0.77);
+  firebase.brightness = lightMeter.readLightLevel();
+  firebase.temperature = bmp.readTemperature();
+  firebase.pressure = bmp.readPressure() / 100.0;
 }
 
 void init_sensor()
@@ -150,28 +151,43 @@ void write_tor_ESP32(void)
 void setup()
 {
   Serial.begin(115200);
+  Wire.begin(6, 7);
   init_wifi();
   init_displays_tft();
   init_firebase();
-  // init_sensor();
-  Wire.begin(6, 7);
+  init_sensor();
+
 
   pinMode(FINDER1, OUTPUT);
   pinMode(FINDER2, OUTPUT);
+}
+
+void manageLED() {
+  static long last = 0;
+  static bool ledState;
+  int delayTime = map(firebase.pwm, 0, 100, 1000, 1);
+
+  if (last - millis() >= delayTime) {
+    last = millis();
+    ledState = (ledState == LOW) ? HIGH : LOW;
+    digitalWrite(LED_BUILTIN, ledState);
+  }
 }
 
 void loop()
 {
   lv_timer_handler();
   static unsigned long last = 0;
+  read_sensor_ESP32();
+  write_instant_sensor_firebase();
+  read_tor_firebase();
+  write_tor_ESP32();
+
   if (millis() - last > 20000)
   {
-    read_tor_firebase();
-    read_sensor_ESP32();
-    write_tor_ESP32();
     write_tor_firebase();
-    write_instant_sensor_firebase();
     write_recurrent_sensor_firebase();
     last = millis();
   }
+  manageLED();
 }
