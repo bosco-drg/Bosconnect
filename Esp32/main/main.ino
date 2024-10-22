@@ -152,8 +152,8 @@ void setup()
 {
   Serial.begin(115200);
   Wire.begin(6, 7);
-  init_wifi();
   init_displays_tft();
+  init_wifi();
   init_firebase();
   init_sensor();
 
@@ -189,5 +189,5 @@ void loop()
     write_recurrent_sensor_firebase();
     last = millis();
   }
-  manageLED();
+  //manageLED();
 }
