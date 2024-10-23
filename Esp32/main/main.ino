@@ -26,11 +26,20 @@ const char *ntpServer = "pool.ntp.org";
 const long gmtOffset_sec = 3600;
 const int daylightOffset_sec = 3600;
 
+float last_temperature = 0;
+float last_brightness = 0;
+float last_pressure = 0;
+float last_gas = 0;
+
+const float TEMPERATURE_THRESHOLD = 0.5;
+const float BRIGHTNESS_THRESHOLD = 5.0;
+const float PRESSURE_THRESHOLD = 1.0;
+const float GAS_THRESHOLD = 0.1;
+
 void init_wifi()
 {
   WiFi.begin(WIFI_SSID, WIFI_PASS);
-  while (WiFi.status() != WL_CONNECTED)
-    ;
+  while (WiFi.status() != WL_CONNECTED);
   configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
 }
 
@@ -88,37 +97,47 @@ void init_firebase()
   Firebase.begin(&config, &auth);
 }
 
-void write_recurrent_sensor_firebase(void)
-{
+void write_sensor_firebase(void) {
   long timestamp = getTimestamp();
   String formattedTime = getFormattedTime();
   String uid = auth.token.uid.c_str();
-
-  String path = "/utilisateurs/" + uid + "/data/temperature/" + String(timestamp);
-  Firebase.RTDB.setString(&fbdo, path + "/time", formattedTime);
-  Firebase.RTDB.setFloat(&fbdo, path + "/valeur", firebase.temperature);
-
-  path = "/utilisateurs/" + uid + "/data/brightness/" + String(timestamp);
-  Firebase.RTDB.setString(&fbdo, path + "/time", formattedTime);
-  Firebase.RTDB.setFloat(&fbdo, path + "/valeur", firebase.brightness);
-
-  path = "/utilisateurs/" + uid + "/data/pressure/" + String(timestamp);
-  Firebase.RTDB.setString(&fbdo, path + "/time", formattedTime);
-  Firebase.RTDB.setFloat(&fbdo, path + "/valeur", firebase.pressure);
-
-  path = "/utilisateurs/" + uid + "/data/gas/" + String(timestamp);
-  Firebase.RTDB.setString(&fbdo, path + "/time", formattedTime);
-  Firebase.RTDB.setFloat(&fbdo, path + "/valeur", firebase.gas);
-}
-
-void write_instant_sensor_firebase(void)
-{
-  String uid = auth.token.uid.c_str();
   String base_path = "/utilisateurs/" + uid + "/instant_data/";
-  Firebase.RTDB.setFloat(&fbdo, base_path + "temperature", firebase.temperature);
-  Firebase.RTDB.setFloat(&fbdo, base_path + "brightness", firebase.brightness);
-  Firebase.RTDB.setFloat(&fbdo, base_path + "pressure", firebase.pressure);
-  Firebase.RTDB.setFloat(&fbdo, base_path + "gas", firebase.gas);
+
+  if (abs(firebase.temperature - last_temperature) > TEMPERATURE_THRESHOLD) {
+    Firebase.RTDB.setFloat(&fbdo, base_path + "temperature", String(firebase.temperature, 1).toFloat());
+    lv_label_set_text_fmt(ui_temperatureTFT, "%.1f", firebase.temperature);
+    String path = "/utilisateurs/" + uid + "/data/temperature/" + String(timestamp);
+    Firebase.RTDB.setString(&fbdo, path + "/time", formattedTime);
+    Firebase.RTDB.setFloat(&fbdo, path + "/valeur", firebase.temperature);
+    last_temperature = firebase.temperature;
+  }
+
+  if (abs(firebase.brightness - last_brightness) > BRIGHTNESS_THRESHOLD) {
+    Firebase.RTDB.setFloat(&fbdo, base_path + "brightness", String(firebase.brightness, 1).toFloat());
+    lv_label_set_text_fmt(ui_brightnessTFT, "%.1f", firebase.brightness);
+    String path = "/utilisateurs/" + uid + "/data/brightness/" + String(timestamp);
+    Firebase.RTDB.setString(&fbdo, path + "/time", formattedTime);
+    Firebase.RTDB.setFloat(&fbdo, path + "/valeur", firebase.brightness);
+    last_brightness = firebase.brightness;
+  }
+
+  if (abs(firebase.pressure - last_pressure) > PRESSURE_THRESHOLD) {
+    Firebase.RTDB.setFloat(&fbdo, base_path + "pressure", String(firebase.pressure, 1).toFloat());
+    lv_label_set_text_fmt(ui_pressureTFT, "%.1f", firebase.pressure);
+    String path = "/utilisateurs/" + uid + "/data/pressure/" + String(timestamp);
+    Firebase.RTDB.setString(&fbdo, path + "/time", formattedTime);
+    Firebase.RTDB.setFloat(&fbdo, path + "/valeur", firebase.pressure);
+    last_pressure = firebase.pressure;
+  }
+
+  if (abs(firebase.gas - last_gas) > GAS_THRESHOLD) {
+    Firebase.RTDB.setFloat(&fbdo, base_path + "gas", String(firebase.gas, 1).toFloat());
+    lv_label_set_text_fmt(ui_gasTFT, "%.1f", firebase.gas);
+    String path = "/utilisateurs/" + uid + "/data/gas/" + String(timestamp);
+    Firebase.RTDB.setString(&fbdo, path + "/time", formattedTime);
+    Firebase.RTDB.setFloat(&fbdo, path + "/valeur", firebase.gas);
+    last_gas = firebase.gas;
+  }
 }
 
 void write_tor_firebase(void)
@@ -157,37 +176,14 @@ void setup()
   init_firebase();
   init_sensor();
 
-
   pinMode(FINDER1, OUTPUT);
   pinMode(FINDER2, OUTPUT);
-}
-
-void manageLED() {
-  static long last = 0;
-  static bool ledState;
-  int delayTime = map(firebase.pwm, 0, 100, 1000, 1);
-
-  if (last - millis() >= delayTime) {
-    last = millis();
-    ledState = (ledState == LOW) ? HIGH : LOW;
-    digitalWrite(LED_BUILTIN, ledState);
-  }
 }
 
 void loop()
 {
   lv_timer_handler();
-  static unsigned long last = 0;
   read_sensor_ESP32();
-  write_instant_sensor_firebase();
-  read_tor_firebase();
   write_tor_ESP32();
-
-  if (millis() - last > 20000)
-  {
-    write_tor_firebase();
-    write_recurrent_sensor_firebase();
-    last = millis();
-  }
-  //manageLED();
+  write_sensor_firebase();
 }

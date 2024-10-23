@@ -43,11 +43,11 @@ void my_touchpad_read(lv_indev_drv_t *indev_driver, lv_indev_data_t *data)
 
 void init_displays_tft()
 {
-  uint16_t calData[5] = {320, 3477, 271, 3409, 4};
+  uint16_t calData[5] = { 425, 3243, 320, 3579, 1 };
   tft.setTouch(calData);
   lv_init();
   tft.begin();
-  tft.setRotation(2);
+  tft.setRotation(0);
 
   lv_disp_draw_buf_init(&draw_buf, buf, NULL, screenWidth * screenHeight / 10);
 
