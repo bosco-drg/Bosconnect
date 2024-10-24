@@ -5,7 +5,7 @@
 #include <stdio.h>
 
 #include "firebase.h"
-#include "gpio.h"
+#include "main.h"
 
 const uint16_t screenWidth = 240;
 const uint16_t screenHeight = 320;
@@ -69,36 +69,49 @@ void init_displays_tft()
 
 void set_device1_on(lv_event_t *e)
 {
+  bool lastfinder = firebase.finder1;
   firebase.finder1 = true;
+  if (lastfinder != firebase.finder1)
+    write_finder1_firebase();
 }
 
 void set_device1_off(lv_event_t *e)
 {
+  bool lastfinder = firebase.finder1;
   firebase.finder1 = false;
+  if (lastfinder != firebase.finder1)
+    write_finder1_firebase();
 }
 
 void set_device2_on(lv_event_t *e)
 {
+  bool lastfinder = firebase.finder2;
   firebase.finder2 = true;
+  if (lastfinder != firebase.finder2)
+    write_finder2_firebase();
 }
 
 void set_device2_off(lv_event_t *e)
 {
+  bool lastfinder = firebase.finder2;
   firebase.finder2 = false;
+  if (lastfinder != firebase.finder2)
+    write_finder2_firebase();
 }
 
 void sliderdimmer(lv_event_t *e)
 {
   lv_obj_t *slider = lv_event_get_target(e);
   firebase.pwm = lv_slider_get_value(slider);
+  write_slider_firebase();
 }
 
 void resetfirebase(lv_event_t * e)
 {
-  // Your code here
+  reset_firebase();
 }
 
 void rfidnewpass(lv_event_t *e)
 {
-  // Implémentez la logique de changement de mot de passe RFID ici
+  new_card = true;
 }
