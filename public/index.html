@@ -5,10 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="apple-touch-icon" sizes="180x180" href="favicon//apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon//favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon//favicon-16x16.png">
-    <link rel="manifest" href="favicon//site.webmanifest">
+    <link rel="icon" type="image/png" href="favicon//favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="favicon//favicon.svg" />
+    <link rel="shortcut icon" href="favicon//favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon//apple-touch-icon.png" />
+    <link rel="manifest" href="favicon//site.webmanifest" />
 
     <title>Bosconnect</title>
 
@@ -60,26 +61,38 @@
 
         <section id="content" class="hidden">
             <div class="dashboard">
+
+                <div class="time-container">
+                    <span class="time"></span>
+                    <span class="date"></span>
+                </div>
+
                 <div class="orders-container">
+                    <div class="switch-container">
+                        <label for="device1Switch" class="switch-label">Appareil 1</label>
+                        <label class="switch">
+                            <input type="checkbox" id="device1Switch" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
 
                     <div class="switch-container">
-                        <label for="device1Switch">Appareil 1</label>
+                        <label for="device2Switch" class="switch-label">Appareil 2</label>
                         <label class="switch">
-                            <input type="checkbox" id="device1Switch">
+                            <input type="checkbox" id="device2Switch" checked>
                             <span class="slider"></span>
                         </label>
                     </div>
-                    <div class="switch-container">
-                        <label for="device2Switch">Appareil 2</label>
-                        <label class="switch">
-                            <input type="checkbox" id="device2Switch">
-                            <span class="slider"></span>
-                        </label>
-                    </div>
+
                     <div class="slider-container">
-                        <label for="intensitySlider">Intensité: <span id="sliderValue">50</span>%</label>
-                        <input type="range" id="intensitySlider" min="0" max="100" value="50">
+                        <label for="intensitySlider" class="slider-label">Intensité: <span id="sliderValue">Intensité
+                                :</span></label>
+                        <input type="range" id="intensitySlider" min="0" max="100">
                     </div>
+                </div>
+                
+                <div class="orders-container">
+
                 </div>
 
                 <div class="info-container">
@@ -93,32 +106,37 @@
 
                 <div class="temperature-container">
                     <div id="temperature-chart"></div>
-                    <div class="chart-controls">
-                        <label for="temperature-points">Nombre de points de données :</label>
-                        <input type="number" id="temperature-points" min="1" value="2">
-                        <button onclick="updateTemperatureChart()">Mettre à jour le graphique</button>
-                    </div>
-
                 </div>
 
                 <div class="brightness-container">
-
                     <div id="brightness-chart"></div>
-                    <div class="chart-controls">
-                        <label for="brightness-points">Nombre de points de données :</label>
-                        <input type="number" id="brightness-points" min="1" value="2">
-                        <button onclick="updateBrightnessChart()">Mettre à jour le graphique</button>
-                    </div>
-
                 </div>
 
                 <div class="pressure-container">
-
                     <div id="pressure-chart"></div>
-                    <div class="chart-controls">
-                        <label for="pressure-points">Nombre de points de données :</label>
-                        <input type="number" id="pressure-points" min="1" value="2">
-                        <button onclick="updatePressureChart()">Mettre à jour le graphique</button>
+                </div>
+
+                <div class="setting-container">
+                    <div class="button-container">
+                            <label for="timingSelect">Intervalle de mesure:</label>
+                            <select id="timingSelect">
+                                <option value="1">1 minute</option>
+                                <option value="5" selected>5 minutes</option>
+                                <option value="10">10 minutes</option>
+                                <option value="15">15 minutes</option>
+                                <option value="30">30 minutes</option>
+                                <option value="60">1 heure</option>
+                            </select>
+                    </div>
+
+                    <div class="button-container">
+                        <label class="button-label">Réinitialiser le mot de passe :</label>
+                        <button id="resetPasswordButton" class="btn small-btn">Réinitialiser</button>
+                    </div>
+
+                    <div class="button-container">
+                        <label class="button-label">Nettoyer les données :</label>
+                        <button id="clearDataButton" class="btn small-btn">Nettoyer</button>
                     </div>
                 </div>
 

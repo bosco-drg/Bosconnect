@@ -7,10 +7,12 @@ let chart;
 let temperatureData = [];
 let pressureData = [];
 let brightnessData = [];
+let selectedTiming = 5;
+let timerInterval = null;
 
 auth.onAuthStateChanged(handleAuthStateChange);
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const loginForm = document.getElementById('loginForm');
     if (loginForm) {
         loginForm.addEventListener('submit', function (event) {
@@ -37,6 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+
 const logoutButton = document.getElementById('logoutButton');
 if (logoutButton) {
     logoutButton.addEventListener('click', function () {
@@ -55,14 +58,14 @@ function handleAuthStateChange(user) {
         currentUser = user;
         userId = user.uid;
 
-        const signupContainer = document.querySelector('.signup-container');
         const loginContainer = document.querySelector('.login-container');
         const content = document.getElementById('content');
 
-        if (signupContainer) signupContainer.classList.add('hidden');
         if (loginContainer) loginContainer.classList.add('hidden');
         if (content) content.classList.remove('hidden');
 
+        setInterval(updateClock, 1000);
+        updateClock();
         fetchTemperature();
         fetchPressure();
         fetchBrightness();
@@ -70,19 +73,50 @@ function handleAuthStateChange(user) {
         initializeDevice2();
         initializeIntensitySlider();
         readInstantDate();
+
+        const resetPasswordButton = document.getElementById('resetPasswordButton');
+        const clearDataButton = document.getElementById('clearDataButton');
+
+        if (resetPasswordButton) {
+            resetPasswordButton.onclick = resetPassword;
+        }
+
+        if (clearDataButton) {
+            clearDataButton.onclick = clearData;
+        }
+
     } else {
         currentUser = null;
         userId = null;
 
         const content = document.getElementById('content');
-        const signupContainer = document.querySelector('.signup-container');
         const loginContainer = document.querySelector('.login-container');
 
         if (content) content.classList.add('hidden');
-        if (signupContainer) signupContainer.classList.add('hidden');
         if (loginContainer) loginContainer.classList.remove('hidden');
     }
 }
+
+function resetPassword() {
+    const email = auth.currentUser ? auth.currentUser.email : null;
+    if (email) {
+        auth.sendPasswordResetEmail(email)
+            .then(() => {
+                alert('Un email de réinitialisation de mot de passe a été envoyé.');
+            })
+            .catch((error) => {
+                console.error('Erreur lors de la réinitialisation du mot de passe :', error);
+                alert('Erreur : impossible de réinitialiser le mot de passe.');
+            });
+    } else {
+        alert('Aucun utilisateur connecté pour réinitialiser le mot de passe.');
+    }
+}
+
+function clearData() {
+    alert('Fonctionnalité à venir');
+}
+
 
 function readInstantDate() {
 
@@ -129,13 +163,20 @@ function fetchTemperature() {
 function createTemperatureChart(numPoints) {
     const data = temperatureData.slice(-numPoints);
     const container = document.getElementById('temperature-chart');
+
     Highcharts.setOptions({
         time: {
             timezoneOffset: new Date().getTimezoneOffset(),
             useUTC: false
         }
     });
+
     chart = Highcharts.chart(container, {
+        chart: {
+            zoomType: 'x',
+            panning: true,
+            panKey: 'shift',
+        },
         title: {
             text: 'Évolution de la Température'
         },
@@ -150,18 +191,29 @@ function createTemperatureChart(numPoints) {
                 text: 'Température (°C)'
             }
         },
+        tooltip: {
+            shared: true,
+            crosshairs: true,
+            formatter: function () {
+                return `<b>Temps:</b> ${Highcharts.dateFormat('%e %b %Y %H:%M', this.x)}<br/>
+                        <b>Température:</b> ${this.y.toFixed(2)} °C`;
+            }
+        },
         series: [{
             name: 'Température',
             data: data,
-            color: '#e74c3c'
-        }]
+            color: '#e74c3c',
+            marker: {
+                enabled: true,
+                radius: 3
+            }
+        }],
+        legend: {
+            enabled: false
+        }
     });
 }
 
-function updateTemperatureChart() {
-    const numPoints = document.getElementById('temperature-points').value;
-    createTemperatureChart(parseInt(numPoints));
-}
 
 function fetchPressure() {
     const pressureRef = firebase.database().ref('utilisateurs/' + userId + '/data/pressure');
@@ -179,13 +231,20 @@ function fetchPressure() {
 function createPressureChart(numPoints) {
     const data = pressureData.slice(-numPoints);
     const container = document.getElementById('pressure-chart');
+
     Highcharts.setOptions({
         time: {
             timezoneOffset: new Date().getTimezoneOffset(),
             useUTC: false
         }
     });
+
     chart = Highcharts.chart(container, {
+        chart: {
+            zoomType: 'x',
+            panning: true,
+            panKey: 'shift',
+        },
         title: {
             text: 'Évolution de la Pression'
         },
@@ -200,17 +259,27 @@ function createPressureChart(numPoints) {
                 text: 'Pression (Pa)'
             }
         },
+        tooltip: {
+            shared: true,
+            crosshairs: true,
+            formatter: function () {
+                return `<b>Temps:</b> ${Highcharts.dateFormat('%e %b %Y %H:%M', this.x)}<br/>
+                        <b>Pression:</b> ${this.y.toFixed(2)} Pa`;
+            }
+        },
         series: [{
             name: 'Pression',
             data: data,
-            color: '#3498db'
-        }]
+            color: '#3498db',
+            marker: {
+                enabled: true,
+                radius: 3
+            }
+        }],
+        legend: {
+            enabled: false
+        }
     });
-}
-
-function updatePressureChart() {
-    const numPoints = document.getElementById('pressure-points').value;
-    createPressureChart(parseInt(numPoints));
 }
 
 function fetchBrightness() {
@@ -229,13 +298,20 @@ function fetchBrightness() {
 function createBrightnessChart(numPoints) {
     const data = brightnessData.slice(-numPoints);
     const container = document.getElementById('brightness-chart');
+
     Highcharts.setOptions({
         time: {
             timezoneOffset: new Date().getTimezoneOffset(),
             useUTC: false
         }
     });
+
     chart = Highcharts.chart(container, {
+        chart: {
+            zoomType: 'x',
+            panning: true,
+            panKey: 'shift',
+        },
         title: {
             text: 'Évolution de la Luminosité'
         },
@@ -250,18 +326,29 @@ function createBrightnessChart(numPoints) {
                 text: 'Luminosité (lux)'
             }
         },
+        tooltip: {
+            shared: true,
+            crosshairs: true,
+            formatter: function () {
+                return `<b>Temps:</b> ${Highcharts.dateFormat('%e %b %Y %H:%M', this.x)}<br/>
+                        <b>Luminosité:</b> ${this.y.toFixed(2)} lux`;
+            }
+        },
         series: [{
             name: 'Luminosité',
             data: data,
-            color: '#f1c40f'
-        }]
+            color: '#f1c40f',
+            marker: {
+                enabled: true,
+                radius: 3
+            }
+        }],
+        legend: {
+            enabled: false
+        }
     });
 }
 
-function updateBrightnessChart() {
-    const numPoints = document.getElementById('brightness-points').value;
-    createBrightnessChart(parseInt(numPoints));
-}
 
 function initializeDevice1() {
     const switch1 = document.querySelector('#device1Switch');
@@ -332,4 +419,18 @@ function checkDanger() {
     } else {
         dangerMessage.style.display = 'none';
     }
+}
+
+function updateClock() {
+    const timeEl = document.querySelector('.time');
+    const dateEl = document.querySelector('.date');
+    const now = new Date();
+
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const seconds = now.getSeconds().toString().padStart(2, '0');
+    timeEl.textContent = `${hours}:${minutes}:${seconds}`;
+
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    dateEl.textContent = now.toLocaleDateString('fr-FR', options);
 }
