@@ -10,13 +10,18 @@
 extern "C" {
 #endif
 
+void change_donnees_on(lv_event_t * e);
 void set_device1_on(lv_event_t * e);
 void set_device1_off(lv_event_t * e);
 void set_device2_on(lv_event_t * e);
 void set_device2_off(lv_event_t * e);
 void sliderdimmer(lv_event_t * e);
+void change_donnees_off(lv_event_t * e);
 void resetfirebase(lv_event_t * e);
 void rfidnewpass(lv_event_t * e);
+void return_rfid_pass(lv_event_t * e);
+void ssid_wifi(lv_event_t * e);
+void pass_wifi(lv_event_t * e);
 
 #ifdef __cplusplus
 } /*extern "C"*/

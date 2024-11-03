@@ -14,7 +14,7 @@ void ui_Reglages_screen_init(void)
     lv_obj_set_width(ui_Button10, 162);
     lv_obj_set_height(ui_Button10, 36);
     lv_obj_set_x(ui_Button10, 0);
-    lv_obj_set_y(ui_Button10, -60);
+    lv_obj_set_y(ui_Button10, -78);
     lv_obj_set_align(ui_Button10, LV_ALIGN_CENTER);
     lv_obj_add_flag(ui_Button10, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
     lv_obj_clear_flag(ui_Button10, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
@@ -32,6 +32,8 @@ void ui_Reglages_screen_init(void)
     ui_Button13 = lv_btn_create(ui_Reglages);
     lv_obj_set_width(ui_Button13, 162);
     lv_obj_set_height(ui_Button13, 36);
+    lv_obj_set_x(ui_Button13, 0);
+    lv_obj_set_y(ui_Button13, 16);
     lv_obj_set_align(ui_Button13, LV_ALIGN_CENTER);
     lv_obj_add_flag(ui_Button13, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
     lv_obj_clear_flag(ui_Button13, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
@@ -63,8 +65,30 @@ void ui_Reglages_screen_init(void)
     lv_obj_set_align(ui_Label23, LV_ALIGN_CENTER);
     lv_label_set_text(ui_Label23, "MENU");
 
+    ui_Button4 = lv_btn_create(ui_Reglages);
+    lv_obj_set_width(ui_Button4, 162);
+    lv_obj_set_height(ui_Button4, 36);
+    lv_obj_set_x(ui_Button4, 0);
+    lv_obj_set_y(ui_Button4, -31);
+    lv_obj_set_align(ui_Button4, LV_ALIGN_CENTER);
+    lv_obj_add_flag(ui_Button4, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
+    lv_obj_clear_flag(ui_Button4, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_set_style_bg_color(ui_Button4, lv_color_hex(0x020202), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_Button4, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    ui_Label4 = lv_label_create(ui_Button4);
+    lv_obj_set_width(ui_Label4, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_Label4, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_x(ui_Label4, 0);
+    lv_obj_set_y(ui_Label4, 1);
+    lv_obj_set_align(ui_Label4, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_Label4, "WIFI");
+    lv_obj_set_style_text_align(ui_Label4, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_Label4, &lv_font_montserrat_12, LV_PART_MAIN | LV_STATE_DEFAULT);
+
     lv_obj_add_event_cb(ui_Button10, ui_event_Button10, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_Button13, ui_event_Button13, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_Button15, ui_event_Button15, LV_EVENT_ALL, NULL);
+    lv_obj_add_event_cb(ui_Button4, ui_event_Button4, LV_EVENT_ALL, NULL);
 
 }

@@ -78,6 +78,9 @@ lv_obj_t * ui_Label33;
 void ui_event_Button15(lv_event_t * e);
 lv_obj_t * ui_Button15;
 lv_obj_t * ui_Label23;
+void ui_event_Button4(lv_event_t * e);
+lv_obj_t * ui_Button4;
+lv_obj_t * ui_Label4;
 
 
 // SCREEN: ui_Screen1
@@ -90,6 +93,35 @@ lv_obj_t * ui_Label25;
 lv_obj_t * ui_Labelgoodmessage;
 lv_obj_t * ui_Labelerror;
 lv_obj_t * ui_Label34;
+
+
+// SCREEN: ui_wifi
+void ui_wifi_screen_init(void);
+lv_obj_t * ui_wifi;
+void ui_event_Keyboard1(lv_event_t * e);
+lv_obj_t * ui_Keyboard1;
+void ui_event_TextArea1(lv_event_t * e);
+lv_obj_t * ui_TextArea1;
+void ui_event_Button8(lv_event_t * e);
+lv_obj_t * ui_Button8;
+lv_obj_t * ui_Label14;
+void ui_event_Button5(lv_event_t * e);
+lv_obj_t * ui_Button5;
+lv_obj_t * ui_Label13;
+
+
+// SCREEN: ui_wifi1
+void ui_wifi1_screen_init(void);
+lv_obj_t * ui_wifi1;
+void ui_event_TextArea2(lv_event_t * e);
+lv_obj_t * ui_TextArea2;
+void ui_event_Button11(lv_event_t * e);
+lv_obj_t * ui_Button11;
+lv_obj_t * ui_Label17;
+void ui_event_Keyboard3(lv_event_t * e);
+lv_obj_t * ui_Keyboard3;
+lv_obj_t * ui_Labelgoodmessage2;
+lv_obj_t * ui_Labelgoodmessage1;
 lv_obj_t * ui____initial_actions0;
 
 ///////////////////// TEST LVGL SETTINGS ////////////////////
@@ -109,6 +141,7 @@ void ui_event_Button1(lv_event_t * e)
     lv_obj_t * target = lv_event_get_target(e);
     if(event_code == LV_EVENT_CLICKED) {
         _ui_screen_change(&ui_donnees, LV_SCR_LOAD_ANIM_FADE_ON, 500, 0, &ui_donnees_screen_init);
+        change_donnees_on(e);
     }
 }
 void ui_event_Button2(lv_event_t * e)
@@ -182,6 +215,7 @@ void ui_event_Button6(lv_event_t * e)
     lv_obj_t * target = lv_event_get_target(e);
     if(event_code == LV_EVENT_CLICKED) {
         _ui_screen_change(&ui_home, LV_SCR_LOAD_ANIM_FADE_ON, 500, 0, &ui_home_screen_init);
+        change_donnees_off(e);
     }
 }
 void ui_event_Button10(lv_event_t * e)
@@ -211,12 +245,90 @@ void ui_event_Button15(lv_event_t * e)
         _ui_screen_change(&ui_home, LV_SCR_LOAD_ANIM_FADE_ON, 500, 0, &ui_home_screen_init);
     }
 }
+void ui_event_Button4(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t * target = lv_event_get_target(e);
+    if(event_code == LV_EVENT_CLICKED) {
+        _ui_screen_change(&ui_wifi, LV_SCR_LOAD_ANIM_FADE_ON, 500, 0, &ui_wifi_screen_init);
+    }
+}
 void ui_event_Button17(lv_event_t * e)
 {
     lv_event_code_t event_code = lv_event_get_code(e);
     lv_obj_t * target = lv_event_get_target(e);
     if(event_code == LV_EVENT_CLICKED) {
         _ui_screen_change(&ui_Reglages, LV_SCR_LOAD_ANIM_FADE_ON, 500, 0, &ui_Reglages_screen_init);
+        return_rfid_pass(e);
+    }
+}
+void ui_event_Keyboard1(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t * target = lv_event_get_target(e);
+    if(event_code == LV_EVENT_READY) {
+        ssid_wifi(e);
+        _ui_screen_change(&ui_wifi1, LV_SCR_LOAD_ANIM_FADE_ON, 500, 0, &ui_wifi1_screen_init);
+    }
+}
+void ui_event_TextArea1(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t * target = lv_event_get_target(e);
+    if(event_code == LV_EVENT_FOCUSED) {
+        _ui_flag_modify(ui_Keyboard1, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_REMOVE);
+        _ui_keyboard_set_target(ui_Keyboard1,  ui_TextArea1);
+    }
+    if(event_code == LV_EVENT_DEFOCUSED) {
+        _ui_flag_modify(ui_Keyboard1, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_ADD);
+    }
+}
+void ui_event_Button8(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t * target = lv_event_get_target(e);
+    if(event_code == LV_EVENT_CLICKED) {
+        _ui_screen_change(&ui_Reglages, LV_SCR_LOAD_ANIM_FADE_ON, 500, 0, &ui_Reglages_screen_init);
+        return_rfid_pass(e);
+    }
+}
+void ui_event_Button5(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t * target = lv_event_get_target(e);
+    if(event_code == LV_EVENT_CLICKED) {
+        _ui_screen_change(&ui_wifi1, LV_SCR_LOAD_ANIM_FADE_ON, 500, 0, &ui_wifi1_screen_init);
+        ssid_wifi(e);
+    }
+}
+void ui_event_TextArea2(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t * target = lv_event_get_target(e);
+    if(event_code == LV_EVENT_FOCUSED) {
+        _ui_flag_modify(ui_Keyboard3, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_REMOVE);
+        _ui_keyboard_set_target(ui_Keyboard3,  ui_TextArea2);
+    }
+    if(event_code == LV_EVENT_DEFOCUSED) {
+        _ui_flag_modify(ui_Keyboard3, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_ADD);
+    }
+}
+void ui_event_Button11(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t * target = lv_event_get_target(e);
+    if(event_code == LV_EVENT_CLICKED) {
+        _ui_screen_change(&ui_Reglages, LV_SCR_LOAD_ANIM_FADE_ON, 500, 0, &ui_Reglages_screen_init);
+        pass_wifi(e);
+    }
+}
+void ui_event_Keyboard3(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t * target = lv_event_get_target(e);
+    if(event_code == LV_EVENT_READY) {
+        pass_wifi(e);
+        _ui_screen_change(&ui_home, LV_SCR_LOAD_ANIM_FADE_ON, 500, 0, &ui_home_screen_init);
     }
 }
 
@@ -233,6 +345,8 @@ void ui_init(void)
     ui_donnees_screen_init();
     ui_Reglages_screen_init();
     ui_Screen1_screen_init();
+    ui_wifi_screen_init();
+    ui_wifi1_screen_init();
     ui____initial_actions0 = lv_obj_create(NULL);
     lv_disp_load_scr(ui_home);
 }

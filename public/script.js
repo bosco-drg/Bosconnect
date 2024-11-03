@@ -1,6 +1,6 @@
 firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
-let auth = firebase.auth();
+
 
 let userId = null;
 let chart;
@@ -10,6 +10,7 @@ let brightnessData = [];
 let selectedTiming = 5;
 let timerInterval = null;
 
+let auth = firebase.auth();
 auth.onAuthStateChanged(handleAuthStateChange);
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -31,27 +32,10 @@ document.addEventListener('DOMContentLoaded', function () {
                     if (errorMessage) {
                         errorMessage.textContent = 'Adresse mail ou mot de passe incorrect';
                     }
-                    console.error('Login error:', error);
                 });
         });
-    } else {
-        console.error('Login form not found');
-    }
+    };
 });
-
-
-const logoutButton = document.getElementById('logoutButton');
-if (logoutButton) {
-    logoutButton.addEventListener('click', function () {
-        auth.signOut().then(() => {
-            console.log('User signed out successfully');
-        }).catch((error) => {
-            console.error('Error signing out:', error);
-        });
-    });
-} else {
-    console.error('Logout button not found');
-}
 
 function handleAuthStateChange(user) {
     if (user) {
@@ -73,9 +57,30 @@ function handleAuthStateChange(user) {
         initializeDevice2();
         initializeIntensitySlider();
         readInstantDate();
+        getTimeFromFirebase();
 
-        const resetPasswordButton = document.getElementById('resetPasswordButton');
-        const clearDataButton = document.getElementById('clearDataButton');
+        updateDeviceCalendar('Appareil 1', 'device1Start', 'device1End', 'device1Auto');
+        updateDeviceCalendar('Appareil 2', 'device2Start', 'device2End', 'device2Auto');
+
+        document.getElementById('measureInterval').addEventListener('change', writeTimeToFirebase);
+
+        document.querySelector('.calendar-btn1').addEventListener('click', function () {
+            saveDeviceCalendar('Appareil 1', 'device1Start', 'device1End', 'device1Auto');
+        });
+
+        document.querySelector('.calendar-btn2').addEventListener('click', function () {
+            saveDeviceCalendar('Appareil 2', 'device2Start', 'device2End', 'device2Auto');
+        });
+
+        const logoutButton = document.getElementById('logoutButton');
+        if (logoutButton) {
+            logoutButton.addEventListener('click', function () {
+                auth.signOut();
+            });
+        }
+
+        const resetPasswordButton = document.querySelector('.resetPasswordButton');
+        const clearDataButton = document.querySelector('.clearDataButton');
 
         if (resetPasswordButton) {
             resetPasswordButton.onclick = resetPassword;
@@ -97,6 +102,8 @@ function handleAuthStateChange(user) {
     }
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////// FUNCTIONS ////////////////////////////////////////////////////////////////////////////////////////////////////
+
 function resetPassword() {
     const email = auth.currentUser ? auth.currentUser.email : null;
     if (email) {
@@ -105,18 +112,24 @@ function resetPassword() {
                 alert('Un email de réinitialisation de mot de passe a été envoyé.');
             })
             .catch((error) => {
-                console.error('Erreur lors de la réinitialisation du mot de passe :', error);
                 alert('Erreur : impossible de réinitialiser le mot de passe.');
             });
     } else {
-        alert('Aucun utilisateur connecté pour réinitialiser le mot de passe.');
+        alert('Aucun utilisateur connecté');
     }
 }
 
 function clearData() {
-    alert('Fonctionnalité à venir');
+    const nodeRef = firebase.database().ref('utilisateurs/' + userId + '/data');
+    nodeRef.set(null)
+        .then(() => {
+            alert("Données supprimées avec succès");
+            location.reload(true);
+        })
+        .catch((error) => {
+            alert("Erreur lors de la suppression des données: " + error.message);
+        });
 }
-
 
 function readInstantDate() {
 
@@ -213,7 +226,6 @@ function createTemperatureChart(numPoints) {
         }
     });
 }
-
 
 function fetchPressure() {
     const pressureRef = firebase.database().ref('utilisateurs/' + userId + '/data/pressure');
@@ -349,12 +361,11 @@ function createBrightnessChart(numPoints) {
     });
 }
 
-
 function initializeDevice1() {
     const switch1 = document.querySelector('#device1Switch');
     const deviceRef = firebase.database().ref('utilisateurs/' + userId + '/instant_data/finder1');
 
-    deviceRef.once('value', (snapshot) => {
+    deviceRef.on('value', (snapshot) => {
         switch1.checked = snapshot.val() === true;
     });
 
@@ -371,7 +382,7 @@ function initializeDevice2() {
     const switch2 = document.querySelector('#device2Switch');
     const deviceRef = firebase.database().ref('utilisateurs/' + userId + '/instant_data/finder2');
 
-    deviceRef.once('value', (snapshot) => {
+    deviceRef.on('value', (snapshot) => {
         switch2.checked = snapshot.val() === true;
     });
 
@@ -389,7 +400,7 @@ function initializeIntensitySlider() {
     const sliderValue = document.getElementById('sliderValue');
     const intensityRef = firebase.database().ref('utilisateurs/' + userId + '/instant_data/pwm');
 
-    intensityRef.once('value', (snapshot) => {
+    intensityRef.on('value', (snapshot) => {
         const value = snapshot.val() || 50;
         slider.value = value;
         sliderValue.textContent = value;
@@ -433,4 +444,62 @@ function updateClock() {
 
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     dateEl.textContent = now.toLocaleDateString('fr-FR', options);
+}
+
+function saveDeviceCalendar(deviceName, startDateId, endDateId, autoModeId) {
+    const startInput = document.getElementById(startDateId);
+    const endInput = document.getElementById(endDateId);
+    const autoModeCheckbox = document.getElementById(autoModeId);
+    const deviceRef = database.ref('utilisateurs/' + userId + '/auto/' + deviceName);
+
+    const startDate = startInput.value ? new Date(startInput.value).getTime() : 0;
+    const endDate = endInput.value ? new Date(endInput.value).getTime() : 0;
+    const autoMode = autoModeCheckbox.checked;
+
+    deviceRef.set({
+        startDate: startDate,
+        endDate: endDate,
+        autoMode: autoMode
+    });
+}
+
+function updateDeviceCalendar(deviceName, startDateId, endDateId, autoModeId) {
+    const deviceRef = database.ref('utilisateurs/' + userId + '/auto/' + deviceName);
+
+    deviceRef.on('value', (snapshot) => {
+        const deviceCalendar = snapshot.val();
+
+        if (deviceCalendar) {
+            document.getElementById(autoModeId).checked = deviceCalendar.autoMode;
+        } else {
+            document.getElementById(autoModeId).checked = false;
+        }
+    });
+}
+
+function writeTimeToFirebase() {
+
+    const selectedValue = document.getElementById('measureInterval').value;
+    const milliseconds = selectedValue * 60 * 1000;
+    const timeRef = database.ref('utilisateurs/' + userId + '/interval');
+
+    timeRef.set({
+        interval: milliseconds,
+    });
+}
+
+function getTimeFromFirebase() {
+
+    const timeRef = database.ref('utilisateurs/' + userId + '/interval');
+
+    timeRef.on('value', (snapshot) => {
+        const intervalData = snapshot.val();
+        if (intervalData && intervalData.interval) {
+            const intervalInMinutes = intervalData.interval / (60 * 1000);
+            document.getElementById('measureInterval').value = intervalInMinutes;
+        } else {
+            document.getElementById('measureInterval').value = 1;
+            writeTimeToFirebase();
+        }
+    });
 }

@@ -5,6 +5,11 @@
 /*
 #include "ui.h"
 
+void change_donnees_on(lv_event_t * e)
+{
+	// Your code here
+}
+
 void set_device1_on(lv_event_t * e)
 {
 	// Your code here
@@ -30,12 +35,32 @@ void sliderdimmer(lv_event_t * e)
 	// Your code here
 }
 
+void change_donnees_off(lv_event_t * e)
+{
+	// Your code here
+}
+
 void resetfirebase(lv_event_t * e)
 {
 	// Your code here
 }
 
 void rfidnewpass(lv_event_t * e)
+{
+	// Your code here
+}
+
+void return_rfid_pass(lv_event_t * e)
+{
+	// Your code here
+}
+
+void ssid_wifi(lv_event_t * e)
+{
+	// Your code here
+}
+
+void pass_wifi(lv_event_t * e)
 {
 	// Your code here
 }

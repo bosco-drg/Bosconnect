@@ -13,14 +13,14 @@
 
     <title>Bosconnect</title>
 
-    <link rel="stylesheet" href="styles.css">
-    <script src="script.js" defer></script>
-
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-database.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;600;700&display=swap" rel="stylesheet">
     <script src="https://code.highcharts.com/highcharts.js"></script>
+
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
 
     <script>
         var firebaseConfig = {
@@ -90,16 +90,56 @@
                         <input type="range" id="intensitySlider" min="0" max="100">
                     </div>
                 </div>
-                
-                <div class="orders-container">
 
+                <div class="orders-container">
+                    <div class="device-calendar">
+                        <h3>Appareil 1</h3>
+                        <div class="calendar-inputs">
+                            <div class="time-input">
+                                <label>Heure d'activation :</label>
+                                <input type="datetime-local" id="device1Start">
+                            </div>
+                            <div class="time-input">
+                                <label>Heure d'extinction :</label>
+                                <input type="datetime-local" id="device1End">
+                            </div>
+                        </div>
+                        <div class="calendar-controls">
+                            <label class="auto-mode">
+                                <input type="checkbox" id="device1Auto">
+                                <span>Mode automatique</span>
+                            </label>
+                            <button class="calendar-btn1">Appliquer</button>
+                        </div>
+                    </div>
+
+                    <div class="device-calendar">
+                        <h3>Appareil 2</h3>
+                        <div class="calendar-inputs">
+                            <div class="time-input">
+                                <label>Heure d'activation :</label>
+                                <input type="datetime-local" id="device2Start">
+                            </div>
+                            <div class="time-input">
+                                <label>Heure d'extinction :</label>
+                                <input type="datetime-local" id="device2End">
+                            </div>
+                        </div>
+                        <div class="calendar-controls">
+                            <label class="auto-mode">
+                                <input type="checkbox" id="device2Auto">
+                                <span>Mode automatique</span>
+                            </label>
+                            <button class="calendar-btn2">Appliquer</button>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="info-container">
                     <p>Température : <span id="temperature"></span> °C</p>
-                    <p>Pression : <span id="pressure"></span> hPa</p>
+                    <p>Pression : <span id="pressure"></span> Pa</p>
                     <p>Luminosité : <span id="brightness"></span> Lux</p>
-                    <p>Quantité de Gaz : <span id="gas"></span></p>
+                    <p>Quantité de Gaz : <span id="gas"></span> ppm</p>
                 </div>
 
                 <div id="dangerMessage" class="danger-message hidden"></div>
@@ -117,32 +157,42 @@
                 </div>
 
                 <div class="setting-container">
-                    <div class="button-container">
-                            <label for="timingSelect">Intervalle de mesure:</label>
-                            <select id="timingSelect">
-                                <option value="1">1 minute</option>
-                                <option value="5" selected>5 minutes</option>
-                                <option value="10">10 minutes</option>
-                                <option value="15">15 minutes</option>
-                                <option value="30">30 minutes</option>
-                                <option value="60">1 heure</option>
-                            </select>
-                    </div>
+                    <div class="settings-grid">
+                        <div class="settings-card">
+                            <h3>Intervalle de mesure</h3>
+                            <div class="interval-selector">
+                                <select id="measureInterval">
+                                    <option value="1">1 minute</option>
+                                    <option value="5">5 minutes</option>
+                                    <option value="10">10 minutes</option>
+                                    <option value="15">15 minutes</option>
+                                    <option value="30">30 minutes</option>
+                                    <option value="60">1 heure</option>
+                                </select>
+                            </div>
+                        </div>
 
-                    <div class="button-container">
-                        <label class="button-label">Réinitialiser le mot de passe :</label>
-                        <button id="resetPasswordButton" class="btn small-btn">Réinitialiser</button>
-                    </div>
+                        <div class="settings-card">
+                            <h3>Sécurité</h3>
+                            <div class="security-controls">
+                                <button class="resetPasswordButton">Réinitialiser le mot de passe</button>
+                            </div>
+                        </div>
 
-                    <div class="button-container">
-                        <label class="button-label">Nettoyer les données :</label>
-                        <button id="clearDataButton" class="btn small-btn">Nettoyer</button>
+                        <div class="settings-card">
+                            <h3>Maintenance</h3>
+                            <div class="maintenance-controls">
+                                <button class="clearDataButton">Nettoyer les données</button>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
 
                 <div class="logout-container">
                     <button id="logoutButton" class="btn">DECONNEXION</button>
                 </div>
+
             </div>
         </section>
 

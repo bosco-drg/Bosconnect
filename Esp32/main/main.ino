@@ -31,24 +31,9 @@ const int daylightOffset_sec = 3600;
 
 volatile bool new_card = false;
 volatile bool card_detect = false;
+volatile bool screen_data_detect = false;
 
-/*
-  hw_timer_t *timer = NULL;
-  portMUX_TYPE timerMux = portMUX_INITIALIZER_UNLOCKED;
 
-  void IRAM_ATTR onTimer() {
-  portENTER_CRITICAL_ISR(&timerMux);
-  card_detect = !card_detect;
-  portEXIT_CRITICAL_ISR(&timerMux);
-  }
-
-  void init_timer() {
-  timer = timerBegin(0, 80, true);  // Timer 0, prescaler 80 (1 µs par tick)
-  timerAttachInterrupt(timer, &onTimer, true);  // Interruption de type edge-triggered
-  timerAlarmWrite(timer, 1000000, true);  // 1 seconde, auto-reload = true
-  timerAlarmEnable(timer);  // Active l'alarme du timer
-  }
-*/
 void init_wifi() {
   WiFi.begin(WIFI_SSID, WIFI_PASS);
   while (WiFi.status() != WL_CONNECTED);
@@ -110,7 +95,11 @@ void reset_firebase() {
   Firebase.RTDB.deleteNode(&fbdo, path);
 }
 
-void write_sensor(void) {
+void updateScreen() {
+
+}
+
+void write_sensor_firebase(void) {
   static int last_temperature = 0;
   static int last_brightness = 0;
   static int last_pressure = 0;
@@ -143,6 +132,40 @@ void write_sensor(void) {
   int gasInt = int(firebase.gas);
   if (abs(gasInt - last_gas) > GAS_THRESHOLD) {
     Firebase.RTDB.setInt(&fbdo, base_path + "gas", gasInt);
+    lv_label_set_text_fmt(ui_gasTFT, "%d", gasInt);
+    last_gas = gasInt;
+  }
+}
+
+void write_sensor_tft(void) {
+  static int last_temperature = 0;
+  static int last_brightness = 0;
+  static int last_pressure = 0;
+  static int last_gas = 0;
+
+  String uid = auth.token.uid.c_str();
+  String base_path = "/utilisateurs/" + uid + "/instant_data/";
+
+  int temperatureInt = int(firebase.temperature);
+  if (abs(temperatureInt - last_temperature) > TEMPERATURE_THRESHOLD) {
+    lv_label_set_text_fmt(ui_temperatureTFT, "%d", temperatureInt);
+    last_temperature = temperatureInt;
+  }
+
+  int brightnessInt = int(firebase.brightness);
+  if (abs(brightnessInt - last_brightness) > BRIGHTNESS_THRESHOLD) {
+    lv_label_set_text_fmt(ui_brightnessTFT, "%d", brightnessInt);
+    last_brightness = brightnessInt;
+  }
+
+  int pressureInt = int(firebase.pressure);
+  if (abs(pressureInt - last_pressure) > PRESSURE_THRESHOLD) {
+    lv_label_set_text_fmt(ui_pressureTFT, "%d", pressureInt);
+    last_pressure = pressureInt;
+  }
+
+  int gasInt = int(firebase.gas);
+  if (abs(gasInt - last_gas) > GAS_THRESHOLD) {
     lv_label_set_text_fmt(ui_gasTFT, "%d", gasInt);
     last_gas = gasInt;
   }
@@ -222,7 +245,7 @@ void init_rfid() {
 void setup() {
   Serial.begin(115200);
   Wire.begin(6, 7);
-  
+
   pinMode(CS_TFT, OUTPUT);
   pinMode(CS_RFID, OUTPUT);
   pinMode(CS_TOUCH, OUTPUT);
@@ -234,7 +257,6 @@ void setup() {
   init_firebase();
   init_sensor();
   init_rfid();
-  //init_timer();
 
   digitalWrite(CS_RFID, HIGH);
   digitalWrite(CS_TFT, LOW);
@@ -245,38 +267,32 @@ void loop() {
   static long timer1 = 0;
   static long timer2 = 0;
 
-  if (!card_detect) {
+  lv_timer_handler();
+
+  if (!card_detect)
+  {
     lv_timer_handler();
     read_sensor_ESP32();
-    read_tor_firebase();
     write_tor_ESP32();
 
-    if (millis() - timer2 > 1000) {
-      write_sensor();
-      timer2 = millis();
+    if (screen_data_detect)
+    {
+      write_sensor_tft();
     }
-
-    if (millis() - timer1 > 20000) {
-      write_chart_firebase();
-      timer1 = millis();
+    else
+    {
+      read_tor_firebase();
+      if (millis() - timer2 > 500) {
+        write_sensor_firebase();
+        timer2 = millis();
+      }
+      if (millis() - timer1 > 20000) {
+        write_chart_firebase();
+        timer1 = millis();
+      }
     }
-  } else {
-    digitalWrite(CS_TFT, HIGH);
-    digitalWrite(CS_TOUCH, HIGH);
-    digitalWrite(CS_RFID, LOW);
-
-    digitalWrite(LED_BUILTIN, HIGH);  // Turn on LED
-
-    if (rfid.PICC_IsNewCardPresent() && rfid.PICC_ReadCardSerial()) {
-      new_card = true;
-
-      rfid.PICC_HaltA();
-      rfid.PCD_StopCrypto1();
-    }
-
-    digitalWrite(LED_BUILTIN, LOW);  // Turn off LED
-    digitalWrite(CS_RFID, HIGH);
-    digitalWrite(CS_TFT, LOW);
-    digitalWrite(CS_TOUCH, LOW);
+  }
+  else
+  {
   }
 }

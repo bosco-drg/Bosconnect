@@ -115,3 +115,28 @@ void rfidnewpass(lv_event_t *e)
 {
   new_card = true;
 }
+
+void return_rfid_pass(lv_event_t * e)
+{
+  new_card = false;
+}
+
+void change_donnees_on(lv_event_t * e)
+{
+  screen_data_detect = true;
+}
+
+void change_donnees_off(lv_event_t * e)
+{
+  screen_data_detect = false;
+}
+
+void ssid_wifi(lv_event_t * e)
+{
+
+}
+
+void pass_wifi(lv_event_t * e)
+{
+
+}

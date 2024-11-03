@@ -88,6 +88,9 @@ extern lv_obj_t * ui_Label33;
 void ui_event_Button15(lv_event_t * e);
 extern lv_obj_t * ui_Button15;
 extern lv_obj_t * ui_Label23;
+void ui_event_Button4(lv_event_t * e);
+extern lv_obj_t * ui_Button4;
+extern lv_obj_t * ui_Label4;
 // SCREEN: ui_Screen1
 void ui_Screen1_screen_init(void);
 extern lv_obj_t * ui_Screen1;
@@ -98,6 +101,31 @@ extern lv_obj_t * ui_Label25;
 extern lv_obj_t * ui_Labelgoodmessage;
 extern lv_obj_t * ui_Labelerror;
 extern lv_obj_t * ui_Label34;
+// SCREEN: ui_wifi
+void ui_wifi_screen_init(void);
+extern lv_obj_t * ui_wifi;
+void ui_event_Keyboard1(lv_event_t * e);
+extern lv_obj_t * ui_Keyboard1;
+void ui_event_TextArea1(lv_event_t * e);
+extern lv_obj_t * ui_TextArea1;
+void ui_event_Button8(lv_event_t * e);
+extern lv_obj_t * ui_Button8;
+extern lv_obj_t * ui_Label14;
+void ui_event_Button5(lv_event_t * e);
+extern lv_obj_t * ui_Button5;
+extern lv_obj_t * ui_Label13;
+// SCREEN: ui_wifi1
+void ui_wifi1_screen_init(void);
+extern lv_obj_t * ui_wifi1;
+void ui_event_TextArea2(lv_event_t * e);
+extern lv_obj_t * ui_TextArea2;
+void ui_event_Button11(lv_event_t * e);
+extern lv_obj_t * ui_Button11;
+extern lv_obj_t * ui_Label17;
+void ui_event_Keyboard3(lv_event_t * e);
+extern lv_obj_t * ui_Keyboard3;
+extern lv_obj_t * ui_Labelgoodmessage2;
+extern lv_obj_t * ui_Labelgoodmessage1;
 extern lv_obj_t * ui____initial_actions0;
 
 

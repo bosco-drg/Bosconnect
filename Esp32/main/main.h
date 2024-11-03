@@ -19,11 +19,12 @@
 #define MOSI 19
 
 #define TEMPERATURE_THRESHOLD  1
-#define BRIGHTNESS_THRESHOLD 5
-#define PRESSURE_THRESHOLD 1
-#define GAS_THRESHOLD 10
+#define BRIGHTNESS_THRESHOLD 10
+#define PRESSURE_THRESHOLD 50
+#define GAS_THRESHOLD 50
 
 extern volatile bool new_card;
+extern volatile bool screen_data_detect;
 
 void init_wifi(void);
 void init_firebase(void);
