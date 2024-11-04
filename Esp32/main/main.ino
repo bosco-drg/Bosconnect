@@ -17,13 +17,15 @@
 #include "screen.h"
 #include "firebase.h"
 
+MFRC522 mfrc522(CS_RFID, -1);
+MFRC522::MIFARE_Key key;
+
 data_firebase firebase;
 FirebaseData fbdo;
 FirebaseAuth auth;
 FirebaseConfig config;
 BH1750 lightMeter;
 Adafruit_BMP280 bmp;
-MFRC522 rfid(CS_RFID, RST_RFID);
 
 const char *ntpServer = "pool.ntp.org";
 const long gmtOffset_sec = 3600;
@@ -33,6 +35,15 @@ volatile bool new_card = false;
 volatile bool card_detect = false;
 volatile bool screen_data_detect = false;
 
+void activateRec(MFRC522 mfrc522) {
+  mfrc522.PCD_WriteRegister(mfrc522.FIFODataReg, mfrc522.PICC_CMD_REQA);
+  mfrc522.PCD_WriteRegister(mfrc522.CommandReg, mfrc522.PCD_Transceive);
+  mfrc522.PCD_WriteRegister(mfrc522.BitFramingReg, 0x87);
+}
+
+void clearInt(MFRC522 mfrc522) {
+  mfrc522.PCD_WriteRegister(mfrc522.ComIrqReg, 0x7F);
+}
 
 void init_wifi() {
   WiFi.begin(WIFI_SSID, WIFI_PASS);
@@ -93,10 +104,6 @@ void reset_firebase() {
   String uid = auth.token.uid.c_str();
   String path = "/utilisateurs/" + uid + "/data";
   Firebase.RTDB.deleteNode(&fbdo, path);
-}
-
-void updateScreen() {
-
 }
 
 void write_sensor_firebase(void) {
@@ -231,20 +238,20 @@ void read_tor_firebase(void) {
   }
 }
 
+void readCard() {
+  card_detect = true;
+}
+
 void write_tor_ESP32(void) {
   digitalWrite(FINDER1, firebase.finder1);
   digitalWrite(FINDER2, firebase.finder2);
 }
 
-void init_rfid() {
-  SPI.begin();
-  rfid.PCD_Init();
-  rfid.PCD_SetAntennaGain(rfid.RxGain_max);
-}
-
 void setup() {
   Serial.begin(115200);
   Wire.begin(6, 7);
+  SPI.begin();
+  mfrc522.PCD_Init();
 
   pinMode(CS_TFT, OUTPUT);
   pinMode(CS_RFID, OUTPUT);
@@ -252,15 +259,24 @@ void setup() {
   pinMode(FINDER1, OUTPUT);
   pinMode(FINDER2, OUTPUT);
 
+  digitalWrite(CS_RFID, LOW);
+  digitalWrite(CS_TFT, HIGH);
+  digitalWrite(CS_TOUCH, HIGH);
+
+
+  byte readReg = mfrc522.PCD_ReadRegister(mfrc522.VersionReg);
+  pinMode(IRQ_RFID, INPUT_PULLUP);
+  mfrc522.PCD_WriteRegister(mfrc522.ComIEnReg, 0xA0);
+  card_detect = false;
+
+  attachInterrupt(digitalPinToInterrupt(IRQ_RFID), readCard, FALLING);
+
   init_wifi();
   init_displays_tft();
   init_firebase();
   init_sensor();
-  init_rfid();
 
-  digitalWrite(CS_RFID, HIGH);
-  digitalWrite(CS_TFT, LOW);
-  digitalWrite(CS_TOUCH, LOW);
+  card_detect = true;
 }
 
 void loop() {
@@ -294,5 +310,12 @@ void loop() {
   }
   else
   {
+    digitalWrite(CS_RFID, LOW);
+    digitalWrite(CS_TFT, HIGH);
+    digitalWrite(CS_TOUCH, HIGH);
+    Serial.println("Interrupt");
+
+    clearInt(mfrc522);
+    card_detect = false;
   }
 }

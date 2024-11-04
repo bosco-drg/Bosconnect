@@ -11,7 +11,7 @@
 #define CS_TOUCH 2
 #define CS_RFID 4
 
-#define IRQ_RFID 0
+#define IRQ_RFID 12
 #define IRQ_TFT 13 
 
 #define SCK 21
