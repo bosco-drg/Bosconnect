@@ -6,12 +6,12 @@
 #define FINDER2 23
 #define RFID_FINDER 22
 
-#define RST_RFID 1
+
 #define CS_TFT 18
 #define CS_TOUCH 2
 #define CS_RFID 4
 
-#define IRQ_RFID 12
+#define IRQ_RFID 1
 #define IRQ_TFT 13 
 
 #define SCK 21

@@ -3,8 +3,8 @@
 
 #include <Arduino.h>
 
-#define WIFI_SSID "bosco"
-#define WIFI_PASS "1234567890"
+#define WIFI_SSID "Reseau Gloglo"
+#define WIFI_PASS "GloGlo317682"
 
 #define USER_MAIL "bosco.adresseprojet@gmail.com"
 #define USER_PASS "GEII1234!"

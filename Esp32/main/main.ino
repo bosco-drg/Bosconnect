@@ -35,6 +35,8 @@ volatile bool new_card = false;
 volatile bool card_detect = false;
 volatile bool screen_data_detect = false;
 
+byte regVal = 0x7F;
+
 void activateRec(MFRC522 mfrc522) {
   mfrc522.PCD_WriteRegister(mfrc522.FIFODataReg, mfrc522.PICC_CMD_REQA);
   mfrc522.PCD_WriteRegister(mfrc522.CommandReg, mfrc522.PCD_Transceive);
@@ -250,8 +252,7 @@ void write_tor_ESP32(void) {
 void setup() {
   Serial.begin(115200);
   Wire.begin(6, 7);
-  SPI.begin();
-  mfrc522.PCD_Init();
+  SPI.begin(SCK, MISO, MOSI, CS_RFID);
 
   pinMode(CS_TFT, OUTPUT);
   pinMode(CS_RFID, OUTPUT);
@@ -263,31 +264,39 @@ void setup() {
   digitalWrite(CS_TFT, HIGH);
   digitalWrite(CS_TOUCH, HIGH);
 
-
+  mfrc522.PCD_Init();
   byte readReg = mfrc522.PCD_ReadRegister(mfrc522.VersionReg);
   pinMode(IRQ_RFID, INPUT_PULLUP);
-  mfrc522.PCD_WriteRegister(mfrc522.ComIEnReg, 0xA0);
+  regVal = 0xA0;
+  mfrc522.PCD_WriteRegister(mfrc522.ComIEnReg, regVal);
   card_detect = false;
-
   attachInterrupt(digitalPinToInterrupt(IRQ_RFID), readCard, FALLING);
+  card_detect = true;
 
   init_wifi();
   init_displays_tft();
   init_firebase();
   init_sensor();
+}
 
-  card_detect = true;
+void dump_byte_array(byte *buffer, byte bufferSize) {
+  for (byte i = 0; i < bufferSize; i++) {
+    Serial.print(buffer[i] < 0x10 ? " 0" : " ");
+    Serial.print(buffer[i], HEX);
+  }
 }
 
 void loop() {
   static long timer1 = 0;
   static long timer2 = 0;
+  static long cardPresent = 0;
+  const long ledDuration = 2000;
 
   lv_timer_handler();
+  activateRec(mfrc522);
 
-  if (!card_detect)
-  {
-    lv_timer_handler();
+  if (!card_detect) {
+
     read_sensor_ESP32();
     write_tor_ESP32();
 
@@ -298,6 +307,7 @@ void loop() {
     else
     {
       read_tor_firebase();
+      
       if (millis() - timer2 > 500) {
         write_sensor_firebase();
         timer2 = millis();
@@ -307,15 +317,26 @@ void loop() {
         timer1 = millis();
       }
     }
-  }
-  else
-  {
-    digitalWrite(CS_RFID, LOW);
+
+    if (millis() - cardPresent > ledDuration) {
+      digitalWrite(LED_BUILTIN, LOW);
+    }
+
+  } else {
     digitalWrite(CS_TFT, HIGH);
     digitalWrite(CS_TOUCH, HIGH);
-    Serial.println("Interrupt");
+    digitalWrite(CS_RFID, LOW);
 
+    mfrc522.PICC_ReadCardSerial();
+    dump_byte_array(mfrc522.uid.uidByte, mfrc522.uid.size);
     clearInt(mfrc522);
+    mfrc522.PICC_HaltA();
+    digitalWrite(LED_BUILTIN, HIGH);
+    cardPresent = millis();
     card_detect = false;
+
+    digitalWrite(CS_RFID, HIGH);
+    digitalWrite(CS_TFT, LOW);
+    digitalWrite(CS_TOUCH, LOW);
   }
 }
