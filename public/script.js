@@ -10,6 +10,7 @@ let brightnessData = [];
 let selectedTiming = 5;
 let timerInterval = null;
 
+
 let auth = firebase.auth();
 auth.onAuthStateChanged(handleAuthStateChange);
 
@@ -477,29 +478,56 @@ function updateDeviceCalendar(deviceName, startDateId, endDateId, autoModeId) {
     });
 }
 
-function writeTimeToFirebase() {
+document.addEventListener('DOMContentLoaded', () => {
+    // Vérifier si la géolocalisation est disponible
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(getWeather, showError);
+    } else {
+        document.getElementById('city-name').textContent = "Géolocalisation non disponible";
+    }
+});
 
-    const selectedValue = document.getElementById('measureInterval').value;
-    const milliseconds = selectedValue * 60 * 1000;
-    const timeRef = database.ref('utilisateurs/' + userId + '/interval');
+// Fonction qui sera appelée si la géolocalisation réussit
+function getWeather(position) {
+    const apiKey = '5105d3f951aabd59a665c2f8fb72ad94'; // Remplacez par votre clé API d'OpenWeatherMap
+    const lat = position.coords.latitude;
+    const lon = position.coords.longitude;
+    const units = 'metric'; // Température en Celsius
 
-    timeRef.set({
-        interval: milliseconds,
-    });
+    // URL de l'API d'OpenWeatherMap pour obtenir les données météo
+    const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=${units}&appid=${apiKey}`;
+
+    // Récupération des données météo
+    fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+            // Mise à jour des informations sur le widget
+            document.getElementById('city-name').textContent = data.name;
+            document.getElementById('temperature').textContent = Math.round(data.main.temp) + '°C';
+            document.getElementById('description').textContent = data.weather[0].description;
+        })
+        .catch(error => {
+            console.error('Erreur lors de la récupération des données météo:', error);
+            document.getElementById('city-name').textContent = "Erreur de météo";
+            document.getElementById('temperature').textContent = "--°C";
+            document.getElementById('description').textContent = "--";
+        });
 }
 
-function getTimeFromFirebase() {
-
-    const timeRef = database.ref('utilisateurs/' + userId + '/interval');
-
-    timeRef.on('value', (snapshot) => {
-        const intervalData = snapshot.val();
-        if (intervalData && intervalData.interval) {
-            const intervalInMinutes = intervalData.interval / (60 * 1000);
-            document.getElementById('measureInterval').value = intervalInMinutes;
-        } else {
-            document.getElementById('measureInterval').value = 1;
-            writeTimeToFirebase();
-        }
-    });
+// Fonction en cas d'erreur dans la géolocalisation
+function showError(error) {
+    switch (error.code) {
+        case error.PERMISSION_DENIED:
+            alert("L'utilisateur a refusé la demande de géolocalisation.");
+            break;
+        case error.POSITION_UNAVAILABLE:
+            alert("Les informations de localisation sont indisponibles.");
+            break;
+        case error.TIMEOUT:
+            alert("La demande de géolocalisation a expiré.");
+            break;
+        case error.UNKNOWN_ERROR:
+            alert("Une erreur inconnue s'est produite.");
+            break;
+    }
 }

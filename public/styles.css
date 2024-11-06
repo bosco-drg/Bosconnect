@@ -541,3 +541,40 @@ footer a:hover {
 .clearDataButton:hover {
     background-color: #e63229;
 }
+
+.custom-weather-widget {
+    display: inline-block;
+    background: linear-gradient(135deg, #74ebd5 0%, #ACB6E5 100%);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    font-family: 'Roboto', sans-serif;
+    color: #ffffff;
+    text-align: center;
+    width: 200px;
+}
+
+.location {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.temperature {
+    font-size: 2em;
+    margin-top: 10px;
+}
+
+.description {
+    font-size: 1em;
+    margin-top: 10px;
+}
+
+.custom-weather-widget a {
+    text-decoration: none;
+    color: #ffffff !important;
+}
+
+.custom-weather-widget a:hover {
+    color: #ddd !important;
+    transition: color 0.3s;
+}
