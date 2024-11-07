@@ -133,10 +133,14 @@ void change_donnees_off(lv_event_t * e)
 
 void ssid_wifi(lv_event_t * e)
 {
-
+  wifi_connect = false;
+  const char *text = lv_textarea_get_text(ui_TextArea1);
+  firebase.ssid = String(text);  
 }
 
 void pass_wifi(lv_event_t * e)
 {
-
+  const char *text = lv_textarea_get_text(ui_TextArea2);
+  firebase.pass = String(text); 
+  init_wifi();
 }

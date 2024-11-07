@@ -23,21 +23,21 @@ void ui_wifi1_screen_init(void)
 
 
     ui_Button11 = lv_btn_create(ui_wifi1);
-    lv_obj_set_width(ui_Button11, 79);
+    lv_obj_set_width(ui_Button11, 106);
     lv_obj_set_height(ui_Button11, 35);
     lv_obj_set_x(ui_Button11, 0);
-    lv_obj_set_y(ui_Button11, -135);
+    lv_obj_set_y(ui_Button11, 40);
     lv_obj_set_align(ui_Button11, LV_ALIGN_CENTER);
     lv_obj_add_flag(ui_Button11, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
     lv_obj_clear_flag(ui_Button11, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
-    lv_obj_set_style_bg_color(ui_Button11, lv_color_hex(0x020202), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui_Button11, lv_color_hex(0x2DA041), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_opa(ui_Button11, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_Label17 = lv_label_create(ui_Button11);
     lv_obj_set_width(ui_Label17, LV_SIZE_CONTENT);   /// 1
     lv_obj_set_height(ui_Label17, LV_SIZE_CONTENT);    /// 1
     lv_obj_set_align(ui_Label17, LV_ALIGN_CENTER);
-    lv_label_set_text(ui_Label17, "SUIVANT");
+    lv_label_set_text(ui_Label17, "CONNEXION");
 
     ui_Keyboard3 = lv_keyboard_create(ui_wifi1);
     lv_obj_set_width(ui_Keyboard3, 237);
@@ -70,6 +70,15 @@ void ui_wifi1_screen_init(void)
     lv_obj_set_style_text_color(ui_Labelgoodmessage1, lv_color_hex(0xFF0000), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui_Labelgoodmessage1, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_align(ui_Labelgoodmessage1, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    ui_Label19 = lv_label_create(ui_wifi1);
+    lv_obj_set_width(ui_Label19, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_Label19, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_x(ui_Label19, 0);
+    lv_obj_set_y(ui_Label19, -93);
+    lv_obj_set_align(ui_Label19, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_Label19, "Saissisez le mot de passe");
+    lv_obj_set_style_text_align(ui_Label19, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     lv_obj_add_event_cb(ui_TextArea2, ui_event_TextArea2, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_Button11, ui_event_Button11, LV_EVENT_ALL, NULL);

@@ -64,6 +64,7 @@ lv_obj_t * ui_brightnessTFT;
 lv_obj_t * ui_Label26;
 lv_obj_t * ui_Container1;
 lv_obj_t * ui_Container2;
+lv_obj_t * ui_Label20;
 
 
 // SCREEN: ui_Reglages
@@ -108,6 +109,7 @@ lv_obj_t * ui_Label14;
 void ui_event_Button5(lv_event_t * e);
 lv_obj_t * ui_Button5;
 lv_obj_t * ui_Label13;
+lv_obj_t * ui_Label18;
 
 
 // SCREEN: ui_wifi1
@@ -122,6 +124,7 @@ void ui_event_Keyboard3(lv_event_t * e);
 lv_obj_t * ui_Keyboard3;
 lv_obj_t * ui_Labelgoodmessage2;
 lv_obj_t * ui_Labelgoodmessage1;
+lv_obj_t * ui_Label19;
 lv_obj_t * ui____initial_actions0;
 
 ///////////////////// TEST LVGL SETTINGS ////////////////////
@@ -204,8 +207,7 @@ void ui_event_SliderPWM(lv_event_t * e)
 {
     lv_event_code_t event_code = lv_event_get_code(e);
     lv_obj_t * target = lv_event_get_target(e);
-    if(event_code == LV_EVENT_GESTURE &&  lv_indev_get_gesture_dir(lv_indev_get_act()) == LV_DIR_RIGHT) {
-        lv_indev_wait_release(lv_indev_get_act());
+    if(event_code == LV_EVENT_VALUE_CHANGED) {
         sliderdimmer(e);
     }
 }
@@ -278,9 +280,13 @@ void ui_event_TextArea1(lv_event_t * e)
     if(event_code == LV_EVENT_FOCUSED) {
         _ui_flag_modify(ui_Keyboard1, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_REMOVE);
         _ui_keyboard_set_target(ui_Keyboard1,  ui_TextArea1);
+        _ui_flag_modify(ui_Button8, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_ADD);
+        _ui_flag_modify(ui_Button5, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_ADD);
     }
     if(event_code == LV_EVENT_DEFOCUSED) {
         _ui_flag_modify(ui_Keyboard1, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_ADD);
+        _ui_flag_modify(ui_Button8, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_REMOVE);
+        _ui_flag_modify(ui_Button5, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_REMOVE);
     }
 }
 void ui_event_Button8(lv_event_t * e)
@@ -308,9 +314,11 @@ void ui_event_TextArea2(lv_event_t * e)
     if(event_code == LV_EVENT_FOCUSED) {
         _ui_flag_modify(ui_Keyboard3, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_REMOVE);
         _ui_keyboard_set_target(ui_Keyboard3,  ui_TextArea2);
+        _ui_flag_modify(ui_Button11, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_ADD);
     }
     if(event_code == LV_EVENT_DEFOCUSED) {
         _ui_flag_modify(ui_Keyboard3, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_ADD);
+        _ui_flag_modify(ui_Button11, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_REMOVE);
     }
 }
 void ui_event_Button11(lv_event_t * e)

@@ -82,7 +82,7 @@ void ui_Reglages_screen_init(void)
     lv_obj_set_x(ui_Label4, 0);
     lv_obj_set_y(ui_Label4, 1);
     lv_obj_set_align(ui_Label4, LV_ALIGN_CENTER);
-    lv_label_set_text(ui_Label4, "WIFI");
+    lv_label_set_text(ui_Label4, "CONNEXION WIFI");
     lv_obj_set_style_text_align(ui_Label4, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_font(ui_Label4, &lv_font_montserrat_12, LV_PART_MAIN | LV_STATE_DEFAULT);
 

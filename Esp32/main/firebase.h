@@ -23,6 +23,10 @@ typedef struct data_firebase
   bool finder2;
   bool finder3;
   int pwm;
+  int interval;
+
+  String ssid;
+  String pass;
 
 } data_firebase;
 

@@ -39,7 +39,7 @@ void ui_donnees_screen_init(void)
     ui_Label22 = lv_label_create(ui_donnees);
     lv_obj_set_width(ui_Label22, LV_SIZE_CONTENT);   /// 1
     lv_obj_set_height(ui_Label22, LV_SIZE_CONTENT);    /// 1
-    lv_obj_set_x(ui_Label22, -30);
+    lv_obj_set_x(ui_Label22, -55);
     lv_obj_set_y(ui_Label22, 68);
     lv_obj_set_align(ui_Label22, LV_ALIGN_CENTER);
     lv_label_set_text(ui_Label22, "GAZ");
@@ -64,7 +64,7 @@ void ui_donnees_screen_init(void)
     lv_obj_set_x(ui_temperatureTFT, -20);
     lv_obj_set_y(ui_temperatureTFT, -100);
     lv_obj_set_align(ui_temperatureTFT, LV_ALIGN_CENTER);
-    lv_label_set_text(ui_temperatureTFT, "1200");
+    lv_label_set_text(ui_temperatureTFT, "9999");
     lv_obj_set_style_text_color(ui_temperatureTFT, lv_color_hex(0x2DA041), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui_temperatureTFT, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_font(ui_temperatureTFT, &lv_font_montserrat_24, LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -75,16 +75,16 @@ void ui_donnees_screen_init(void)
     lv_obj_set_x(ui_pressureTFT, -25);
     lv_obj_set_y(ui_pressureTFT, -29);
     lv_obj_set_align(ui_pressureTFT, LV_ALIGN_CENTER);
-    lv_label_set_text(ui_pressureTFT, "2567200");
+    lv_label_set_text(ui_pressureTFT, "9999");
     lv_obj_set_style_text_font(ui_pressureTFT, &lv_font_montserrat_16, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_gasTFT = lv_label_create(ui_donnees);
     lv_obj_set_width(ui_gasTFT, LV_SIZE_CONTENT);   /// 1
     lv_obj_set_height(ui_gasTFT, LV_SIZE_CONTENT);    /// 1
-    lv_obj_set_x(ui_gasTFT, 30);
+    lv_obj_set_x(ui_gasTFT, -2);
     lv_obj_set_y(ui_gasTFT, 67);
     lv_obj_set_align(ui_gasTFT, LV_ALIGN_CENTER);
-    lv_label_set_text(ui_gasTFT, "25672");
+    lv_label_set_text(ui_gasTFT, "9999");
     lv_obj_set_style_text_color(ui_gasTFT, lv_color_hex(0xFF0000), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui_gasTFT, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_font(ui_gasTFT, &lv_font_montserrat_16, LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -95,7 +95,7 @@ void ui_donnees_screen_init(void)
     lv_obj_set_x(ui_brightnessTFT, -25);
     lv_obj_set_y(ui_brightnessTFT, 12);
     lv_obj_set_align(ui_brightnessTFT, LV_ALIGN_CENTER);
-    lv_label_set_text(ui_brightnessTFT, "2567200");
+    lv_label_set_text(ui_brightnessTFT, "9999");
     lv_obj_set_style_text_font(ui_brightnessTFT, &lv_font_montserrat_16, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_Label26 = lv_label_create(ui_donnees);
@@ -132,6 +132,17 @@ void ui_donnees_screen_init(void)
     lv_obj_set_style_border_opa(ui_Container2, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_border_width(ui_Container2, 1, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_border_side(ui_Container2, LV_BORDER_SIDE_TOP, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    ui_Label20 = lv_label_create(ui_donnees);
+    lv_obj_set_width(ui_Label20, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_Label20, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_x(ui_Label20, 56);
+    lv_obj_set_y(ui_Label20, 67);
+    lv_obj_set_align(ui_Label20, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_Label20, "ppm");
+    lv_obj_set_style_text_color(ui_Label20, lv_color_hex(0xFF0000), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui_Label20, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_Label20, &lv_font_montserrat_16, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     lv_obj_add_event_cb(ui_Button6, ui_event_Button6, LV_EVENT_ALL, NULL);
 

@@ -434,7 +434,7 @@ function checkDanger() {
     const gas = parseFloat(document.getElementById('gas').innerHTML);
     const dangerMessage = document.getElementById('dangerMessage');
 
-    if (temperature > 50 || gas > 1500) {
+    if (temperature > 50 || gas > 5000) {
         dangerMessage.textContent = '⚠️ ALERTE: Conditions dangereuses détectées! Température élevée ou niveau de gaz critique. Évacuez immédiatement et contactez les services d\'urgence.';
         dangerMessage.style.display = 'block';
     } else {
@@ -498,15 +498,14 @@ function getWeather(position) {
     fetch(apiUrl)
         .then(response => response.json())
         .then(data => {
-            // Mise à jour des informations sur le widget
             document.getElementById('city-name').textContent = data.name;
-            document.getElementById('temperature').textContent = Math.round(data.main.temp) + '°C';
+            document.getElementById('temp').textContent = Math.round(data.main.temp) + '°C';
             document.getElementById('description').textContent = data.weather[0].description;
         })
         .catch(error => {
             console.error('Erreur lors de la récupération des données météo:', error);
             document.getElementById('city-name').textContent = "Erreur de météo";
-            document.getElementById('temperature').textContent = "--°C";
+            document.getElementById('temp').textContent = "--°C";
             document.getElementById('description').textContent = "--";
         });
 }

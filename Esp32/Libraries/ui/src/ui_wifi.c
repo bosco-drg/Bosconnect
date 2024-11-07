@@ -21,7 +21,7 @@ void ui_wifi_screen_init(void)
     ui_TextArea1 = lv_textarea_create(ui_wifi);
     lv_obj_set_width(ui_TextArea1, 194);
     lv_obj_set_height(ui_TextArea1, LV_SIZE_CONTENT);    /// 37
-    lv_obj_set_x(ui_TextArea1, 0);
+    lv_obj_set_x(ui_TextArea1, 1);
     lv_obj_set_y(ui_TextArea1, -30);
     lv_obj_set_align(ui_TextArea1, LV_ALIGN_CENTER);
     lv_textarea_set_placeholder_text(ui_TextArea1, "SSID WIFI");
@@ -32,8 +32,8 @@ void ui_wifi_screen_init(void)
     ui_Button8 = lv_btn_create(ui_wifi);
     lv_obj_set_width(ui_Button8, 79);
     lv_obj_set_height(ui_Button8, 35);
-    lv_obj_set_x(ui_Button8, -70);
-    lv_obj_set_y(ui_Button8, -135);
+    lv_obj_set_x(ui_Button8, -50);
+    lv_obj_set_y(ui_Button8, 40);
     lv_obj_set_align(ui_Button8, LV_ALIGN_CENTER);
     lv_obj_add_flag(ui_Button8, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
     lv_obj_clear_flag(ui_Button8, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
@@ -49,8 +49,8 @@ void ui_wifi_screen_init(void)
     ui_Button5 = lv_btn_create(ui_wifi);
     lv_obj_set_width(ui_Button5, 79);
     lv_obj_set_height(ui_Button5, 35);
-    lv_obj_set_x(ui_Button5, 70);
-    lv_obj_set_y(ui_Button5, -135);
+    lv_obj_set_x(ui_Button5, 50);
+    lv_obj_set_y(ui_Button5, 40);
     lv_obj_set_align(ui_Button5, LV_ALIGN_CENTER);
     lv_obj_add_flag(ui_Button5, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
     lv_obj_clear_flag(ui_Button5, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
@@ -60,8 +60,19 @@ void ui_wifi_screen_init(void)
     ui_Label13 = lv_label_create(ui_Button5);
     lv_obj_set_width(ui_Label13, LV_SIZE_CONTENT);   /// 1
     lv_obj_set_height(ui_Label13, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_x(ui_Label13, 0);
+    lv_obj_set_y(ui_Label13, 1);
     lv_obj_set_align(ui_Label13, LV_ALIGN_CENTER);
     lv_label_set_text(ui_Label13, "SUIVANT");
+
+    ui_Label18 = lv_label_create(ui_wifi);
+    lv_obj_set_width(ui_Label18, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_Label18, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_x(ui_Label18, 0);
+    lv_obj_set_y(ui_Label18, -93);
+    lv_obj_set_align(ui_Label18, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_Label18, "Saissisez le nom du wifi");
+    lv_obj_set_style_text_align(ui_Label18, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     lv_obj_add_event_cb(ui_Keyboard1, ui_event_Keyboard1, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_TextArea1, ui_event_TextArea1, LV_EVENT_ALL, NULL);

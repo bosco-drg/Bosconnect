@@ -33,7 +33,7 @@ void ui_Screen1_screen_init(void)
     lv_obj_set_x(ui_Label25, 0);
     lv_obj_set_y(ui_Label25, -56);
     lv_obj_set_align(ui_Label25, LV_ALIGN_CENTER);
-    lv_label_set_text(ui_Label25, "Positionner votre\nnouvelle carte RFID\nsur le lecteur, et patienter ...");
+    lv_label_set_text(ui_Label25, "Positionnez votre\nnouvelle carte RFID\nSur le lecteur, et patientez...");
     lv_obj_set_style_text_align(ui_Label25, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_Labelgoodmessage = lv_label_create(ui_Screen1);

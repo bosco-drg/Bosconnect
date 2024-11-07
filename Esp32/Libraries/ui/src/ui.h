@@ -76,6 +76,7 @@ extern lv_obj_t * ui_brightnessTFT;
 extern lv_obj_t * ui_Label26;
 extern lv_obj_t * ui_Container1;
 extern lv_obj_t * ui_Container2;
+extern lv_obj_t * ui_Label20;
 // SCREEN: ui_Reglages
 void ui_Reglages_screen_init(void);
 extern lv_obj_t * ui_Reglages;
@@ -114,6 +115,7 @@ extern lv_obj_t * ui_Label14;
 void ui_event_Button5(lv_event_t * e);
 extern lv_obj_t * ui_Button5;
 extern lv_obj_t * ui_Label13;
+extern lv_obj_t * ui_Label18;
 // SCREEN: ui_wifi1
 void ui_wifi1_screen_init(void);
 extern lv_obj_t * ui_wifi1;
@@ -126,6 +128,7 @@ void ui_event_Keyboard3(lv_event_t * e);
 extern lv_obj_t * ui_Keyboard3;
 extern lv_obj_t * ui_Labelgoodmessage2;
 extern lv_obj_t * ui_Labelgoodmessage1;
+extern lv_obj_t * ui_Label19;
 extern lv_obj_t * ui____initial_actions0;
 
 

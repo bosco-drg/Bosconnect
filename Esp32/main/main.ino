@@ -34,12 +34,11 @@ const int daylightOffset_sec = 3600;
 volatile bool new_card = false;
 volatile bool card_detect = false;
 volatile bool screen_data_detect = false;
-volatile bool wifi_connect = true;
+volatile bool wifi_connect = false;
 
 String uid = "";
 String last_uid = "";
 byte regVal = 0x7F;
-
 
 void activateRec(MFRC522 mfrc522) {
   mfrc522.PCD_WriteRegister(mfrc522.FIFODataReg, mfrc522.PICC_CMD_REQA);
@@ -52,9 +51,18 @@ void clearInt(MFRC522 mfrc522) {
 }
 
 void init_wifi() {
-  WiFi.begin(WIFI_SSID, WIFI_PASS);
-  while (WiFi.status() != WL_CONNECTED);
-  configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
+  WiFi.begin(firebase.ssid, firebase.pass);
+  unsigned long startAttemptTime = millis();
+  const unsigned long wifiTimeout = 10000;
+  while (WiFi.status() != WL_CONNECTED && (millis() - startAttemptTime) < wifiTimeout);
+
+  if (WiFi.status() == WL_CONNECTED) {
+    init_firebase();
+    wifi_connect = true;
+    configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
+  } else {
+    wifi_connect = false;
+  }
 }
 
 String getFormattedTime() {
@@ -107,8 +115,10 @@ void init_firebase() {
 }
 
 void reset_firebase() {
-  String uid = auth.token.uid.c_str();
+  String uid = UID_USER;
   String path = "/utilisateurs/" + uid + "/data";
+  Firebase.RTDB.deleteNode(&fbdo, path);
+  path = "/utilisateurs/" + uid + "/RFID";
   Firebase.RTDB.deleteNode(&fbdo, path);
 }
 
@@ -224,6 +234,15 @@ void write_slider_firebase(void) {
   Firebase.RTDB.setInt(&fbdo, path + "pwm", firebase.pwm);
 }
 
+void read_setting_firebase(void) {
+  String uid = UID_USER;
+  String base_path = "/utilisateurs/" + uid + "/interval/";
+  if (Firebase.RTDB.getInt(&fbdo, base_path + "interval")) {
+    if (fbdo.intData() != firebase.interval)
+      firebase.pwm = fbdo.intData();
+  }
+}
+
 void read_tor_firebase(void) {
   String uid = UID_USER;
   String base_path = "/utilisateurs/" + uid + "/instant_data/";
@@ -241,6 +260,7 @@ void read_tor_firebase(void) {
   if (Firebase.RTDB.getInt(&fbdo, base_path + "pwm")) {
     if (fbdo.intData() != firebase.pwm)
       firebase.pwm = fbdo.intData();
+    lv_slider_set_value(ui_SliderPWM, firebase.pwm , LV_ANIM_OFF);
   }
 }
 
@@ -301,19 +321,21 @@ void setup() {
   card_detect = true;
 
   init_displays_tft();
-  init_wifi();
-  init_firebase();
   init_sensor();
+
+  firebase.interval = CHART_INTERVAL;
 }
 
 
 void loop() {
   static long timer1 = 0;
   static long timer2 = 0;
+  static long timer3 = 0;
   static long cardPresent = 0;
   static long readcard = 0;
-  
+
   lv_timer_handler();
+
   if (!card_detect) {
 
     read_sensor_ESP32();
@@ -323,14 +345,22 @@ void loop() {
       write_sensor_tft();
     }
     else if (wifi_connect) {
+
       read_tor_firebase();
+
       if (millis() - timer2 > SENSOR_INTERVAL) {
         write_sensor_firebase();
         timer2 = millis();
       }
-      if (millis() - timer1 > CHART_INTERVAL) {
+
+      if (millis() - timer1 > firebase.interval) {
         write_chart_firebase();
         timer1 = millis();
+      }
+
+      if (millis() - timer3 > SETTING_INTERVAL) {
+        read_setting_firebase();
+        timer3 = millis();
       }
     }
 
