@@ -23,6 +23,11 @@
 #define PRESSURE_THRESHOLD 50
 #define GAS_THRESHOLD 50
 
+#define SENSOR_INTERVAL 500
+#define CHART_INTERVAL 20000
+#define DOOR_OPEN_DURATION 2500
+#define TIME_READ_CARD 5000
+
 extern volatile bool new_card;
 extern volatile bool screen_data_detect;
 

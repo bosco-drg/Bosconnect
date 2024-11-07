@@ -17,7 +17,7 @@
 #include "screen.h"
 #include "firebase.h"
 
-MFRC522 mfrc522(CS_RFID, -1);
+MFRC522 mfrc522(CS_RFID, RST_RFID);
 MFRC522::MIFARE_Key key;
 
 data_firebase firebase;
@@ -34,8 +34,12 @@ const int daylightOffset_sec = 3600;
 volatile bool new_card = false;
 volatile bool card_detect = false;
 volatile bool screen_data_detect = false;
+volatile bool wifi_connect = true;
 
+String uid = "";
+String last_uid = "";
 byte regVal = 0x7F;
+
 
 void activateRec(MFRC522 mfrc522) {
   mfrc522.PCD_WriteRegister(mfrc522.FIFODataReg, mfrc522.PICC_CMD_REQA);
@@ -114,7 +118,7 @@ void write_sensor_firebase(void) {
   static int last_pressure = 0;
   static int last_gas = 0;
 
-  String uid = auth.token.uid.c_str();
+  String uid = UID_USER;
   String base_path = "/utilisateurs/" + uid + "/instant_data/";
 
   int temperatureInt = int(firebase.temperature);
@@ -152,7 +156,7 @@ void write_sensor_tft(void) {
   static int last_pressure = 0;
   static int last_gas = 0;
 
-  String uid = auth.token.uid.c_str();
+  String uid = UID_USER;
   String base_path = "/utilisateurs/" + uid + "/instant_data/";
 
   int temperatureInt = int(firebase.temperature);
@@ -183,7 +187,7 @@ void write_sensor_tft(void) {
 void write_chart_firebase(void) {
   long timestamp = getTimestamp();
   String formattedTime = getFormattedTime();
-  String uid = auth.token.uid.c_str();
+  String uid = UID_USER;
 
   String path = "/utilisateurs/" + uid + "/data/temperature/" + String(timestamp);
   Firebase.RTDB.setString(&fbdo, path + "/time", formattedTime);
@@ -203,25 +207,25 @@ void write_chart_firebase(void) {
 }
 
 void write_finder1_firebase(void) {
-  String uid = auth.token.uid.c_str();
+  String uid = UID_USER;
   String path = "/utilisateurs/" + uid + "/instant_data/";
   Firebase.RTDB.setBool(&fbdo, path + "finder1", firebase.finder1);
 }
 
 void write_finder2_firebase(void) {
-  String uid = auth.token.uid.c_str();
+  String uid = UID_USER;
   String path = "/utilisateurs/" + uid + "/instant_data/";
   Firebase.RTDB.setBool(&fbdo, path + "finder2", firebase.finder2);
 }
 
 void write_slider_firebase(void) {
-  String uid = auth.token.uid.c_str();
+  String uid = UID_USER;
   String path = "/utilisateurs/" + uid + "/instant_data/";
   Firebase.RTDB.setInt(&fbdo, path + "pwm", firebase.pwm);
 }
 
 void read_tor_firebase(void) {
-  String uid = auth.token.uid.c_str();
+  String uid = UID_USER;
   String base_path = "/utilisateurs/" + uid + "/instant_data/";
 
   if (Firebase.RTDB.getBool(&fbdo, base_path + "finder1")) {
@@ -240,6 +244,22 @@ void read_tor_firebase(void) {
   }
 }
 
+bool isCardInFirebase(String cardID) {
+  String uid = UID_USER;
+  String path = "/utilisateurs/" + uid + "/RFID/" + cardID;
+  if (Firebase.RTDB.getString(&fbdo, path)) {
+    return fbdo.stringData() != "";
+  } else {
+    return false;
+  }
+}
+
+void write_card_firebase(String cardID) {
+  String uid = UID_USER;
+  String path = "/utilisateurs/" + uid + "/RFID/" + cardID;
+  Firebase.RTDB.setString(&fbdo, path, "valid");
+}
+
 void readCard() {
   card_detect = true;
 }
@@ -247,6 +267,13 @@ void readCard() {
 void write_tor_ESP32(void) {
   digitalWrite(FINDER1, firebase.finder1);
   digitalWrite(FINDER2, firebase.finder2);
+}
+
+void dump_byte_array(byte *buffer, byte bufferSize) {
+  uid = "";
+  for (byte i = 0; i < bufferSize; i++) {
+    uid += buffer[i];
+  }
 }
 
 void setup() {
@@ -273,52 +300,41 @@ void setup() {
   attachInterrupt(digitalPinToInterrupt(IRQ_RFID), readCard, FALLING);
   card_detect = true;
 
-  init_wifi();
   init_displays_tft();
+  init_wifi();
   init_firebase();
   init_sensor();
 }
 
-void dump_byte_array(byte *buffer, byte bufferSize) {
-  for (byte i = 0; i < bufferSize; i++) {
-    Serial.print(buffer[i] < 0x10 ? " 0" : " ");
-    Serial.print(buffer[i], HEX);
-  }
-}
 
 void loop() {
   static long timer1 = 0;
   static long timer2 = 0;
   static long cardPresent = 0;
-  const long ledDuration = 2000;
-
+  static long readcard = 0;
+  
   lv_timer_handler();
-  activateRec(mfrc522);
-
   if (!card_detect) {
 
     read_sensor_ESP32();
     write_tor_ESP32();
 
-    if (screen_data_detect)
-    {
+    if (screen_data_detect) {
       write_sensor_tft();
     }
-    else
-    {
+    else if (wifi_connect) {
       read_tor_firebase();
-      
-      if (millis() - timer2 > 500) {
+      if (millis() - timer2 > SENSOR_INTERVAL) {
         write_sensor_firebase();
         timer2 = millis();
       }
-      if (millis() - timer1 > 20000) {
+      if (millis() - timer1 > CHART_INTERVAL) {
         write_chart_firebase();
         timer1 = millis();
       }
     }
 
-    if (millis() - cardPresent > ledDuration) {
+    if (millis() - cardPresent > DOOR_OPEN_DURATION) {
       digitalWrite(LED_BUILTIN, LOW);
     }
 
@@ -327,16 +343,32 @@ void loop() {
     digitalWrite(CS_TOUCH, HIGH);
     digitalWrite(CS_RFID, LOW);
 
-    mfrc522.PICC_ReadCardSerial();
-    dump_byte_array(mfrc522.uid.uidByte, mfrc522.uid.size);
+    if (millis() - readcard >= TIME_READ_CARD) {
+
+      mfrc522.PICC_ReadCardSerial();
+      dump_byte_array(mfrc522.uid.uidByte, mfrc522.uid.size);
+      mfrc522.PICC_HaltA();
+
+      if (isCardInFirebase(uid) && wifi_connect)
+      {
+        cardPresent = millis();
+        digitalWrite(LED_BUILTIN, HIGH);
+        last_uid = uid;
+      }
+
+      readcard = millis();
+    }
+
+    if (new_card && wifi_connect)
+      write_card_firebase(uid);
+
     clearInt(mfrc522);
-    mfrc522.PICC_HaltA();
-    digitalWrite(LED_BUILTIN, HIGH);
-    cardPresent = millis();
     card_detect = false;
 
     digitalWrite(CS_RFID, HIGH);
     digitalWrite(CS_TFT, LOW);
     digitalWrite(CS_TOUCH, LOW);
   }
+
+  activateRec(mfrc522);
 }
