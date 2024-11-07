@@ -51,9 +51,6 @@ function handleAuthStateChange(user) {
 
         setInterval(updateClock, 1000);
         updateClock();
-        fetchTemperature();
-        fetchPressure();
-        fetchBrightness();
         initializeDevice1();
         initializeDevice2();
         initializeIntensitySlider();
@@ -98,6 +95,10 @@ function handleAuthStateChange(user) {
         if (clearDataButton) {
             clearDataButton.onclick = clearData;
         }
+
+        fetchTemperature();
+        fetchPressure();
+        fetchBrightness();
 
     } else {
         currentUser = null;
@@ -536,4 +537,31 @@ function toggleVisibility(containerId, headerElement) {
     if (arrow) {
         arrow.textContent = container.classList.contains('hidden') ? '▶' : '▼';
     }
+}
+
+function writeTimeToFirebase() {
+
+    const selectedValue = document.getElementById('measureInterval').value;
+    const milliseconds = selectedValue * 60 * 1000;
+    const timeRef = database.ref('utilisateurs/' + userId + '/interval');
+
+    timeRef.set({
+        interval: milliseconds,
+    });
+}
+
+function getTimeFromFirebase() {
+
+    const timeRef = database.ref('utilisateurs/' + userId + '/interval');
+
+    timeRef.on('value', (snapshot) => {
+        const intervalData = snapshot.val();
+        if (intervalData && intervalData.interval) {
+            const intervalInMinutes = intervalData.interval / (60 * 1000);
+            document.getElementById('measureInterval').value = intervalInMinutes;
+        } else {
+            document.getElementById('measureInterval').value = 1;
+            writeTimeToFirebase();
+        }
+    });
 }
