@@ -405,7 +405,6 @@ footer a:hover {
     -webkit-backdrop-filter: blur(20px);
     border-radius: 20px;
     padding: 2rem;
-    margin-bottom: 2rem;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
 }
 
@@ -543,7 +542,6 @@ footer a:hover {
 }
 
 .custom-weather-widget {
-    display: inline-block;
     background: linear-gradient(135deg, #74ebd5 0%, #ACB6E5 100%);
     padding: 20px;
     border-radius: 15px;
@@ -551,7 +549,21 @@ footer a:hover {
     font-family: 'Roboto', sans-serif;
     color: #ffffff;
     text-align: center;
-    width: 200px;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    align-items: center;
+    cursor: pointer;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem; 
+}
+
+.toggle-arrow {
+    font-size: 1.2rem;
+    transition: transform 0.3s;
 }
 
 .location {

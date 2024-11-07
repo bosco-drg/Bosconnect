@@ -101,45 +101,52 @@
                 </div>
 
                 <div class="orders-container">
-                    <div class="device-calendar">
-                        <h3>Appareil 1</h3>
-                        <div class="calendar-inputs">
-                            <div class="time-input">
-                                <label>Heure d'activation :</label>
-                                <input type="datetime-local" id="device1Start">
-                            </div>
-                            <div class="time-input">
-                                <label>Heure d'extinction :</label>
-                                <input type="datetime-local" id="device1End">
-                            </div>
-                        </div>
-                        <div class="calendar-controls">
-                            <label class="auto-mode">
-                                <input type="checkbox" id="device1Auto">
-                                <span>Mode automatique</span>
-                            </label>
-                            <button class="calendar-btn1">Appliquer</button>
-                        </div>
+                    <div class="section-header" onclick="toggleVisibility('controls-container', this)">
+                        <span>Contrôles automatiques</span>
+                        <span class="toggle-arrow">▶</span>
                     </div>
-
-                    <div class="device-calendar">
-                        <h3>Appareil 2</h3>
-                        <div class="calendar-inputs">
-                            <div class="time-input">
-                                <label>Heure d'activation :</label>
-                                <input type="datetime-local" id="device2Start">
+                    <div id="controls-container">
+                        <div class="device-calendar">
+                            <h3>Appareil 1</h3>
+                            <div class="calendar-inputs">
+                                <div class="time-input">
+                                    <label>Heure d'activation :</label>
+                                    <input type="datetime-local" id="device1Start">
+                                </div>
+                                <div class="time-input">
+                                    <label>Heure d'extinction :</label>
+                                    <input type="datetime-local" id="device1End">
+                                </div>
                             </div>
-                            <div class="time-input">
-                                <label>Heure d'extinction :</label>
-                                <input type="datetime-local" id="device2End">
+                            <div class="calendar-controls">
+                                <label class="auto-mode">
+                                    <input type="checkbox" id="device1Auto">
+                                    <span>Mode automatique</span>
+                                </label>
+                                <button class="calendar-btn1">Appliquer</button>
                             </div>
                         </div>
-                        <div class="calendar-controls">
-                            <label class="auto-mode">
-                                <input type="checkbox" id="device2Auto">
-                                <span>Mode automatique</span>
-                            </label>
-                            <button class="calendar-btn2">Appliquer</button>
+
+
+                        <div class="device-calendar">
+                            <h3>Appareil 2</h3>
+                            <div class="calendar-inputs">
+                                <div class="time-input">
+                                    <label>Heure d'activation :</label>
+                                    <input type="datetime-local" id="device2Start">
+                                </div>
+                                <div class="time-input">
+                                    <label>Heure d'extinction :</label>
+                                    <input type="datetime-local" id="device2End">
+                                </div>
+                            </div>
+                            <div class="calendar-controls">
+                                <label class="auto-mode">
+                                    <input type="checkbox" id="device2Auto">
+                                    <span>Mode automatique</span>
+                                </label>
+                                <button class="calendar-btn2">Appliquer</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -154,46 +161,64 @@
                 <div id="dangerMessage" class="danger-message hidden"></div>
 
                 <div class="temperature-container">
+                    <div class="section-header" onclick="toggleVisibility('temperature-chart', this)">
+                        <span>Courbe de température</span>
+                        <span class="toggle-arrow">▶</span>
+                    </div>
                     <div id="temperature-chart"></div>
                 </div>
 
                 <div class="brightness-container">
+                    <div class="section-header" onclick="toggleVisibility('brightness-chart', this)">
+                        <span>Courbe de Luminosité</span>
+                        <span class="toggle-arrow">▶</span>
+                    </div>
                     <div id="brightness-chart"></div>
                 </div>
 
                 <div class="pressure-container">
+                    <div class="section-header" onclick="toggleVisibility('pressure-chart', this)">
+                        <span>Courbe de Pression</span>
+                        <span class="toggle-arrow">▶</span>
+                    </div>
                     <div id="pressure-chart"></div>
                 </div>
 
                 <div class="setting-container">
-                    <div class="settings-grid">
-                        <div class="settings-card">
-                            <h3>Intervalle de mesure</h3>
-                            <div class="interval-selector">
-                                <select id="measureInterval">
-                                    <option value="1">1 minute</option>
-                                    <option value="5">5 minutes</option>
-                                    <option value="10">10 minutes</option>
-                                    <option value="15">15 minutes</option>
-                                    <option value="30">30 minutes</option>
-                                    <option value="60">1 heure</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="settings-card">
-                            <h3>Sécurité</h3>
-                            <div class="security-controls">
-                                <button class="resetPasswordButton">Réinitialiser le mot de passe</button>
-                            </div>
-                        </div>
-
-                        <div class="settings-card">
-                            <h3>Maintenance</h3>
-                            <div class="maintenance-controls">
-                                <button class="clearDataButton">Nettoyer les données</button>
+                    <div class="section-header" onclick="toggleVisibility('controls-container2', this)">
+                        <span>Paramètre</span>
+                        <span class="toggle-arrow">▶</span>
+                    </div>
+                    <div id="controls-container2">
+                        <div class="settings-grid">
+                            <div class="settings-card">
+                                <h3>Intervalle de mesure</h3>
+                                <div class="interval-selector">
+                                    <select id="measureInterval">
+                                        <option value="1">1 minute</option>
+                                        <option value="5">5 minutes</option>
+                                        <option value="10">10 minutes</option>
+                                        <option value="15">15 minutes</option>
+                                        <option value="30">30 minutes</option>
+                                        <option value="60">1 heure</option>
+                                    </select>
+                                </div>
                             </div>
 
+                            <div class="settings-card">
+                                <h3>Sécurité</h3>
+                                <div class="security-controls">
+                                    <button class="resetPasswordButton">Réinitialiser le mot de passe</button>
+                                </div>
+                            </div>
+
+                            <div class="settings-card">
+                                <h3>Maintenance</h3>
+                                <div class="maintenance-controls">
+                                    <button class="clearDataButton">Nettoyer les données</button>
+                                </div>
+
+                            </div>
                         </div>
                     </div>
                 </div>

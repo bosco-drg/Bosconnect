@@ -60,6 +60,14 @@ function handleAuthStateChange(user) {
         readInstantDate();
         getTimeFromFirebase();
 
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(getWeather, showError);
+        } else {
+            document.getElementById('city-name').textContent = "Géolocalisation non disponible";
+        }
+
+
         updateDeviceCalendar('Appareil 1', 'device1Start', 'device1End', 'device1Auto');
         updateDeviceCalendar('Appareil 2', 'device2Start', 'device2End', 'device2Auto');
 
@@ -478,26 +486,14 @@ function updateDeviceCalendar(deviceName, startDateId, endDateId, autoModeId) {
     });
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    // Vérifier si la géolocalisation est disponible
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(getWeather, showError);
-    } else {
-        document.getElementById('city-name').textContent = "Géolocalisation non disponible";
-    }
-});
-
-// Fonction qui sera appelée si la géolocalisation réussit
 function getWeather(position) {
-    const apiKey = '5105d3f951aabd59a665c2f8fb72ad94'; // Remplacez par votre clé API d'OpenWeatherMap
+    const apiKey = '5105d3f951aabd59a665c2f8fb72ad94';
     const lat = position.coords.latitude;
     const lon = position.coords.longitude;
-    const units = 'metric'; // Température en Celsius
+    const units = 'metric';
 
-    // URL de l'API d'OpenWeatherMap pour obtenir les données météo
     const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=${units}&appid=${apiKey}`;
 
-    // Récupération des données météo
     fetch(apiUrl)
         .then(response => response.json())
         .then(data => {
@@ -514,7 +510,6 @@ function getWeather(position) {
         });
 }
 
-// Fonction en cas d'erreur dans la géolocalisation
 function showError(error) {
     switch (error.code) {
         case error.PERMISSION_DENIED:
@@ -529,5 +524,16 @@ function showError(error) {
         case error.UNKNOWN_ERROR:
             alert("Une erreur inconnue s'est produite.");
             break;
+    }
+}
+
+function toggleVisibility(containerId, headerElement) {
+    const container = document.getElementById(containerId);
+    if (container) {
+        container.classList.toggle('hidden');
+    }
+    const arrow = headerElement.querySelector('.toggle-arrow');
+    if (arrow) {
+        arrow.textContent = container.classList.contains('hidden') ? '▶' : '▼';
     }
 }
