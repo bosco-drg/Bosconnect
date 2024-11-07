@@ -278,6 +278,7 @@ void write_card_firebase(String cardID) {
   String uid = UID_USER;
   String path = "/utilisateurs/" + uid + "/RFID/" + cardID;
   Firebase.RTDB.setString(&fbdo, path, "valid");
+  lv_obj_clear_flag(ui_Labelgoodmessage, LV_OBJ_FLAG_HIDDEN);
 }
 
 void readCard() {
@@ -326,13 +327,16 @@ void setup() {
   firebase.interval = CHART_INTERVAL;
 }
 
-
 void loop() {
   static long timer1 = 0;
   static long timer2 = 0;
   static long timer3 = 0;
   static long cardPresent = 0;
   static long readcard = 0;
+  static bool n;
+
+  if (WiFi.status() != WL_CONNECTED)
+    wifi_connect = false;
 
   lv_timer_handler();
 
@@ -348,13 +352,15 @@ void loop() {
 
       read_tor_firebase();
 
-      if (millis() - timer2 > SENSOR_INTERVAL) {
+      if ((millis() - timer2 > SENSOR_INTERVAL) && (n == 0)) {
         write_sensor_firebase();
+        n = 1;
         timer2 = millis();
       }
 
-      if (millis() - timer1 > firebase.interval) {
+      if ((millis() - timer1 > firebase.interval) && (n == 1)) {
         write_chart_firebase();
+        n = 0;
         timer1 = millis();
       }
 
@@ -390,7 +396,9 @@ void loop() {
     }
 
     if (new_card && wifi_connect)
+    {
       write_card_firebase(uid);
+    }
 
     clearInt(mfrc522);
     card_detect = false;
