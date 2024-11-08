@@ -33,6 +33,8 @@ const int daylightOffset_sec = 3600;
 
 volatile bool new_card = false;
 volatile bool card_detect = false;
+volatile bool touch_detect = false;
+
 volatile bool screen_data_detect = false;
 volatile bool wifi_connect = false;
 
@@ -285,6 +287,11 @@ void readCard() {
   card_detect = true;
 }
 
+void readTouch() {
+  touch_detect = true;
+  Serial.println("ok");
+}
+
 void write_tor_ESP32(void) {
   digitalWrite(FINDER1, firebase.finder1);
   digitalWrite(FINDER2, firebase.finder2);
@@ -321,10 +328,13 @@ void setup() {
   attachInterrupt(digitalPinToInterrupt(IRQ_RFID), readCard, FALLING);
   card_detect = true;
 
+    pinMode(IRQ_TFT, INPUT_PULLDOWN);
+  attachInterrupt(digitalPinToInterrupt(IRQ_TFT), readTouch, FALLING);
+  
   init_displays_tft();
   init_sensor();
 
-  firebase.interval = CHART_INTERVAL;
+  firebase.interval = 600000;
 }
 
 void loop() {
@@ -333,35 +343,32 @@ void loop() {
   static long timer3 = 0;
   static long cardPresent = 0;
   static long readcard = 0;
-  static bool n;
 
+  lv_timer_handler();
+  
   if (WiFi.status() != WL_CONNECTED)
     wifi_connect = false;
 
-  lv_timer_handler();
-
   if (!card_detect) {
-
     read_sensor_ESP32();
     write_tor_ESP32();
 
     if (screen_data_detect) {
       write_sensor_tft();
     }
-    else if (wifi_connect) {
+    else if (wifi_connect && !touch_detect) {
 
       read_tor_firebase();
 
-      if ((millis() - timer2 > SENSOR_INTERVAL) && (n == 0)) {
+      if (millis() - timer2 > SENSOR_INTERVAL) {
         write_sensor_firebase();
-        n = 1;
         timer2 = millis();
+        Serial.println("ok");
       }
 
-      if ((millis() - timer1 > firebase.interval) && (n == 1)) {
+      if (millis() - timer1 > firebase.interval) {
         write_chart_firebase();
-        n = 0;
-        timer1 = millis();
+        timer1 = millis();    
       }
 
       if (millis() - timer3 > SETTING_INTERVAL) {
@@ -407,6 +414,6 @@ void loop() {
     digitalWrite(CS_TFT, LOW);
     digitalWrite(CS_TOUCH, LOW);
   }
-
+  touch_detect = false;
   activateRec(mfrc522);
 }
