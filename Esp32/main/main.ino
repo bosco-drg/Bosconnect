@@ -286,11 +286,6 @@ void readCard() {
   card_detect = true;
 }
 
-void readTouch() {
-  touch_detect = true;
-  Serial.println("ok");
-}
-
 void write_tor_ESP32(void) {
   digitalWrite(FINDER1, firebase.finder1);
   digitalWrite(FINDER2, firebase.finder2);
@@ -317,7 +312,7 @@ void setup() {
   digitalWrite(CS_RFID, LOW);
   digitalWrite(CS_TFT, HIGH);
   digitalWrite(CS_TOUCH, HIGH);
-  pinMode(IRQ_TFT, INPUT);
+  pinMode(IRQ_TFT, INPUT_PULLDOWNui6);
 
   mfrc522.PCD_Init();
   byte readReg = mfrc522.PCD_ReadRegister(mfrc522.VersionReg);
@@ -327,7 +322,7 @@ void setup() {
   card_detect = false;
   attachInterrupt(digitalPinToInterrupt(IRQ_RFID), readCard, FALLING);
   card_detect = true;
-  
+
   init_displays_tft();
   init_sensor();
 
@@ -342,7 +337,8 @@ void loop() {
   static long readcard = 0;
 
   lv_timer_handler();
-  
+  Serial.println(analogRead(IRQ_TFT));
+
   if (WiFi.status() != WL_CONNECTED)
     wifi_connect = false;
 
@@ -360,12 +356,11 @@ void loop() {
       if (millis() - timer2 > SENSOR_INTERVAL) {
         write_sensor_firebase();
         timer2 = millis();
-        Serial.println("ok");
       }
 
       if (millis() - timer1 > firebase.interval) {
         write_chart_firebase();
-        timer1 = millis();    
+        timer1 = millis();
       }
 
       if (millis() - timer3 > SETTING_INTERVAL) {
