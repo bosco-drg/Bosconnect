@@ -33,7 +33,6 @@ const int daylightOffset_sec = 3600;
 
 volatile bool new_card = false;
 volatile bool card_detect = false;
-volatile bool touch_detect = false;
 
 volatile bool screen_data_detect = false;
 volatile bool wifi_connect = false;
@@ -318,6 +317,7 @@ void setup() {
   digitalWrite(CS_RFID, LOW);
   digitalWrite(CS_TFT, HIGH);
   digitalWrite(CS_TOUCH, HIGH);
+  pinMode(IRQ_TFT, INPUT);
 
   mfrc522.PCD_Init();
   byte readReg = mfrc522.PCD_ReadRegister(mfrc522.VersionReg);
@@ -327,9 +327,6 @@ void setup() {
   card_detect = false;
   attachInterrupt(digitalPinToInterrupt(IRQ_RFID), readCard, FALLING);
   card_detect = true;
-
-    pinMode(IRQ_TFT, INPUT_PULLDOWN);
-  attachInterrupt(digitalPinToInterrupt(IRQ_TFT), readTouch, FALLING);
   
   init_displays_tft();
   init_sensor();
@@ -356,7 +353,7 @@ void loop() {
     if (screen_data_detect) {
       write_sensor_tft();
     }
-    else if (wifi_connect && !touch_detect) {
+    else if (wifi_connect && !(analogRead(IRQ_TFT) > 2048)) {
 
       read_tor_firebase();
 
@@ -414,6 +411,5 @@ void loop() {
     digitalWrite(CS_TFT, LOW);
     digitalWrite(CS_TOUCH, LOW);
   }
-  touch_detect = false;
   activateRec(mfrc522);
 }

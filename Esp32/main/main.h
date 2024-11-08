@@ -6,7 +6,6 @@
 #define FINDER2 23
 #define RFID_FINDER 22
 
-
 #define CS_TFT 18
 #define CS_TOUCH 2
 #define CS_RFID 4
