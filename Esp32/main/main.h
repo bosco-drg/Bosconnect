@@ -12,7 +12,7 @@
 
 #define IRQ_RFID 12
 #define IRQ_TFT 13 
-#define RST_RFID 1
+#define RST_RFID -1
 
 #define SCK 21
 #define MISO 20

@@ -308,11 +308,12 @@ void setup() {
   pinMode(CS_TOUCH, OUTPUT);
   pinMode(FINDER1, OUTPUT);
   pinMode(FINDER2, OUTPUT);
+  pinMode(RFID_FINDER, OUTPUT);
 
   digitalWrite(CS_RFID, LOW);
   digitalWrite(CS_TFT, HIGH);
   digitalWrite(CS_TOUCH, HIGH);
-  pinMode(IRQ_TFT, INPUT_PULLDOWNui6);
+  pinMode(IRQ_TFT, INPUT);
 
   mfrc522.PCD_Init();
   byte readReg = mfrc522.PCD_ReadRegister(mfrc522.VersionReg);
@@ -370,7 +371,7 @@ void loop() {
     }
 
     if (millis() - cardPresent > DOOR_OPEN_DURATION) {
-      digitalWrite(LED_BUILTIN, LOW);
+      digitalWrite(RFID_FINDER, LOW);
     }
 
   } else {
@@ -387,7 +388,7 @@ void loop() {
       if (isCardInFirebase(uid) && wifi_connect)
       {
         cardPresent = millis();
-        digitalWrite(LED_BUILTIN, HIGH);
+        digitalWrite(RFID_FINDER, HIGH);
         last_uid = uid;
       }
 
