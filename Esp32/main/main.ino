@@ -1,3 +1,20 @@
+//   _____  ______  _____  _____   _______   ____   _    _  _        ____   _   _
+//  / ____||  ____||_   _||_   _| |__   __| / __ \ | |  | || |      / __ \ | \ | |
+// | |  __ | |__     | |    | |      | |   | |  | || |  | || |     | |  | ||  \| |
+// | | |_ ||  __|    | |    | |      | |   | |  | || |  | || |     | |  | ||   ` |
+// | |__| || |____  _| |_  _| |_     | |   | |__| || |__| || |____ | |__| || |\  |
+//  \_____||______||_____||_____|    |_|    \____/  \____/ |______| \____/ |_| \_|
+//
+//
+//  ____    ____    _____   _____   ____   _   _  _   _  ______   _____  _______
+// |  _ \  / __ \  / ____| / ____| / __ \ | \ | || \ | ||  ____| / ____||__   __|
+// | |_) || |  | || (___  | |     | |  | ||  \| ||  \| || |__   | |        | |
+// |  _ < | |  | | \___ \ | |     | |  | ||   ` ||   ` ||  __|  | |        | |
+// | |_) || |__| | ____) || |____ | |__| || |\  || |\  || |____ | |____    | |
+// |____/  \____/ |_____/  \_____| \____/ |_| \_||_| \_||______| \_____|   |_|
+
+
+
 #include <ui.h>
 #include <Arduino.h>
 #include <Wire.h>
@@ -36,10 +53,13 @@ volatile bool card_detect = false;
 
 volatile bool screen_data_detect = false;
 volatile bool wifi_connect = false;
+volatile bool touch_detect = false;
+bool lastTouchDetect = false;
 
 String uid = "";
 String last_uid = "";
 byte regVal = 0x7F;
+
 
 void activateRec(MFRC522 mfrc522) {
   mfrc522.PCD_WriteRegister(mfrc522.FIFODataReg, mfrc522.PICC_CMD_REQA);
@@ -85,9 +105,9 @@ long getTimestamp() {
 void read_sensor_ESP32() {
   float ratio = (3.3 - analogRead(GAZ_SENSOR) * (3.3 / 4095.0)) / (analogRead(GAZ_SENSOR) * (3.3 / 4095.0));
   firebase.gas = pow(10, (log10(ratio * 10.0 / 10.0) - 2.7) / -0.77);
-  firebase.brightness = lightMeter.readLightLevel();
-  firebase.temperature = bmp.readTemperature();
-  firebase.pressure = bmp.readPressure() / 100.0;
+  firebase.brightness = 1;//lightMeter.readLightLevel();
+  firebase.temperature = 1;//bmp.readTemperature();
+  firebase.pressure = 1;//bmp.readPressure() / 100.0;
 }
 
 void init_sensor() {
@@ -242,6 +262,44 @@ void read_setting_firebase(void) {
     if (fbdo.intData() != firebase.interval)
       firebase.pwm = fbdo.intData();
   }
+
+  base_path = "/utilisateurs/" + uid + "/auto/Device 1/";
+  if (Firebase.RTDB.getBool(&fbdo, base_path + "autoMode")) {
+    if (fbdo.intData() != firebase.autoFinder1)
+      firebase.autoFinder1 = fbdo.intData();
+  }
+
+  if (firebase.autoFinder1)
+  {
+    if (Firebase.RTDB.getInt(&fbdo, base_path + "startDate")) {
+      if (fbdo.intData() != firebase.startDate1)
+        firebase.startDate1 = fbdo.intData();
+    }
+
+    if (Firebase.RTDB.getInt(&fbdo, base_path + "endDate")) {
+      if (fbdo.intData() != firebase.endDate1)
+        firebase.endDate1 = fbdo.intData();
+    }
+  }
+
+  base_path = "/utilisateurs/" + uid + "/auto/Device 2/";
+  if (Firebase.RTDB.getBool(&fbdo, base_path + "autoMode")) {
+    if (fbdo.intData() != firebase.autoFinder2)
+      firebase.autoFinder2 = fbdo.intData();
+  }
+
+  if (firebase.autoFinder2)
+  {
+    if (Firebase.RTDB.getInt(&fbdo, base_path + "startDate")) {
+      if (fbdo.intData() != firebase.startDate2)
+        firebase.startDate2 = fbdo.intData();
+    }
+
+    if (Firebase.RTDB.getInt(&fbdo, base_path + "endDate")) {
+      if (fbdo.intData() != firebase.endDate2)
+        firebase.endDate2 = fbdo.intData();
+    }
+  }
 }
 
 void read_tor_firebase(void) {
@@ -325,12 +383,17 @@ void setup() {
   card_detect = true;
 
   init_displays_tft();
-  init_sensor();
+  //init_sensor();
 
-  firebase.interval = 600000;
+  firebase.ssid = "Reseau Gloglo";
+  firebase.pass = "GloGlo317682";
+  init_wifi();
+
+  firebase.interval = 60000;
 }
 
 void loop() {
+  static long timer0 = 0;
   static long timer1 = 0;
   static long timer2 = 0;
   static long timer3 = 0;
@@ -338,7 +401,6 @@ void loop() {
   static long readcard = 0;
 
   lv_timer_handler();
-  Serial.println(analogRead(IRQ_TFT));
 
   if (WiFi.status() != WL_CONNECTED)
     wifi_connect = false;
@@ -350,8 +412,7 @@ void loop() {
     if (screen_data_detect) {
       write_sensor_tft();
     }
-    else if (wifi_connect && !(analogRead(IRQ_TFT) > 2048)) {
-
+    else if (wifi_connect && touch_detect) {
       read_tor_firebase();
 
       if (millis() - timer2 > SENSOR_INTERVAL) {
@@ -364,9 +425,21 @@ void loop() {
         timer1 = millis();
       }
 
-      if (millis() - timer3 > SETTING_INTERVAL) {
-        read_setting_firebase();
-        timer3 = millis();
+      read_setting_firebase();
+      long time_stamp = getTimestamp();
+
+      if (firebase.autoFinder1) {
+        if (time_stamp >= firebase.startDate1 && time_stamp <= firebase.endDate1)
+          firebase.finder1 = true;
+        else
+          firebase.finder1 = false;
+      }
+
+      if (firebase.autoFinder2) {
+        if (time_stamp >= firebase.startDate2 && time_stamp <= firebase.endDate2)
+          firebase.finder2 = true;
+        else
+          firebase.finder2 = false;
       }
     }
 
@@ -409,3 +482,13 @@ void loop() {
   }
   activateRec(mfrc522);
 }
+
+
+//  ____                                        _                _____                        _                    _
+// |  _ \                                      | |              |  __ \                      | |                  | |
+// | |_) |  ___   ___   ___   ___            __| |  ___         | |__) |  __ _  _   _   __ _ | |  __ _  _   _   __| | _ __   ___
+// |  _ <  / _ \ / __| / __| / _ \          / _` | / _ \        |  _  /  / _` || | | | / _` || | / _` || | | | / _` || '__| / _ \
+// | |_) || (_) |\__ \| (__ | (_) |        | (_| ||  __/        | | \ \ | (_| || |_| || (_| || || (_| || |_| || (_| || |   |  __/
+// |____/  \___/ |___/ \___| \___/          \__,_| \___|        |_|  \_\ \__,_| \__,_| \__, ||_| \__,_| \__,_| \__,_||_|    \___|
+//                                  ______               ______                         __/ |
+//                                 |______|             |______|                       |___/

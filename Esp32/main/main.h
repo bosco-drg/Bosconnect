@@ -26,11 +26,12 @@
 #define SENSOR_INTERVAL 1000
 #define DOOR_OPEN_DURATION 2500
 #define TIME_READ_CARD 5000
-#define SETTING_INTERVAL 60000
+#define SETTING_INTERVAL 10000
 
 extern volatile bool new_card;
-extern volatile bool screen_data_detect;
 extern volatile bool wifi_connect;
+extern volatile bool touch_detect;
+extern volatile bool screen_data_detect;
 
 void init_wifi(void);
 void init_firebase(void);

@@ -31,13 +31,16 @@ void my_touchpad_read(lv_indev_drv_t *indev_driver, lv_indev_data_t *data)
 {
   uint16_t touchX = 0, touchY = 0;
   bool touched = tft.getTouch(&touchX, &touchY, 600);
-  if (!touched)
+  if (!touched){
     data->state = LV_INDEV_STATE_REL;
+    touch_detect = true;
+  }
   else
   {
     data->state = LV_INDEV_STATE_PR;
     data->point.x = touchX;
     data->point.y = touchY;
+    touch_detect = false;
   }
 }
 

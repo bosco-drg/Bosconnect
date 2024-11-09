@@ -27,6 +27,14 @@ typedef struct data_firebase
 
   String ssid;
   String pass;
+  
+  bool autoFinder1;
+  bool autoFinder2;
+
+  int startDate1;
+  int endDate1;
+  int startDate2;
+  int endDate2;
 
 } data_firebase;
 

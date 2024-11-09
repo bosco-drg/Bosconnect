@@ -65,17 +65,17 @@ function handleAuthStateChange(user) {
         }
 
 
-        updateDeviceCalendar('Appareil 1', 'device1Start', 'device1End', 'device1Auto');
-        updateDeviceCalendar('Appareil 2', 'device2Start', 'device2End', 'device2Auto');
+        updateDeviceCalendar('Device 1', 'device1Start', 'device1End', 'device1Auto');
+        updateDeviceCalendar('Device 2', 'device2Start', 'device2End', 'device2Auto');
 
         document.getElementById('measureInterval').addEventListener('change', writeTimeToFirebase);
 
         document.querySelector('.calendar-btn1').addEventListener('click', function () {
-            saveDeviceCalendar('Appareil 1', 'device1Start', 'device1End', 'device1Auto');
+            saveDeviceCalendar('Device 1', 'device1Start', 'device1End', 'device1Auto');
         });
 
         document.querySelector('.calendar-btn2').addEventListener('click', function () {
-            saveDeviceCalendar('Appareil 2', 'device2Start', 'device2End', 'device2Auto');
+            saveDeviceCalendar('Device 2', 'device2Start', 'device2End', 'device2Auto');
         });
 
         const logoutButton = document.getElementById('logoutButton');
