@@ -238,10 +238,23 @@
             <p>&copy; 2024 BOSCONNECT. Tous droits réservés.</p>
             <p>
                 <a href="#privacy-policy">Politique de confidentialité</a> |
-                <a href="#terms">Conditions d'utilisation</a>
+                <a href="#terms">Conditions d'utilisation</a> |
+                <a id="maintenanceLink" class="maintenance-link">Maintenance Bosconnect</a> |
+                <a id="contactLink" class="maintenance-link">Contacter un conseiller</a>
             </p>
+            
         </div>
     </footer>
+    <script>
+        document.getElementById('maintenanceLink').addEventListener('click', function() {
+            var code = prompt("Veuillez entrer le code de maintenance:");
+            if (code == "2024") {
+                window.location.href = "https://bosco-drg.fr/";
+            } else {
+                alert("Code incorrect.");
+            }
+        });
+    </script>
 </body>
 
 </html>

@@ -590,3 +590,14 @@ footer a:hover {
     color: #ddd !important;
     transition: color 0.3s;
 }
+
+.footer-container .maintenance-link {
+    color: #0066CC;
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.footer-container .maintenance-link:hover {
+    color: #0077ED;
+}
