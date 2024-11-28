@@ -36,16 +36,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
         });
     };
-
-    document.getElementById('maintenanceLink').addEventListener('click', function() {
-        var code = prompt("Veuillez entrer le code de maintenance:");
-        if (code === "votre_code") {
-            window.location.href = "maintenance.html";
-        } else {
-            alert("Code incorrect.");
-        }
-    });
-
     document.getElementById('contactLink').addEventListener('click', function() {
         alert("Pour contacter un conseiller, veuillez envoyer un email à: bosco.adresseprojet@gmail.com");
     });

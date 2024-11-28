@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maintenance Bosconnect</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
+    <link rel="stylesheet" href="styles2.css">
+    <script src="script2.js" defer></script>
+</head>
+
+<body>
+    <header>
+        <div class="header-container">
+            <div class="connexion">BOSCONNECT - MAINTENANCE</div>
+        </div>
+    </header>
+
+    <div class="content-wrapper">
+        <form id="interventionForm" class="main-container">
+
+            <div id="step1" class="section visible">
+                <h1>Informations du technicien</h1>
+                <div class="form-group">
+                    <label for="interventionName">Nom intervenant:</label>
+                    <input type="text" id="interventionName" name="interventionName" required>
+                </div>
+                <div class="form-group">
+                    <label for="interventionNumber">N° d'intervention:</label>
+                    <input type="text" id="interventionNumber" name="interventionNumber" required>
+                </div>
+                <div class="form-group">
+                    <label for="bosconnectNumber">N° de carte Bosconnect:</label>
+                    <input type="text" id="bosconnectNumber" name="bosconnectNumber" required>
+                </div>
+                <div class="form-group">
+                    <label for="interventionDate">Date:</label>
+                    <input type="date" id="interventionDate" name="interventionDate" required>
+                </div>
+                <div class="form-group">
+                    <input type="checkbox" id="technicianCheck" required>
+                    <label for="technicianCheck" class="checkbox-label">Je certifie être un technicien qualifié selon la charte Bosconnect</label>
+                </div>
+                <button type="button" class="submit-btn" onclick="goToStep(2)" id="nextButton" disabled>Suivant</button>
+            </div>
+
+            <div id="step2" class="section">
+
+                <h2>Guide pour la réalisation des tests</h2>
+
+                <main>
+                    <section>
+                        <p>
+                            La carte Bosconnect est un dispositif domotique innovant conçu pour mesurer divers
+                            paramètres
+                            environnementaux tels que la <span class="highlight">température</span>, l'<span
+                                class="highlight">humidité</span>, la <span class="highlight">pression</span> et les
+                            <span class="highlight">gaz</span>. De plus, elle intègre des relais pour gérer des
+                            appareils à
+                            haute puissance, avec deux relais doubles, un variateur et un relais simple, ce dernier
+                            étant
+                            associé au système de contrôle d'accès par RFID.
+                        </p>
+                        <p>
+                            Destinée à une installation dans un habitat, la carte peut être contrôlée de deux manières :
+                            soit directement via un écran intégré, soit à distance via une interface web utilisant les
+                            services Firebase.
+                        </p>
+                    </section>
+
+                    <section>
+                        <h2>Prérequis pour les tests</h2>
+                        <p>Avant de commencer les tests, assurez-vous de disposer des outils et bibliothèques suivantes
+                            :
+                        </p>
+
+                        <table class="tools-table">
+                            <thead>
+                                <tr>
+                                    <th>Outils nécessaires</th>
+                                    <th>Bibliothèques nécessaires</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Alimentation 12V DC / 1A</td>
+                                    <td>rfid-master</td>
+                                </tr>
+                                <tr>
+                                    <td>Multimètre (voltmètre, ampèremètre, ohmmètre)</td>
+                                    <td>TFT_eSPI-master</td>
+                                </tr>
+                                <tr>
+                                    <td>Oscilloscope numérique 2 voies</td>
+                                    <td>BH1750-1.3.0</td>
+                                </tr>
+                                <tr>
+                        </table>
+                        <section class="instructions">
+                            <h2>Procédure de test</h2>
+                            <p>
+                                Pour certains tests, vous devrez compiler le programme et le télécharger via le port
+                                USB-C
+                                "CH340C". Une fois le programme chargé, entrez un numéro précis dans le moniteur série
+                                pour
+                                valider les résultats et vérifier le bon fonctionnement du système.
+                            </p>
+                            <p>
+                                Il est essentiel de commenter vos résultats dans chaque étape du test. La fiche
+                                d'intervention
+                                doit être détaillée, claire et compréhensible, afin de pouvoir facilement identifier les
+                                éventuelles anomalies ou problèmes. Veuillez vous assurer que chaque observation soit
+                                bien
+                                décrite.
+                            </p>
+                        </section>
+
+                        <section>
+                            <h2>Fichiers et documents</h2>
+                            <p>
+                                Dans le fichier compressé fourni ci-dessous, vous trouverez :
+                            <table class="tools-table">
+                                <thead>
+                                    <tr>
+                                        <th>Fichiers et documents</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Le programme de test complet</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Le programme utilisateur</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Une fiche d'intervention vierge</td>
+                                    </tr>
+                                    <tr>
+                                        <td>La schématique de la carte Bosconnect</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            </p>
+                        </section>
+
+                        <section>
+                            <h2>Finalisation des tests</h2>
+                            <p>
+                                Une fois tous les tests terminés et après avoir vérifié que <strong>aucune
+                                    anomalie</strong>
+                                n’est détectée, vous pouvez procéder à la compilation du programme final de
+                                fonctionnement.
+                            </p>
+                        </section>
+
+                        <button type="button" class="submit-btn" onclick="goToStep(1)">Précédent</button>
+                        <button type="button" class="submit-btn" onclick="goToStep(3)">Suivant</button>
+            </div>
+
+            <!-- Contrôles visuels -->
+            <div id="step3" class="section">
+                <h3>Contrôles visuels</h3>
+                <div class="test-item">
+                    <label>Absence de dégradation mécanique</label>
+                    <label><input type="radio" name="test1_1" value="OK"> OK</label>
+                    <label><input type="radio" name="test1_1" value="NOK"> NOK</label>
+                    <textarea name="comments1_1" rows="4" placeholder="Commentaires ..."></textarea>
+                </div>
+                <div class="test-item">
+                    <label>Présence de tous les composants prévus</label>
+                    <label><input type="radio" name="test1_2" value="OK"> OK</label>
+                    <label><input type="radio" name="test1_2" value="NOK"> NOK</label>
+                    <textarea name="comments1_2" rows="4" placeholder="Commentaires ..."></textarea>
+                </div>
+                <button type="button" class="submit-btn" onclick="goToStep(2)">Précédent</button>
+                <button type="button" class="submit-btn" onclick="goToStep(4)">Suivant</button>
+            </div>
+
+            <!-- Contrôle des mesures -->
+            <div id="step4" class="section">
+                <h3>Contrôle des mesures</h3>
+                <div class="test-item">
+                    <label>Vérification d'absence de tension sur les broches « GND »</label>
+                    <label><input type="radio" name="test2_1" value="OK"> OK</label>
+                    <label><input type="radio" name="test2_1" value="NOK"> NOK</label>
+                    <textarea name="comments2_1" rows="4" style="width: 100%;"
+                        placeholder="Commentaires ..."></textarea>
+                </div>
+                <button type="button" class="submit-btn" onclick="goToStep(3)">Précédent</button>
+                <button type="button" class="submit-btn" onclick="goToStep(5)">Suivant</button>
+            </div>
+
+            <div id="step5" class="section">
+                <h3>Contrôle des composants</h3>
+                <div class="test-item">
+                    <h3>Test relais</h3>
+
+                    <p>
+                        Pour tester un relais double, commencez par connecter le voltmètre en mode testeur de continuité
+                        sur
+                        les vis des
+                        borniers où sont placées les phases. Ensuite, répétez l’opération sur les vis des borniers où
+                        sont
+                        placés les neutres.
+                    </p>
+
+                    <p>
+                        Pour un relais simple, positionnez le voltmètre en mode testeur de continuité sur chaque vis du
+                        relais afin de
+                        mesurer son activation.
+                    </p>
+
+                    <p>
+                        Exécutez ensuite le programme en utilisant la commande appropriée sur le
+                        terminal série. Vérifiez que le relais s’active pendant 4 secondes et qu’il se referme
+                        correctement
+                        après cette période.
+                    </p>
+
+                    <p>
+                        Pour tester le relais double de l'appareil 1, saisissez la valeur 1 dans le moniteur série.
+                        Ensuite, la continuité entre les bornier a vise : PHASE_AP1 et
+                        NEUTRE_AP1.
+                    </p>
+
+                    <label><input type="radio" name="test3_1" value="OK"> OK</label>
+                    <label><input type="radio" name="test3_1" value="NOK"> NOK</label>
+                    <textarea name="comments3_1" rows="4" style="width: 100%;"
+                        placeholder="Commentaires ..."></textarea>
+
+                    <p>
+                        Pour tester le relais double de l'appareil 2, saisissez la valeur 2 dans le moniteur série.
+                        Ensuite, mesurer la continuité sur les bornier a vis : PHASE_AP2 et
+                        NEUTRE_AP2.
+                    </p>
+
+                    <label><input type="radio" name="test3_2" value="OK"> OK</label>
+                    <label><input type="radio" name="test3_2" value="NOK"> NOK</label>
+                    <textarea name="comments3_2" rows="4" style="width: 100%;"
+                        placeholder="Commentaires ..."></textarea>
+
+                    <p>
+                        Pour tester le relais simple associé au fonctionnement du RFID, saisissez la valeur 3 dans le
+                        moniteur série. Ensuite, mesurez la continuité sur le bornier RELAIS_RFID.
+                    </p>
+
+                    <label><input type="radio" name="test3_3" value="OK"> OK</label>
+                    <label><input type="radio" name="test3_3" value="NOK"> NOK</label>
+                    <textarea name="comments3_3" rows="4" style="width: 100%;"
+                        placeholder="Commentaires ..."></textarea>
+
+                </div>
+
+                <div class="test-item">
+                    <h3>Test du Variateur</h3>
+                    <p>
+                        Pour réaliser ce test, commencez par connecter un GBF (Générateur de Basse Fréquence) à l’entrée
+                        du
+                        bornier à vis VARIATEUR_IN. Ensuite, reliez une sonde à un oscilloscope et connectez-la à la
+                        sortie
+                        du bornier VARIATEUR_OUT. Configurez l’oscilloscope de manière à afficher simultanément les
+                        signaux
+                        d’entrée et de sortie.
+                    </p>
+
+                    <p>
+                        Lancez ensuite le programme en utilisant la commande 4 sur le terminal série. Vous devriez
+                        constater
+                        que l’onde sinusoïdale de sortie est modulée en fonction des paramètres du variateur, ce qui
+                        reflète
+                        les changements effectués par ce dernier. Vérifiez que cette modulation est cohérente et
+                        conforme
+                        aux attentes.
+                    </p>
+
+                    <label><input type="radio" name="test3_2" value="OK"> OK</label>
+                    <label><input type="radio" name="test3_2" value="NOK"> NOK</label>
+                    <textarea name="comments3_4" rows="4" style="width: 100%;"
+                        placeholder="Commentaires ..."></textarea>
+                </div>
+                <button type="button" class="submit-btn" onclick="goToStep(4)">Précédent</button>
+                <button type="button" id="exportPdf" class="submit-btn">Exporter en PDF</button>
+            </div>
+        </form>
+    </div>
+
+</body>
+
+</html>
