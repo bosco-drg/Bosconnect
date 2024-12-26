@@ -123,40 +123,6 @@ document.getElementById('exportPdf').addEventListener('click', () => {
         }
     });
 
-    doc.autoTable({
-        startY: doc.lastAutoTable.finalY + 20,
-        head: [["Test N°", "Description", "Résultat", "Commentaires"]],
-        body: [
-            ["Test 1", "Absence de dégradation mécanique", "", ""],
-            ["Test 2", "Présence de tous les composants prévus", "", ""],
-            ["Test 3", "Vérification d'absence de tension sur les broches « GND »", "", ""],
-            ["Test 4", "Test du capteur de gaz MQ9", "", ""],
-            ["Test 5", "Test du capteur de pression BMP280", "", ""],
-            ["Test 6", "Test du capteur de température BMP280", "", ""],
-            ["Test 7", "Test du capteur de luminosité BH1750", "", ""],
-            ["Test 8", "Test du relais double appareil 1", "", ""],
-            ["Test 9", "Test du relais double appareil 2", "", ""],
-            ["Test 10", "Test du variateur", "", ""]
-        ].map(([num, desc]) => {
-            const testItem = Array.from(document.querySelectorAll('.test-item')).find(
-                item => item.querySelector('label').textContent.includes(num.split(' ')[1])
-            );
-            const result = testItem?.querySelector('input[type="radio"]:checked')?.value || "Non renseigné";
-            const comments = testItem?.querySelector('textarea')?.value.trim() || "Aucun commentaire";
-            return [num, desc, result, comments];
-        }),
-        theme: 'grid',
-        styles: {
-            fontSize: 10,
-            halign: 'center'
-        },
-        columnStyles: {
-            0: { cellWidth: 20 },
-            1: { cellWidth: 70 },
-            2: { cellWidth: 30 },
-            3: { cellWidth: 70 }
-        }
-    });
     doc.save('Fiche_intervention.pdf');
 });
 
