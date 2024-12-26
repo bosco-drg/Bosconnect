@@ -26,7 +26,7 @@
     <div class="content-wrapper">
         <form id="interventionForm" class="main-container">
 
-            <div id="step1" class="section visible">
+            <div id="step1" class="section">
                 <h1>Informations du technicien</h1>
                 <div class="form-group">
                     <label for="interventionName">Nom intervenant:</label>
@@ -49,7 +49,7 @@
                         <label for="technicianCheck">
                             Je certifie être un technicien qualifié selon la charte Bosconnect
                         </label>
-                        <input type="checkbox" id="technicianCheck" required>    
+                        <input type="checkbox" id="technicianCheck" required>
                     </div>
                 </div>
                 <button type="button" class="submit-btn" onclick="goToStep(2)" id="nextButton" disabled>Suivant</button>
@@ -213,7 +213,8 @@
                             NOK
                         </label>
                     </div>
-                    <textarea name="comments2_1" rows="4" style="width: 100%;" placeholder="Commentaires ..."></textarea>
+                    <textarea name="comments2_1" rows="4" style="width: 100%;"
+                        placeholder="Commentaires ..."></textarea>
                 </div>
                 <div class="button-group">
                     <button type="button" class="submit-btn" onclick="goToStep(3)">Précédent</button>
@@ -221,11 +222,83 @@
                 </div>
             </div>
 
-            <div id="step5" class="section">
-                <h3>Contrôle des composants</h3>
+            <div id="step5" class="section visible">
+                <h3>Contrôle des capteurs</h3>
                 <div class="test-item">
-                    <h3>Test relais</h3>
+                    <label>Test du capteur de gaz MQ9</label>
+                    <p>
+                        Pour tester le capteur de gaz MQ9, vérifiez la cohérence des valeurs sur l'écran tactile. Les
+                        valeurs dans un environnement normal varient généralement entre 1000 et 1500 ppm. Si l'écran
+                        tactile n'est pas disponible, vous pouvez utiliser le moniteur série pour afficher les valeurs
+                        en tapant "MQ9" dans le moniteur série.
+                    </p>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="test3_1" value="OK">
+                            OK
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="test3_1" value="NOK">
+                            NOK
+                        </label>
+                    </div>
+                    <textarea name="comments3_1" rows="4" style="width: 100%;"
+                        placeholder="Commentaires ..."></textarea>
+                </div>
 
+                <div class="test-item">
+                    <label>Test du capteur de température et pression BMP280</label>
+                    <p>
+                        Pour tester le capteur BMP280, vérifiez la cohérence des valeurs sur l'écran tactile. Vous
+                        pouvez comparer les valeurs obtenues avec celles de la météo locale. Si l'écran tactile n'est
+                        pas disponible, vous pouvez utiliser le moniteur série pour afficher les valeurs en tapant
+                        "BMP280" dans le moniteur série.
+                    </p>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="test3_2" value="OK">
+                            OK
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="test3_2" value="NOK">
+                            NOK
+                        </label>
+                    </div>
+                    <textarea name="comments3_2" rows="4" style="width: 100%;"
+                        placeholder="Commentaires ..."></textarea>
+                </div>
+
+                <div class="test-item">
+                    <label>Test du capteur de luminosité BH1750</label>
+                    <p>
+                        Pour tester le capteur BH1750, vérifiez la cohérence des valeurs sur l'écran tactile. Vous
+                        pouvez faire varier la luminosité avec une lampe ou un téléphone. Si l'écran tactile n'est pas
+                        disponible, vous pouvez utiliser le moniteur série pour afficher les valeurs en tapant "BH1750"
+                        dans le moniteur série.
+                    </p>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="test3_3" value="OK">
+                            OK
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="test3_3" value="NOK">
+                            NOK
+                        </label>
+                    </div>
+                    <textarea name="comments3_3" rows="4" style="width: 100%;"
+                        placeholder="Commentaires ..."></textarea>
+                </div>
+
+                <div class="button-group">
+                    <button type="button" class="submit-btn" onclick="goToStep(4)">Précédent</button>
+                    <button type="button" class="submit-btn" onclick="goToStep(6)">Suivant</button>
+                </div>
+            </div>
+
+            <div id="step6" class="section">
+                <h3>Contrôle des actionneurs</h3>
+                <div class="test-item">
                     <p>
                         Pour tester un relais double, commencez par connecter le voltmètre en mode testeur de continuité
                         sur les vis des borniers où sont placées les phases. Ensuite, répétez l’opération sur les vis
@@ -243,63 +316,72 @@
                         correctement après cette période.
                     </p>
 
+                    <label>Test du relais double appareil 1</label>
                     <p>
-                        Pour tester le relais double de l'appareil 1, saisissez la valeur 1 dans le moniteur série.
-                        Ensuite, la continuité entre les bornier a vise : PHASE_AP1 et
+                        Pour tester le relais double de l'appareil 1, saisissez "RELAIS_1" dans le moniteur série.
+                        Ensuite,mesurez la continuité entre les bornier a vise : PHASE_AP1 et
                         NEUTRE_AP1.
                     </p>
 
                     <div class="radio-group">
                         <label class="radio-label">
-                            <input type="radio" name="test3_1" value="OK">
+                            <input type="radio" name="test4_1" value="OK">
                             OK
                         </label>
                         <label class="radio-label">
-                            <input type="radio" name="test3_1" value="NOK">
+                            <input type="radio" name="test4_1" value="NOK">
                             NOK
                         </label>
                     </div>
-                    <textarea name="comments3_1" rows="4" style="width: 100%;" placeholder="Commentaires ..."></textarea>
+                    <textarea name="comments4_1" rows="4" style="width: 100%;"
+                        placeholder="Commentaires ..."></textarea>
+                </div>
 
+                <div class="test-item">
+                    <label>Test du relais double appareil 2</label>
                     <p>
-                        Pour tester le relais double de l'appareil 2, saisissez la valeur 2 dans le moniteur série.
+                        Pour tester le relais double de l'appareil 2, saisissez "RELAIS_2" dans le moniteur série.
                         Ensuite, mesurer la continuité sur les bornier a vis : PHASE_AP2 et
                         NEUTRE_AP2.
                     </p>
 
                     <div class="radio-group">
                         <label class="radio-label">
-                            <input type="radio" name="test3_2" value="OK">
+                            <input type="radio" name="test4_2" value="OK">
                             OK
                         </label>
                         <label class="radio-label">
-                            <input type="radio" name="test3_2" value="NOK">
+                            <input type="radio" name="test4_2" value="NOK">
                             NOK
                         </label>
                     </div>
-                    <textarea name="comments3_2" rows="4" style="width: 100%;" placeholder="Commentaires ..."></textarea>
-
+                    <textarea name="comments4_2" rows="4" style="width: 100%;"
+                        placeholder="Commentaires ..."></textarea>
+                </div>
+                <div class="test-item">
+                    <label>Test du relais simple</label>
                     <p>
-                        Pour tester le relais simple associé au fonctionnement du RFID, saisissez la valeur 3 dans le
+                        Pour tester le relais simple associé au fonctionnement du RFID, saisissez "RELAIS_RFID" dans le
                         moniteur série. Ensuite, mesurez la continuité sur le bornier RELAIS_RFID.
                     </p>
 
                     <div class="radio-group">
                         <label class="radio-label">
-                            <input type="radio" name="test3_3" value="OK">
+                            <input type="radio" name="test4_3" value="OK">
                             OK
                         </label>
                         <label class="radio-label">
-                            <input type="radio" name="test3_3" value="NOK">
+                            <input type="radio" name="test4_3" value="NOK">
                             NOK
                         </label>
                     </div>
-                    <textarea name="comments3_3" rows="4" style="width: 100%;" placeholder="Commentaires ..."></textarea>
+                    <textarea name="comments4_3" rows="4" style="width: 100%;"
+                        placeholder="Commentaires ..."></textarea>
 
                 </div>
 
                 <div class="test-item">
-                    <h3>Test du Variateur</h3>
+                    <label>Test du variateur</label>
                     <p>
                         Pour réaliser ce test, commencez par connecter un GBF (Générateur de Basse Fréquence) à l’entrée
                         du
@@ -322,18 +404,19 @@
 
                     <div class="radio-group">
                         <label class="radio-label">
-                            <input type="radio" name="test3_2" value="OK">
+                            <input type="radio" name="test4_4" value="OK">
                             OK
                         </label>
                         <label class="radio-label">
-                            <input type="radio" name="test3_2" value="NOK">
+                            <input type="radio" name="test4_4" value="NOK">
                             NOK
                         </label>
                     </div>
-                    <textarea name="comments3_4" rows="4" style="width: 100%;" placeholder="Commentaires ..."></textarea>
+                    <textarea name="comments4_4" rows="4" style="width: 100%;"
+                        placeholder="Commentaires ..."></textarea>
                 </div>
                 <div class="button-group">
-                    <button type="button" class="submit-btn" onclick="goToStep(4)">Précédent</button>
+                    <button type="button" class="submit-btn" onclick="goToStep(5)">Précédent</button>
                     <button type="button" id="exportPdf" class="submit-btn">Exporter en PDF</button>
                 </div>
             </div>
@@ -345,9 +428,7 @@
             <p>&copy; 2024 BOSCONNECT. Tous droits réservés.</p>
             <p>
                 <a href="#privacy-policy">Politique de confidentialité</a> |
-                <a href="#terms">Conditions d'utilisation</a> |
-                <a id="maintenanceLink" href="maintenance.html">Maintenance Bosconnect</a> |
-                <a id="contactLink">Contacter un conseiller</a>
+                <a href="#terms">Conditions d'utilisation</a>
             </p>
         </div>
     </footer>
