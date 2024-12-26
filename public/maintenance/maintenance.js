@@ -16,12 +16,20 @@ const database = firebase.database();
 
 
 
+// Modifie la fonction d'authentification pour inclure un feedback visuel
 function authenticateUser(callback) {
     firebase.auth().signInWithEmailAndPassword(email, password)
         .then(userCredential => {
             const uid = userCredential.user.uid;
+            // Ajoute une classe pour indiquer la connexion réussie
+            document.body.classList.add('authenticated');
             callback(uid);
         })
+        .catch(error => {
+            console.error("Erreur d'authentification:", error);
+            // Affiche une alerte en cas d'erreur
+            alert("Erreur d'authentification. Veuillez réessayer.");
+        });
 }
 
 function goToStep(step) {
@@ -203,3 +211,19 @@ function updateSensorValue() {
 }
 
 updateSensorValue();
+
+// Ajouter cette fonction pour le téléchargement du fichier zip
+function downloadFiles() {
+    // URL du fichier zip (à remplacer par l'URL réelle de votre fichier)
+    const zipUrl = '../assets/bosconnect_test_files.zip';
+    
+    // Créer un élément <a> temporaire
+    const link = document.createElement('a');
+    link.href = zipUrl;
+    link.download = 'bosconnect_test_files.zip';
+    
+    // Ajouter l'élément au DOM, cliquer dessus, puis le supprimer
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}

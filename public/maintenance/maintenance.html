@@ -145,6 +145,12 @@
                                 </tr>
                             </tbody>
                         </table>
+                        
+                        <div class="download-container">
+                            <button type="button" class="submit-btn download-btn" onclick="downloadFiles()">
+                                Télécharger les fichiers (.zip)
+                            </button>
+                        </div>
                     </section>
 
                     <section>
@@ -227,9 +233,12 @@
                 <h3>Contrôle des mesures</h3>
                 <div class="test-item">
                     <p>
-                        Si les tests précédents hors tension sont validés, vous pouvez désormais alimenter la carte via son
-                        port USB-C, puis compiler le programme de test et le téléverser sur la carte. Dans le cas contraire,
-                        indiquez 'NOK' pour les prochains tests et expliquez l'erreur dans l'espace dédié aux commentaires
+                        Si les tests précédents hors tension sont validés, vous pouvez désormais alimenter la carte via
+                        son
+                        port USB-C, puis compiler le programme de test et le téléverser sur la carte. Dans le cas
+                        contraire,
+                        indiquez 'NOK' pour les prochains tests et expliquez l'erreur dans l'espace dédié aux
+                        commentaires
                         finaux.
                     </p>
 
@@ -545,21 +554,23 @@
                             NOK
                         </label>
                     </div>
-                    <textarea name="comments6_1" rows="4" style="width: 100%;" placeholder="Commentaires ..."></textarea>
+                    <textarea name="comments6_1" rows="4" style="width: 100%;"
+                        placeholder="Commentaires ..."></textarea>
                 </div>
 
                 <div class="test-item">
                     <label>Test des données</label>
                     <p>
-                        Si la carte a correctement été connectée au wifi, connectez-vous sur la page de contrôle
-                        Bosconnect. Appuyez sur les boutons suivants pour allumer ou éteindre un appareil et vérifier si les données du capteur sont correctement envoyées.
+                        Si la carte est correctement connectée au Wi-Fi, vous pouvez contrôler la LED ESP32 et lire les
+                        données du capteur de luminosité à partir de la page de contrôle ci-dessous. Utilisez les
+                        boutons pour allumer ou éteindre un appareil. Les données sont-elles transmises correctement ?
                     </p>
                     <div class="sensor-control">
                         <div class="button-group">
-                            <button type="button" class="submit-btn on-btn" onclick="turnOnDevice()">Allumer l'appareil</button>
-                            <button type="button" class="submit-btn off-btn" onclick="turnOffDevice()">Éteindre l'appareil</button>
+                            <button type="button" class="submit-btn on-btn" onclick="turnOnDevice()">ON</button>
+                            <button type="button" class="submit-btn off-btn" onclick="turnOffDevice()">OFF</button>
                         </div>
-                        <p id="sensorValueDisplay">Valeur actuelle du capteur : <span id="sensorValue">N/A</span></p>
+                        <p id="sensorValueDisplay">Valeur actuelle du capteur : <span id="sensorValue">N/A</span> Lux</p>
                     </div>
                     <div class="radio-group">
                         <label class="radio-label">
@@ -571,7 +582,8 @@
                             NOK
                         </label>
                     </div>
-                    <textarea name="comments6_2" rows="4" style="width: 100%;" placeholder="Commentaires ..."></textarea>
+                    <textarea name="comments6_2" rows="4" style="width: 100%;"
+                        placeholder="Commentaires ..."></textarea>
                 </div>
                 <div class="test-completed-container">
                     <input type="checkbox" id="testsCompleted" required>
@@ -584,7 +596,6 @@
                     <button type="button" id="exportPdf" class="submit-btn" disabled>Exporter en PDF</button>
                 </div>
             </div>
-
         </form>
     </div>
 
