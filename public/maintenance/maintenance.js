@@ -8,6 +8,10 @@ document.getElementById('technicianCheck').addEventListener('change', function (
     document.getElementById('nextButton').disabled = !this.checked;
 });
 
+document.getElementById('testsCompleted').addEventListener('change', function () {
+    document.getElementById('exportPdf').disabled = !this.checked;
+});
+
 document.getElementById('exportPdf').addEventListener('click', () => {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();

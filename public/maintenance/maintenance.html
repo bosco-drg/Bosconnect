@@ -104,14 +104,7 @@
                         </table>
                     </section>
 
-                    <section class="warning-section">
-                        <h2>Attention</h2>
-                        <div class="attention-panel">
-                            <p>
-                                La carte ne doit être alimentée que si cela est correctement demandé. Pour les premiers tests, la carte n'est pas alimentée.
-                            </p>
-                        </div>
-                    </section>
+
 
                     <section class="instructions">
                         <h2>Procédure de test</h2>
@@ -123,12 +116,8 @@
                         <p>
                             Il est essentiel de commenter vos résultats à chaque étape du test. La fiche
                             d'intervention doit être détaillée, claire et compréhensible, afin de pouvoir facilement
-                            identifier les éventuelles anomalies ou problèmes. Une fiche d'intervention est correcte seulement si chaque espace commentaire est correctement rempli.
+                            identifier les éventuelles anomalies ou problèmes.
                         </p>
-
-                        <p>
-                            Il faut que chaque test soit réalisé dans l'ordre indiqué. Si un test ne peut pas être
-                            réalisé, ne poursuivez que si cela ne représente pas un danger.
                         <p>
                             Dans le fichier compressé fourni ci-dessous, vous trouverez :
                         </p>
@@ -160,9 +149,17 @@
                         <p>
                             Si <strong>aucune anomalie</strong>
                             n’est détectée, vous pouvez recompiler le programme utilisateur.
-                            Dans le cas contraire, arrêtez les tests et contactez le service de réparation
+                            Dans le cas contraire, contactez le service de réparation
                             (service.reparation@bosconnect.fr).
                         </p>
+                    </section>
+
+                    <section class="warning-section">
+                        <div class="attention-panel">
+                            <p>
+                                La carte ne doit être alimentée ni reprogrammée que si cela a été correctement demandé !
+                            </p>
+                        </div>
                     </section>
 
                     <div class="button-group">
@@ -172,7 +169,6 @@
                 </main>
             </div>
 
-            <!-- Contrôles visuels -->
             <div id="step3" class="section">
                 <h3>Contrôles visuels</h3>
                 <div class="test-item">
@@ -224,10 +220,16 @@
                 </div>
             </div>
 
-            <!-- Contrôle des mesures -->
             <div id="step4" class="section">
                 <h3>Contrôle des mesures</h3>
                 <div class="test-item">
+                    <p>
+                        Si les tests précédents hors tension sont validés, vous pouvez désormais alimenter la carte via son
+                        port USB-C, puis compiler le programme de test et le téléverser sur la carte. Dans le cas contraire,
+                        indiquez 'NOK' pour les prochains tests et expliquez l'erreur dans l'espace dédié aux commentaires
+                        finaux.
+                    </p>
+
                     <label>Y a-t-il une tension présente sur les broches « GND » ?</label>
                     <div class="radio-group">
                         <label class="radio-label">
@@ -271,6 +273,8 @@
                     <p>
                         Pour tester le capteur de gaz MQ9, vérifiez la cohérence des valeurs affichées dans le moniteur
                         série. Dans un environnement normal, les valeurs varient généralement entre 1000 et 1500 ppm.
+                    </p>
+                    <p>
                         Tapez "MQ9" dans le moniteur série pour afficher les valeurs.
                     </p>
                     <div class="radio-group">
@@ -291,8 +295,11 @@
                     <label>Test du capteur de température et pression BMP280</label>
                     <p>
                         Pour tester le capteur BMP280, utilisez le moniteur série pour afficher les valeurs et vérifiez
-                        leur cohérence. Vous pouvez les comparer avec les données météorologiques locales en saisissant
-                        "BMP280" dans le moniteur série.
+                        leur cohérence. Vous pouvez les comparer avec les données météorologiques locales.
+
+                    </p>
+                    <p>
+                        Tapez "BMP280" dans le moniteur série pour afficher les valeurs.
                     </p>
                     <div class="radio-group">
                         <label class="radio-label">
@@ -312,8 +319,10 @@
                     <label>Test du capteur de luminosité BH1750</label>
                     <p>
                         Pour tester le capteur BH1750, vérifiez la cohérence des valeurs sur le moniteur série. Vous
-                        pouvez faire varier la luminosité avec une lampe ou un téléphone. Tapez "BH1750" dans le
-                        moniteur série pour afficher les valeurs.
+                        pouvez faire varier la luminosité avec une lampe ou un téléphone.
+                    </p>
+                    <p>
+                        Tapez "BH1750" dans le moniteur série pour afficher les valeurs.
                     </p>
                     <div class="radio-group">
                         <label class="radio-label">
@@ -343,7 +352,6 @@
                         sur les vis des borniers où sont placées les phases. Ensuite, répétez l’opération sur les vis
                         des borniers où sont placés les neutres.
                     </p>
-
                     <p>
                         Pour un relais simple, positionnez le voltmètre en mode testeur de continuité sur chaque vis du
                         relais afin de mesurer son activation.
@@ -467,7 +475,8 @@
                 <div class="test-item">
                     <label>Test de l'écran tactile</label>
                     <p>
-                        Pour tester l'écran tactile, utilisez le stylet fourni et saisissez "ECRAN" dans le moniteur série.
+                        Pour tester l'écran tactile, utilisez le stylet fourni et saisissez "ECRAN" dans le moniteur
+                        série.
                     </p>
 
                     <p>
@@ -557,9 +566,15 @@
                     <textarea name="comments6_2" rows="4" style="width: 100%;"
                         placeholder="Commentaires ..."></textarea>
                 </div>
+                <div class="test-completed-container">
+                    <input type="checkbox" id="testsCompleted" required>
+                    <label for="testsCompleted">
+                        Je certifie que tous les tests ont été correctement réalisés.
+                    </label>
+                </div>
                 <div class="button-group">
                     <button type="button" class="submit-btn" onclick="goToStep(7)">Précédent</button>
-                    <button type="button" id="exportPdf" class="submit-btn">Exporter en PDF</button>
+                    <button type="button" id="exportPdf" class="submit-btn" disabled>Exporter en PDF</button>
                 </div>
             </div>
 

@@ -403,6 +403,34 @@ input[type="checkbox"], input[type="radio"] {
     font-weight: 500;
 }
 
+.test-completed-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 1.5rem auto;
+    padding: 1rem;
+    background-color: rgba(0, 102, 204, 0.05);
+    border-radius: 12px;
+    border: 1px solid rgba(0, 102, 204, 0.2);
+}
+
+.test-completed-container input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin: 0;
+    cursor: pointer;
+}
+
+.test-completed-container label {
+    font-size: 0.95rem;
+    color: #1d1d1f;
+    cursor: pointer;
+    flex: 1;
+    text-align: left;
+    line-height: 1.4;
+    font-weight: 500;
+}
+
 .attention-panel {
     background-color: #ffcccc;
     border: 1px solid #ff0000;
