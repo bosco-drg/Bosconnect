@@ -12,6 +12,9 @@
     <title>Maintenance Bosconnect</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
     <link rel="stylesheet" href="maintenance.css">
     <script src="maintenance.js" defer></script>
 </head>
@@ -542,17 +545,22 @@
                             NOK
                         </label>
                     </div>
-                    <textarea name="comments6_1" rows="4" style="width: 100%;"
-                        placeholder="Commentaires ..."></textarea>
+                    <textarea name="comments6_1" rows="4" style="width: 100%;" placeholder="Commentaires ..."></textarea>
                 </div>
 
                 <div class="test-item">
                     <label>Test des données</label>
                     <p>
                         Si la carte a correctement été connectée au wifi, connectez-vous sur la page de contrôle
-                        Bosconnect. Appuyez sur les boutons suivants pour voir si les données sont correctement
-                        envoyées. Les données de température affichées dans la textbox sont-elles correctes ?
+                        Bosconnect. Appuyez sur les boutons suivants pour allumer ou éteindre un appareil et vérifier si les données du capteur sont correctement envoyées.
                     </p>
+                    <div class="sensor-control">
+                        <div class="button-group">
+                            <button type="button" class="submit-btn on-btn" onclick="turnOnDevice()">Allumer l'appareil</button>
+                            <button type="button" class="submit-btn off-btn" onclick="turnOffDevice()">Éteindre l'appareil</button>
+                        </div>
+                        <p id="sensorValueDisplay">Valeur actuelle du capteur : <span id="sensorValue">N/A</span></p>
+                    </div>
                     <div class="radio-group">
                         <label class="radio-label">
                             <input type="radio" name="test6_2" value="OK" required>
@@ -563,8 +571,7 @@
                             NOK
                         </label>
                     </div>
-                    <textarea name="comments6_2" rows="4" style="width: 100%;"
-                        placeholder="Commentaires ..."></textarea>
+                    <textarea name="comments6_2" rows="4" style="width: 100%;" placeholder="Commentaires ..."></textarea>
                 </div>
                 <div class="test-completed-container">
                     <input type="checkbox" id="testsCompleted" required>

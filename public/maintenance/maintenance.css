@@ -138,15 +138,16 @@ textarea {
     margin: 1rem auto;
     font-size: 1rem;
     min-width: 100px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .submit-btn:hover {
-    background-color: #0077ED;
-    transform: scale(1.01);
+    background-color: #005bb5;
+    transform: scale(1.05);
 }
 
 .submit-btn:active {
-    transform: scale(0.98);
+    transform: scale(0.95);
 }
 
 .test-item {
@@ -368,7 +369,7 @@ input[type="checkbox"], input[type="radio"] {
 
 .button-group {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     margin-top: 1rem;
 }
 
@@ -439,6 +440,45 @@ input[type="checkbox"], input[type="radio"] {
     border-radius: 12px;
     margin: 1.5rem 0;
     font-weight: bold;
+    text-align: center;
+}
+
+#sensorValueDisplay {
+    font-size: 1.2rem;
+    font-weight: 600;
+    text-align: center;
+    margin-top: 1rem;
+}
+
+#sensorValue {
+    color: #0071e3;
+}
+
+.on-btn {
+    background: #28a745;
+    color: white;
+}
+
+.on-btn:hover {
+    background-color: #218838;
+}
+
+.off-btn {
+    background: #dc3545;
+    color: white;
+}
+
+.off-btn:hover {
+    background-color: #c82333;
+}
+
+.sensor-control {
+    border: 1px solid #d2d2d7;
+    border-radius: 12px;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 1rem 0;
     text-align: center;
 }
 
