@@ -26,7 +26,7 @@
     <div class="content-wrapper">
         <form id="interventionForm" class="main-container">
 
-            <div id="step1" class="section">
+            <div id="step1" class="section  visible">
                 <h1>Informations du technicien</h1>
                 <div class="form-group">
                     <label for="interventionName">Nom intervenant:</label>
@@ -64,7 +64,8 @@
                             paramètres environnementaux tels que la <span class="highlight">température</span>, l'<span
                                 class="highlight">humidité</span>, la <span class="highlight">pression</span> et les
                             <span class="highlight">gaz</span>. De plus, elle intègre des relais pour gérer des
-                            appareils à haute puissance, avec deux relais doubles, un variateur et un relais simple, ce
+                            appareils de plus haute puissance, avec deux relais doubles, un variateur et un relais
+                            simple, ce
                             dernier étant associé au système de contrôle d'accès par RFID.
                         </p>
                         <p>
@@ -103,23 +104,31 @@
                         </table>
                     </section>
 
+                    <section class="warning-section">
+                        <h2>Attention</h2>
+                        <div class="attention-panel">
+                            <p>
+                                La carte ne doit être alimentée que si cela est correctement demandé. Pour les premiers tests, la carte n'est pas alimentée.
+                            </p>
+                        </div>
+                    </section>
+
                     <section class="instructions">
                         <h2>Procédure de test</h2>
                         <p>
                             Pour certains tests, vous devrez compiler le programme et le télécharger via le port USB-C
-                            "CH340C". Une fois le programme chargé, entrez un numéro précis dans le moniteur série pour
-                            valider les résultats et vérifier le bon fonctionnement du système.
+                            "CH340C" de la carte. Une fois le programme chargé, certains tests vous demanderont de taper
+                            un code précis en majuscule dans le moniteur série.
                         </p>
                         <p>
-                            Il est essentiel de commenter vos résultats dans chaque étape du test. La fiche
+                            Il est essentiel de commenter vos résultats à chaque étape du test. La fiche
                             d'intervention doit être détaillée, claire et compréhensible, afin de pouvoir facilement
-                            identifier les éventuelles anomalies ou problèmes. Veuillez vous assurer que chaque
-                            observation soit bien décrite.
+                            identifier les éventuelles anomalies ou problèmes. Une fiche d'intervention est correcte seulement si chaque espace commentaire est correctement rempli.
                         </p>
-                    </section>
 
-                    <section>
-                        <h2>Fichiers et documents</h2>
+                        <p>
+                            Il faut que chaque test soit réalisé dans l'ordre indiqué. Si un test ne peut pas être
+                            réalisé, ne poursuivez que si cela ne représente pas un danger.
                         <p>
                             Dans le fichier compressé fourni ci-dessous, vous trouverez :
                         </p>
@@ -149,8 +158,10 @@
                     <section>
                         <h2>Finalisation des tests</h2>
                         <p>
-                            Une fois tous les tests terminés et après avoir vérifié que <strong>aucune anomalie</strong>
-                            n’est détectée, vous pouvez procéder à la compilation du programme final de fonctionnement.
+                            Si <strong>aucune anomalie</strong>
+                            n’est détectée, vous pouvez recompiler le programme utilisateur.
+                            Dans le cas contraire, arrêtez les tests et contactez le service de réparation
+                            (service.reparation@bosconnect.fr).
                         </p>
                     </section>
 
@@ -165,10 +176,10 @@
             <div id="step3" class="section">
                 <h3>Contrôles visuels</h3>
                 <div class="test-item">
-                    <label>Absence de dégradation mécanique</label>
+                    <label>La carte est-elle exempte de dégradations ?</label>
                     <div class="radio-group">
                         <label class="radio-label">
-                            <input type="radio" name="test1_1" value="OK">
+                            <input type="radio" name="test1_1" value="OK" required>
                             OK
                         </label>
                         <label class="radio-label">
@@ -179,10 +190,11 @@
                     <textarea name="comments1_1" rows="4" placeholder="Commentaires ..."></textarea>
                 </div>
                 <div class="test-item">
-                    <label>Présence de tous les composants prévus</label>
+                    <label>Tous les composants prévus sont-ils présents et correctement soudés, conformément au schéma
+                        de la carte ?</label>
                     <div class="radio-group">
                         <label class="radio-label">
-                            <input type="radio" name="test1_2" value="OK">
+                            <input type="radio" name="test1_2" value="OK" required>
                             OK
                         </label>
                         <label class="radio-label">
@@ -191,6 +203,20 @@
                         </label>
                     </div>
                     <textarea name="comments1_2" rows="4" placeholder="Commentaires ..."></textarea>
+                </div>
+                <div class="test-item">
+                    <label>Les bords sont-ils correctement usinés et les perçages conformes ?</label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="test1_3" value="OK" required>
+                            OK
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="test1_3" value="NOK">
+                            NOK
+                        </label>
+                    </div>
+                    <textarea name="comments1_3" rows="4" placeholder="Commentaires ..."></textarea>
                 </div>
                 <div class="button-group">
                     <button type="button" class="submit-btn" onclick="goToStep(2)">Précédent</button>
@@ -202,10 +228,10 @@
             <div id="step4" class="section">
                 <h3>Contrôle des mesures</h3>
                 <div class="test-item">
-                    <label>Vérification d'absence de tension sur les broches « GND »</label>
+                    <label>Y a-t-il une tension présente sur les broches « GND » ?</label>
                     <div class="radio-group">
                         <label class="radio-label">
-                            <input type="radio" name="test2_1" value="OK">
+                            <input type="radio" name="test2_1" value="OK" required>
                             OK
                         </label>
                         <label class="radio-label">
@@ -216,25 +242,40 @@
                     <textarea name="comments2_1" rows="4" style="width: 100%;"
                         placeholder="Commentaires ..."></textarea>
                 </div>
+                <div class="test-item">
+                    <label>Les témoins lumineux du lecteur RFID, de l'ESP32 et du rétroéclairage de l'écran sont-ils
+                        opérationnels et allumés ?</label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="test2_2" value="OK" required>
+                            OK
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="test2_2" value="NOK">
+                            NOK
+                        </label>
+                    </div>
+                    <textarea name="comments2_2" rows="4" style="width: 100%;"
+                        placeholder="Commentaires ..."></textarea>
+                </div>
                 <div class="button-group">
                     <button type="button" class="submit-btn" onclick="goToStep(3)">Précédent</button>
                     <button type="button" class="submit-btn" onclick="goToStep(5)">Suivant</button>
                 </div>
             </div>
 
-            <div id="step5" class="section visible">
+            <div id="step5" class="section">
                 <h3>Contrôle des capteurs</h3>
                 <div class="test-item">
                     <label>Test du capteur de gaz MQ9</label>
                     <p>
-                        Pour tester le capteur de gaz MQ9, vérifiez la cohérence des valeurs sur l'écran tactile. Les
-                        valeurs dans un environnement normal varient généralement entre 1000 et 1500 ppm. Si l'écran
-                        tactile n'est pas disponible, vous pouvez utiliser le moniteur série pour afficher les valeurs
-                        en tapant "MQ9" dans le moniteur série.
+                        Pour tester le capteur de gaz MQ9, vérifiez la cohérence des valeurs affichées dans le moniteur
+                        série. Dans un environnement normal, les valeurs varient généralement entre 1000 et 1500 ppm.
+                        Tapez "MQ9" dans le moniteur série pour afficher les valeurs.
                     </p>
                     <div class="radio-group">
                         <label class="radio-label">
-                            <input type="radio" name="test3_1" value="OK">
+                            <input type="radio" name="test3_1" value="OK" required>
                             OK
                         </label>
                         <label class="radio-label">
@@ -249,14 +290,13 @@
                 <div class="test-item">
                     <label>Test du capteur de température et pression BMP280</label>
                     <p>
-                        Pour tester le capteur BMP280, vérifiez la cohérence des valeurs sur l'écran tactile. Vous
-                        pouvez comparer les valeurs obtenues avec celles de la météo locale. Si l'écran tactile n'est
-                        pas disponible, vous pouvez utiliser le moniteur série pour afficher les valeurs en tapant
+                        Pour tester le capteur BMP280, utilisez le moniteur série pour afficher les valeurs et vérifiez
+                        leur cohérence. Vous pouvez les comparer avec les données météorologiques locales en saisissant
                         "BMP280" dans le moniteur série.
                     </p>
                     <div class="radio-group">
                         <label class="radio-label">
-                            <input type="radio" name="test3_2" value="OK">
+                            <input type="radio" name="test3_2" value="OK" required>
                             OK
                         </label>
                         <label class="radio-label">
@@ -271,14 +311,13 @@
                 <div class="test-item">
                     <label>Test du capteur de luminosité BH1750</label>
                     <p>
-                        Pour tester le capteur BH1750, vérifiez la cohérence des valeurs sur l'écran tactile. Vous
-                        pouvez faire varier la luminosité avec une lampe ou un téléphone. Si l'écran tactile n'est pas
-                        disponible, vous pouvez utiliser le moniteur série pour afficher les valeurs en tapant "BH1750"
-                        dans le moniteur série.
+                        Pour tester le capteur BH1750, vérifiez la cohérence des valeurs sur le moniteur série. Vous
+                        pouvez faire varier la luminosité avec une lampe ou un téléphone. Tapez "BH1750" dans le
+                        moniteur série pour afficher les valeurs.
                     </p>
                     <div class="radio-group">
                         <label class="radio-label">
-                            <input type="radio" name="test3_3" value="OK">
+                            <input type="radio" name="test3_3" value="OK" required>
                             OK
                         </label>
                         <label class="radio-label">
@@ -319,13 +358,13 @@
                     <label>Test du relais double appareil 1</label>
                     <p>
                         Pour tester le relais double de l'appareil 1, saisissez "RELAIS_1" dans le moniteur série.
-                        Ensuite,mesurez la continuité entre les bornier a vise : PHASE_AP1 et
+                        Ensuite, mesurez la continuité entre les bornes à vis : PHASE_AP1 et
                         NEUTRE_AP1.
                     </p>
 
                     <div class="radio-group">
                         <label class="radio-label">
-                            <input type="radio" name="test4_1" value="OK">
+                            <input type="radio" name="test4_1" value="OK" required>
                             OK
                         </label>
                         <label class="radio-label">
@@ -341,13 +380,13 @@
                     <label>Test du relais double appareil 2</label>
                     <p>
                         Pour tester le relais double de l'appareil 2, saisissez "RELAIS_2" dans le moniteur série.
-                        Ensuite, mesurer la continuité sur les bornier a vis : PHASE_AP2 et
+                        Ensuite, mesurez la continuité sur les bornes à vis : PHASE_AP2 et
                         NEUTRE_AP2.
                     </p>
 
                     <div class="radio-group">
                         <label class="radio-label">
-                            <input type="radio" name="test4_2" value="OK">
+                            <input type="radio" name="test4_2" value="OK" required>
                             OK
                         </label>
                         <label class="radio-label">
@@ -367,7 +406,7 @@
 
                     <div class="radio-group">
                         <label class="radio-label">
-                            <input type="radio" name="test4_3" value="OK">
+                            <input type="radio" name="test4_3" value="OK" required>
                             OK
                         </label>
                         <label class="radio-label">
@@ -393,7 +432,8 @@
                     </p>
 
                     <p>
-                        Lancez ensuite le programme en utilisant la commande 4 sur le terminal série. Vous devriez
+                        Lancez ensuite le programme en utilisant la commande "VARIATEUR" sur le terminal série. Vous
+                        devriez
                         constater
                         que l’onde sinusoïdale de sortie est modulée en fonction des paramètres du variateur, ce qui
                         reflète
@@ -404,7 +444,7 @@
 
                     <div class="radio-group">
                         <label class="radio-label">
-                            <input type="radio" name="test4_4" value="OK">
+                            <input type="radio" name="test4_4" value="OK" required>
                             OK
                         </label>
                         <label class="radio-label">
@@ -417,9 +457,112 @@
                 </div>
                 <div class="button-group">
                     <button type="button" class="submit-btn" onclick="goToStep(5)">Précédent</button>
+                    <button type="button" class="submit-btn" onclick="goToStep(7)">Suivant</button>
+                </div>
+            </div>
+
+
+            <div id="step7" class="section">
+                <h3>Contrôle des indicateurs</h3>
+                <div class="test-item">
+                    <label>Test de l'écran tactile</label>
+                    <p>
+                        Pour tester l'écran tactile, utilisez le stylet fourni et saisissez "ECRAN" dans le moniteur série.
+                    </p>
+
+                    <p>
+                        Suivez ensuite les indications de calibrage affichées à l'écran. Vérifiez si tous les endroits
+                        de l'écran répondent correctement, ainsi que l'absence de couleurs ou de pixels manquants.
+                    </p>
+
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="test5_1" value="OK" required>
+                            OK
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="test5_1" value="NOK">
+                            NOK
+                        </label>
+                    </div>
+                    <textarea name="comments5_1" rows="4" style="width: 100%;"
+                        placeholder="Commentaires ..."></textarea>
+                </div>
+
+                <div class="test-item">
+                    <label>Test de la LED RGB</label>
+                    <p>
+                        Pour tester la LED RGB, saisissez "RGB" dans le moniteur série. Vérifiez si la LED change
+                        correctement de couleur toutes les secondes.
+                    </p>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="test5_2" value="OK" required>
+                            OK
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="test5_2" value="NOK">
+                            NOK
+                        </label>
+                    </div>
+                    <textarea name="comments5_2" rows="4" style="width: 100%;"
+                        placeholder="Commentaires ..."></textarea>
+                </div>
+                <div class="button-group">
+                    <button type="button" class="submit-btn" onclick="goToStep(6)">Précédent</button>
+                    <button type="button" class="submit-btn" onclick="goToStep(8)">Suivant</button>
+                </div>
+            </div>
+
+            <div id="step8" class="section">
+                <h3>Contrôle de la connectivité</h3>
+                <div class="test-item">
+                    <label>Test de la connectivité Wifi</label>
+                    <p>
+                        Dans le code C++ fourni, modifiez le SSID du wifi et le mot de passe, puis téléversez le code.
+                        Dans le moniteur série, saisissez "WIFI" pour vérifier la connexion. Suivez les étapes sur le
+                        moniteur série pour vérifier la connexion. La connexion est-elle bien établie ?
+                    </p>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="test6_1" value="OK" required>
+                            OK
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="test6_1" value="NOK">
+                            NOK
+                        </label>
+                    </div>
+                    <textarea name="comments6_1" rows="4" style="width: 100%;"
+                        placeholder="Commentaires ..."></textarea>
+                </div>
+
+                <div class="test-item">
+                    <label>Test des données</label>
+                    <p>
+                        Si la carte a correctement été connectée au wifi, connectez-vous sur la page de contrôle
+                        Bosconnect. Appuyez sur les boutons suivants pour voir si les données sont correctement
+                        envoyées. Les données de température affichées dans la textbox sont-elles correctes ?
+                    </p>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="test6_2" value="OK" required>
+                            OK
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="test6_2" value="NOK">
+                            NOK
+                        </label>
+                    </div>
+                    <textarea name="comments6_2" rows="4" style="width: 100%;"
+                        placeholder="Commentaires ..."></textarea>
+                </div>
+                <div class="button-group">
+                    <button type="button" class="submit-btn" onclick="goToStep(7)">Précédent</button>
                     <button type="button" id="exportPdf" class="submit-btn">Exporter en PDF</button>
                 </div>
             </div>
+
         </form>
     </div>
 

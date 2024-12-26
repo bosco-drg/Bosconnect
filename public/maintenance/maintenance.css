@@ -403,6 +403,17 @@ input[type="checkbox"], input[type="radio"] {
     font-weight: 500;
 }
 
+.attention-panel {
+    background-color: #ffcccc;
+    border: 1px solid #ff0000;
+    color: #ff0000;
+    padding: 1rem;
+    border-radius: 12px;
+    margin: 1.5rem 0;
+    font-weight: bold;
+    text-align: center;
+}
+
 @media screen and (max-width: 768px) {
     body {
         font-size: 14px;
