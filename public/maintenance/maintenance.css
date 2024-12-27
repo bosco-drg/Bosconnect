@@ -311,33 +311,6 @@ textarea {
     font-weight: normal;
     cursor: pointer;
     user-select: none;
-    padding: 0.5rem 1rem;
-    border: 1px solid #d2d2d7;
-    border-radius: 12px;
-    background: rgba(255, 255, 255, 0.8);
-    transition: background-color 0.3s ease, border-color 0.3s ease;
-}
-
-.radio-label:hover {
-    background-color: #f1f1f1;
-    border-color: #0066CC;
-}
-
-.radio-label input[type="radio"] {
-    display: none;
-}
-
-.radio-label input[type="radio"]:checked + span {
-    background-color: #0071e3;
-    color: white;
-    border-color: #0071e3;
-}
-
-.radio-label span {
-    display: inline-block;
-    padding: 0.5rem 1rem;
-    border-radius: 12px;
-    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 section {
