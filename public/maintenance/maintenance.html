@@ -47,6 +47,19 @@
                     <label for="interventionDate">Date:</label>
                     <input type="date" id="interventionDate" name="interventionDate" required>
                 </div>
+                <div class="form-group">
+                    <label>Type de test:</label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="testType" value="Test de routine" required>
+                            <span>Test de routine</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="testType" value="Test à la suite d’un problème signalé">
+                            <span>Test à la suite d’un problème signalé</span>
+                        </label>
+                    </div>
+                </div>
                 <div class="certification-container">
                     <div class="checkbox-wrapper">
                         <label for="technicianCheck">
@@ -145,7 +158,7 @@
                                 </tr>
                             </tbody>
                         </table>
-                        
+
                         <div class="download-container">
                             <button type="button" class="submit-btn download-btn" onclick="downloadFiles()">
                                 Télécharger les fichiers (.zip)
@@ -561,16 +574,17 @@
                 <div class="test-item">
                     <label>Test des données</label>
                     <p>
-                        Si la carte est correctement connectée au Wi-Fi, vous pouvez contrôler la LED ESP32 et lire les
-                        données du capteur de luminosité à partir de la page de contrôle ci-dessous. Utilisez les
-                        boutons pour allumer ou éteindre un appareil. Les données sont-elles transmises correctement ?
+                        Si la carte est correctement connectée au Wi-Fi, après avoir saisi "FIREBASE" dans le terminal
+                        série, vous pourrez contrôler la LED de l'ESP32 et lire les données du capteur de luminosité
+                        depuis la page de contrôle ci-dessous. Les données sont-elles transmises correctement ?
                     </p>
                     <div class="sensor-control">
                         <div class="button-group">
                             <button type="button" class="submit-btn on-btn" onclick="turnOnDevice()">ON</button>
                             <button type="button" class="submit-btn off-btn" onclick="turnOffDevice()">OFF</button>
                         </div>
-                        <p id="sensorValueDisplay">Valeur actuelle du capteur : <span id="sensorValue">N/A</span> Lux</p>
+                        <p id="sensorValueDisplay">Valeur actuelle du capteur : <span id="sensorValue">N/A</span> Lux
+                        </p>
                     </div>
                     <div class="radio-group">
                         <label class="radio-label">

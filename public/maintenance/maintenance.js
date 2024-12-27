@@ -14,20 +14,15 @@ const password = "maintenance2024!?";
 firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
 
-
-
-// Modifie la fonction d'authentification pour inclure un feedback visuel
 function authenticateUser(callback) {
     firebase.auth().signInWithEmailAndPassword(email, password)
         .then(userCredential => {
             const uid = userCredential.user.uid;
-            // Ajoute une classe pour indiquer la connexion réussie
             document.body.classList.add('authenticated');
             callback(uid);
         })
         .catch(error => {
             console.error("Erreur d'authentification:", error);
-            // Affiche une alerte en cas d'erreur
             alert("Erreur d'authentification. Veuillez réessayer.");
         });
 }
@@ -56,6 +51,7 @@ document.getElementById('exportPdf').addEventListener('click', () => {
     const interventionName = formData.get('interventionName') || "N/A";
     const interventionNumber = formData.get('interventionNumber') || "N/A";
     const interventionDate = formData.get('interventionDate') || "N/A";
+    const testType = formData.get('testType') || "N/A";
 
     doc.setFontSize(16);
     doc.text("Fiche de suivi Assistant domotique Bosconnect", doc.internal.pageSize.getWidth() / 2, 20, { align: 'center' });
@@ -63,13 +59,13 @@ document.getElementById('exportPdf').addEventListener('click', () => {
 
     doc.autoTable({
         startY: 40,
-        head: [["N° d'intervention", "Date", "Nom intervenant"]],
+        head: [["N° d'intervention", "Date", "Nom intervenant", "Type de test"]],
         body: [
-            [interventionNumber, interventionDate, interventionName]
+            [interventionNumber, interventionDate, interventionName, testType]
         ],
         theme: 'grid',
         styles: { halign: 'center', fillColor: [0, 0, 0], textColor: [255, 255, 255] },
-        headStyles: { fillColor: [0, 0, 0], textColor: [255, 255, 255] },
+        headStyles: { fillColor: [0, 113, 227], textColor: [255, 255, 255] },
         bodyStyles: { fillColor: [255, 255, 255], textColor: [0, 0, 0] }
     });
 
@@ -88,7 +84,7 @@ document.getElementById('exportPdf').addEventListener('click', () => {
         ],
         theme: 'grid',
         styles: { halign: 'center', fillColor: [0, 0, 0], textColor: [255, 255, 255] },
-        headStyles: { fillColor: [0, 0, 0], textColor: [255, 255, 255] },
+        headStyles: { fillColor: [0, 113, 227], textColor: [255, 255, 255] },
         bodyStyles: { fillColor: [255, 255, 255], textColor: [0, 0, 0] }
     });
 
@@ -113,7 +109,7 @@ document.getElementById('exportPdf').addEventListener('click', () => {
             fillColor: [0, 0, 0],
             textColor: [255, 255, 255]
         },
-        headStyles: { fillColor: [0, 0, 0], textColor: [255, 255, 255] },
+        headStyles: { fillColor: [0, 113, 227], textColor: [255, 255, 255] },
         bodyStyles: { fillColor: [255, 255, 255], textColor: [0, 0, 0] },
         columnStyles: {
             0: { cellWidth: 20 },
@@ -178,17 +174,11 @@ function updateSensorValue() {
 
 updateSensorValue();
 
-// Ajouter cette fonction pour le téléchargement du fichier zip
 function downloadFiles() {
-    // URL du fichier zip (à remplacer par l'URL réelle de votre fichier)
     const zipUrl = '../assets/bosconnect_test_files.zip';
-    
-    // Créer un élément <a> temporaire
     const link = document.createElement('a');
     link.href = zipUrl;
     link.download = 'bosconnect_test_files.zip';
-    
-    // Ajouter l'élément au DOM, cliquer dessus, puis le supprimer
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
