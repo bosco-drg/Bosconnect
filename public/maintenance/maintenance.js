@@ -50,23 +50,29 @@ document.getElementById('exportPdf').addEventListener('click', () => {
 
     const interventionName = formData.get('interventionName') || "N/A";
     const interventionNumber = formData.get('interventionNumber') || "N/A";
+    const bosconnectNumber = formData.get('bosconnectNumber') || "N/A"; // Ajout du numéro de carte Bosconnect
     const interventionDate = formData.get('interventionDate') || "N/A";
     const testType = formData.get('testType') || "N/A";
 
     doc.setFontSize(16);
+    doc.setTextColor(40, 40, 40);
     doc.text("Fiche de suivi Assistant domotique Bosconnect", doc.internal.pageSize.getWidth() / 2, 20, { align: 'center' });
     doc.setFontSize(12);
 
     doc.autoTable({
         startY: 40,
-        head: [["N° d'intervention", "Date", "Nom intervenant", "Type de test"]],
+        head: [["Informations du technicien"]],
         body: [
-            [interventionNumber, interventionDate, interventionName, testType]
+            [`N° d'intervention: ${interventionNumber}`],
+            [`Date: ${interventionDate}`],
+            [`Nom intervenant: ${interventionName}`],
+            [`N° de carte Bosconnect: ${bosconnectNumber}`],
+            [`Type de test: ${testType}`]
         ],
-        theme: 'grid',
-        styles: { halign: 'center', fillColor: [0, 0, 0], textColor: [255, 255, 255] },
-        headStyles: { fillColor: [0, 113, 227], textColor: [255, 255, 255] },
-        bodyStyles: { fillColor: [255, 255, 255], textColor: [0, 0, 0] }
+        theme: 'plain',
+        styles: { halign: 'left', fillColor: [255, 255, 255], textColor: [40, 40, 40] },
+        headStyles: { fillColor: [0, 113, 227], textColor: [255, 255, 255], fontSize: 14, fontStyle: 'bold' },
+        bodyStyles: { fillColor: [255, 255, 255], textColor: [40, 40, 40], fontSize: 12 }
     });
 
     // Ajout de la liste des outils
@@ -83,9 +89,9 @@ document.getElementById('exportPdf').addEventListener('click', () => {
             ["Capteur de gaz", ""]
         ],
         theme: 'grid',
-        styles: { halign: 'center', fillColor: [0, 0, 0], textColor: [255, 255, 255] },
+        styles: { halign: 'center', fillColor: [255, 255, 255], textColor: [40, 40, 40] },
         headStyles: { fillColor: [0, 113, 227], textColor: [255, 255, 255] },
-        bodyStyles: { fillColor: [255, 255, 255], textColor: [0, 0, 0] }
+        bodyStyles: { fillColor: [245, 245, 245], textColor: [40, 40, 40] }
     });
 
     const tableData = [["Test N°", "Description", "Résultat", "Commentaires"]];
@@ -106,11 +112,11 @@ document.getElementById('exportPdf').addEventListener('click', () => {
         styles: {
             fontSize: 10,
             halign: 'center',
-            fillColor: [0, 0, 0],
-            textColor: [255, 255, 255]
+            fillColor: [255, 255, 255],
+            textColor: [40, 40, 40]
         },
         headStyles: { fillColor: [0, 113, 227], textColor: [255, 255, 255] },
-        bodyStyles: { fillColor: [255, 255, 255], textColor: [0, 0, 0] },
+        bodyStyles: { fillColor: [245, 245, 245], textColor: [40, 40, 40] },
         columnStyles: {
             0: { cellWidth: 20 },
             1: { cellWidth: 70 },
