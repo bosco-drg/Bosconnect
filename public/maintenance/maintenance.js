@@ -81,7 +81,6 @@ document.getElementById('exportPdf').addEventListener('click', () => {
 
     let testIndex = 1;
     document.querySelectorAll('.test-item').forEach((testItem) => {
-        // Vérifie si cet élément n'est pas la section des commentaires finaux
         if (!testItem.querySelector('#finalComments')) {
             const labelElement = testItem.querySelector('label');
             const description = labelElement ? labelElement.textContent.trim() : `Test ${testIndex}`;

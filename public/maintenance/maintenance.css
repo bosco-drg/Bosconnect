@@ -439,27 +439,27 @@ input[type="checkbox"], input[type="radio"] {
 .sensor-control {
     border: 1px solid #d2d2d7;
     border-radius: 12px;
-    padding: 0.8rem;  /* Réduit le padding */
+    padding: 0.8rem;
     background: rgba(255, 255, 255, 0.8);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     margin: 1rem 0;
     text-align: center;
-    max-width: 400px;  /* Limite la largeur maximale */
+    max-width: 400px;
     margin-left: auto;
     margin-right: auto;
 }
 
 .sensor-control .button-group {
     display: flex;
-    justify-content: center;  /* Centre les boutons */
-    gap: 10px;  /* Réduit l'espace entre les boutons */
+    justify-content: center;
+    gap: 10px;
     margin-top: 0.5rem;
 }
 
 .sensor-control .submit-btn {
-    padding: 0.5rem 1rem;  /* Réduit le padding des boutons */
-    min-width: 80px;  /* Réduit la largeur minimum */
-    margin: 0;  /* Supprime les marges */
+    padding: 0.5rem 1rem;
+    min-width: 80px;
+    margin: 0;
 }
 
 .download-container {
