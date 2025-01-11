@@ -100,21 +100,24 @@
                             <thead>
                                 <tr>
                                     <th>Outils nécessaires</th>
-                                    <th>Bibliothèques nécessaires</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>Alimentation 12V DC / 1A</td>
-                                    <td>rfid-master</td>
+                                    <td>Chargeur 5V USB-C</td>
                                 </tr>
                                 <tr>
                                     <td>Multimètre (voltmètre, ampèremètre, ohmmètre)</td>
-                                    <td>TFT_eSPI-master</td>
                                 </tr>
                                 <tr>
                                     <td>Oscilloscope numérique 2 voies</td>
-                                    <td>BH1750-1.3.0</td>
+                                </tr>
+                                <tr>
+                                    <td>Testeur de continuité</td>
+                                </tr>
+                                <tr>
+                                    <td>Ordinateur avec un logiciel de communication série tel que VSCode ou Arduino IDE
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -151,9 +154,6 @@
                                     <td>Le programme utilisateur</td>
                                 </tr>
                                 <tr>
-                                    <td>Une fiche d'intervention vierge</td>
-                                </tr>
-                                <tr>
                                     <td>La schématique de la carte Bosconnect</td>
                                 </tr>
                             </tbody>
@@ -164,6 +164,23 @@
                                 Télécharger les fichiers (.zip)
                             </button>
                         </div>
+
+                        <p>
+                            Un espace de modification est prévu en tête du programme pour adapter vos tests selon vos
+                            besoins. Veuillez ne pas modifier le reste du programme.
+                        </p>
+
+                        <section class="warning-section">
+                            <div class="attention-panel">
+                                <p>
+                                    Les tests suivants sont généraux et ne peuvent pas couvrir toutes les erreurs
+                                    possibles. Les espaces de commentaires sont là pour cela. N'hésitez pas à les
+                                    détailler pour aider
+                                    le service de réparation ou d'innovation de l'entreprise.
+                                </p>
+                            </div>
+                        </section>
+
                     </section>
 
                     <section>
@@ -194,7 +211,10 @@
             <div id="step3" class="section">
                 <h3>Contrôles visuels</h3>
                 <div class="test-item">
-                    <label>La carte est-elle exempte de dégradations ?</label>
+                    <label>Inspection de l'état général</label>
+                    <p>La carte est-elle exempte de dégradations visibles, telles que des rayures, des fissures ou des
+                        traces d'usure ? Le vernis de protection est-il intact et uniforme sur toute la surface de la
+                        carte ?</p>
                     <div class="radio-group">
                         <label class="radio-label">
                             <input type="radio" name="test1_1" value="OK" required>
@@ -208,8 +228,10 @@
                     <textarea name="comments1_1" rows="4" placeholder="Commentaires ..."></textarea>
                 </div>
                 <div class="test-item">
-                    <label>Tous les composants prévus sont-ils présents et correctement soudés, conformément au schéma
-                        de la carte ?</label>
+                    <label>Vérification des composants</label>
+                    <p>Tous les composants prévus sont-ils présents et correctement soudés, conformément au schéma de la
+                        carte ? Assurez-vous que chaque composant est bien en place, sans soudures froides ou ponts de
+                        soudure, et que les connexions sont solides et fiables.</p>
                     <div class="radio-group">
                         <label class="radio-label">
                             <input type="radio" name="test1_2" value="OK" required>
@@ -223,7 +245,9 @@
                     <textarea name="comments1_2" rows="4" placeholder="Commentaires ..."></textarea>
                 </div>
                 <div class="test-item">
-                    <label>Les bords sont-ils correctement usinés et les perçages conformes ?</label>
+                    <label>Qualité de fabrication</label>
+                    <p>Vérifiez que les bords de la carte sont bien usinés, sans bavures ni irrégularités, et que les
+                        perçages sont conformes aux spécifications.</p>
                     <div class="radio-group">
                         <label class="radio-label">
                             <input type="radio" name="test1_3" value="OK" required>
@@ -245,17 +269,14 @@
             <div id="step4" class="section">
                 <h3>Contrôle des mesures</h3>
                 <div class="test-item">
-                    <p>
-                        Si les tests précédents hors tension sont validés, vous pouvez désormais alimenter la carte via
-                        son
-                        port USB-C, puis compiler le programme de test et le téléverser sur la carte. Dans le cas
-                        contraire,
-                        indiquez 'NOK' pour les prochains tests et expliquez l'erreur dans l'espace dédié aux
-                        commentaires
-                        finaux.
-                    </p>
+                    <label>Mesures des tensions d'alimentation</label>
+                    <p>- Mesurez la tension sur les broches « GND » et assurez-vous qui y'en a pas</p>
+                    <p>- Mesurez la tension sur les broches d'entrée des capteurs de pression, température,
+                        luminosité, de l'écran TFT et du lecteur RFID alimentées en 3.3V.</p>
+                    <p>- Mesurez la tension sur la broche du capteur de gaz MQ9 alimentées en 5V.</p>
 
-                    <label>Y a-t-il une tension présente sur les broches « GND » ?</label>
+                    <p>Utilisez un multimètre en mode voltmètre pour vérifier que chaque mesure est correcte.
+                        Référez-vous au schéma structurel pour identifier les broches correspondantes.</p>
                     <div class="radio-group">
                         <label class="radio-label">
                             <input type="radio" name="test2_1" value="OK" required>
@@ -270,8 +291,9 @@
                         placeholder="Commentaires ..."></textarea>
                 </div>
                 <div class="test-item">
-                    <label>Les témoins lumineux du lecteur RFID, de l'ESP32 et du rétroéclairage de l'écran sont-ils
-                        opérationnels et allumés ?</label>
+                    <label>Vérification des indicateurs LED</label>
+                    <p>Les témoins lumineux du lecteur RFID, de l'ESP32 et du rétroéclairage de l'écran sont-ils
+                        opérationnels et allumés ?</p>
                     <div class="radio-group">
                         <label class="radio-label">
                             <input type="radio" name="test2_2" value="OK" required>
@@ -294,7 +316,7 @@
             <div id="step5" class="section">
                 <h3>Contrôle des capteurs</h3>
                 <div class="test-item">
-                    <label>Test du capteur de gaz MQ9</label>
+                    <label>Capteur MQ9 - Détection de gaz</label>
                     <p>
                         Pour tester le capteur de gaz MQ9, vérifiez la cohérence des valeurs affichées dans le moniteur
                         série. Dans un environnement normal, les valeurs varient généralement entre 1000 et 1500 ppm.
@@ -317,7 +339,7 @@
                 </div>
 
                 <div class="test-item">
-                    <label>Test du capteur de température et pression BMP280</label>
+                    <label>BMP280 - Température et pression</label>
                     <p>
                         Pour tester le capteur BMP280, utilisez le moniteur série pour afficher les valeurs et vérifiez
                         leur cohérence. Vous pouvez les comparer avec les données météorologiques locales.
@@ -341,7 +363,7 @@
                 </div>
 
                 <div class="test-item">
-                    <label>Test du capteur de luminosité BH1750</label>
+                    <label>BH1750 - Mesure de luminosité</label>
                     <p>
                         Pour tester le capteur BH1750, vérifiez la cohérence des valeurs sur le moniteur série. Vous
                         pouvez faire varier la luminosité avec une lampe ou un téléphone.
@@ -372,23 +394,7 @@
             <div id="step6" class="section">
                 <h3>Contrôle des actionneurs</h3>
                 <div class="test-item">
-                    <p>
-                        Pour tester un relais double, commencez par connecter le voltmètre en mode testeur de continuité
-                        sur les vis des borniers où sont placées les phases. Ensuite, répétez l’opération sur les vis
-                        des borniers où sont placés les neutres.
-                    </p>
-                    <p>
-                        Pour un relais simple, positionnez le voltmètre en mode testeur de continuité sur chaque vis du
-                        relais afin de mesurer son activation.
-                    </p>
-
-                    <p>
-                        Exécutez ensuite le programme en utilisant la commande appropriée sur le
-                        terminal série. Vérifiez que le relais s’active pendant 4 secondes et qu’il se referme
-                        correctement après cette période.
-                    </p>
-
-                    <label>Test du relais double appareil 1</label>
+                    <label>Test relais double n°1</label>
                     <p>
                         Pour tester le relais double de l'appareil 1, saisissez "RELAIS_1" dans le moniteur série.
                         Ensuite, mesurez la continuité entre les bornes à vis : PHASE_AP1 et
@@ -410,7 +416,7 @@
                 </div>
 
                 <div class="test-item">
-                    <label>Test du relais double appareil 2</label>
+                    <label>Test relais double n°2</label>
                     <p>
                         Pour tester le relais double de l'appareil 2, saisissez "RELAIS_2" dans le moniteur série.
                         Ensuite, mesurez la continuité sur les bornes à vis : PHASE_AP2 et
@@ -431,7 +437,7 @@
                         placeholder="Commentaires ..."></textarea>
                 </div>
                 <div class="test-item">
-                    <label>Test du relais simple</label>
+                    <label>Test relais RFID</label>
                     <p>
                         Pour tester le relais simple associé au fonctionnement du RFID, saisissez "RELAIS_RFID" dans le
                         moniteur série. Ensuite, mesurez la continuité sur le bornier RELAIS_RFID.
@@ -453,7 +459,7 @@
                 </div>
 
                 <div class="test-item">
-                    <label>Test du variateur</label>
+                    <label>Test variateur de puissance</label>
                     <p>
                         Pour réaliser ce test, commencez par connecter un GBF (Générateur de Basse Fréquence) à l’entrée
                         du
@@ -498,7 +504,7 @@
             <div id="step7" class="section">
                 <h3>Contrôle des indicateurs</h3>
                 <div class="test-item">
-                    <label>Test de l'écran tactile</label>
+                    <label>Test afficheur TFT tactile</label>
                     <p>
                         Pour tester l'écran tactile, utilisez le stylet fourni et saisissez "ECRAN" dans le moniteur
                         série.
@@ -524,7 +530,7 @@
                 </div>
 
                 <div class="test-item">
-                    <label>Test de la LED RGB</label>
+                    <label>Test indicateur RGB</label>
                     <p>
                         Pour tester la LED RGB, saisissez "RGB" dans le moniteur série. Vérifiez si la LED change
                         correctement de couleur toutes les secondes.
@@ -551,7 +557,7 @@
             <div id="step8" class="section">
                 <h3>Contrôle de la connectivité</h3>
                 <div class="test-item">
-                    <label>Test de la connectivité Wifi</label>
+                    <label>Test connexion réseau</label>
                     <p>
                         Dans le code C++ fourni, modifiez le SSID du wifi et le mot de passe, puis téléversez le code.
                         Dans le moniteur série, saisissez "WIFI" pour vérifier la connexion. Suivez les étapes sur le
@@ -572,7 +578,7 @@
                 </div>
 
                 <div class="test-item">
-                    <label>Test des données</label>
+                    <label>Test communication Firebase</label>
                     <p>
                         Si la carte est correctement connectée au Wi-Fi, après avoir saisi "FIREBASE" dans le terminal
                         série, vous pourrez contrôler la LED de l'ESP32 et lire les données du capteur de luminosité
@@ -599,6 +605,16 @@
                     <textarea name="comments6_2" rows="4" style="width: 100%;"
                         placeholder="Commentaires ..."></textarea>
                 </div>
+
+                <!-- Ajout de la nouvelle section de commentaires finale -->
+                <div class="test-item">
+                    <h4>Commentaires généraux de l'intervention</h4>
+                    <p>Utilisez cette zone pour ajouter des observations générales, des recommandations ou des notes
+                        importantes concernant l'intervention.</p>
+                    <textarea name="finalComments" id="finalComments" rows="6" style="width: 100%;"
+                        placeholder="Commentaires généraux sur l'intervention..."></textarea>
+                </div>
+
                 <div class="test-completed-container">
                     <input type="checkbox" id="testsCompleted" required>
                     <label for="testsCompleted">

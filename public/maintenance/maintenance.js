@@ -48,26 +48,28 @@ document.getElementById('exportPdf').addEventListener('click', () => {
     const form = document.getElementById('interventionForm');
     const formData = new FormData(form);
 
-    const interventionName = formData.get('interventionName') || "N/A";
-    const interventionNumber = formData.get('interventionNumber') || "N/A";
-    const bosconnectNumber = formData.get('bosconnectNumber') || "N/A"; // Ajout du numéro de carte Bosconnect
-    const interventionDate = formData.get('interventionDate') || "N/A";
-    const testType = formData.get('testType') || "N/A";
+    const interventionName = formData.get('interventionName') || "";
+    const interventionNumber = formData.get('interventionNumber') || "";
+    const bosconnectNumber = formData.get('bosconnectNumber') || "";
+    const interventionDate = formData.get('interventionDate') || "";
+    const testType = formData.get('testType') || "";
 
-    doc.setFontSize(16);
+    doc.setFontSize(20);
     doc.setTextColor(40, 40, 40);
-    doc.text("Fiche de suivi Assistant domotique Bosconnect", doc.internal.pageSize.getWidth() / 2, 20, { align: 'center' });
+    doc.setFont("helvetica", "bold");
+    doc.text("Fiche de Suivi Assistant Domotique Bosconnect", doc.internal.pageSize.getWidth() / 2, 20, { align: 'center' });
     doc.setFontSize(12);
+    doc.setFont("helvetica", "normal");
 
     doc.autoTable({
         startY: 40,
         head: [["Informations du technicien"]],
         body: [
-            [`N° d'intervention: ${interventionNumber}`],
-            [`Date: ${interventionDate}`],
-            [`Nom intervenant: ${interventionName}`],
-            [`N° de carte Bosconnect: ${bosconnectNumber}`],
-            [`Type de test: ${testType}`]
+            [{ content: `N° d'intervention: ${interventionNumber}`, styles: { fontStyle: 'bold' } }],
+            [{ content: `Date: ${interventionDate}`, styles: { fontStyle: 'bold' } }],
+            [{ content: `Nom intervenant: ${interventionName}`, styles: { fontStyle: 'bold' } }],
+            [{ content: `N° de carte Bosconnect: ${bosconnectNumber}`, styles: { fontStyle: 'bold' } }],
+            [{ content: `Type de test: ${testType}`, styles: { fontStyle: 'bold' } }]
         ],
         theme: 'plain',
         styles: { halign: 'left', fillColor: [255, 255, 255], textColor: [40, 40, 40] },
@@ -75,33 +77,22 @@ document.getElementById('exportPdf').addEventListener('click', () => {
         bodyStyles: { fillColor: [255, 255, 255], textColor: [40, 40, 40], fontSize: 12 }
     });
 
-    // Ajout de la liste des outils
-    doc.autoTable({
-        startY: doc.lastAutoTable.finalY + 20,
-        head: [["Outils nécessaires", "Bibliothèques nécessaires"]],
-        body: [
-            ["Alimentation 12V DC / 1A", "rfid-master"],
-            ["Multimètre (voltmètre, ampèremètre, ohmmètre", "TFT_eSPI-master"],
-            ["Oscilloscope numérique 2 voies", "BH1750-1.3.0"],
-            ["PC avec port USB", ""],
-            ["Environnement de développement Arduino", ""],
-            ["Capteur de pression", ""],
-            ["Capteur de gaz", ""]
-        ],
-        theme: 'grid',
-        styles: { halign: 'center', fillColor: [255, 255, 255], textColor: [40, 40, 40] },
-        headStyles: { fillColor: [0, 113, 227], textColor: [255, 255, 255] },
-        bodyStyles: { fillColor: [245, 245, 245], textColor: [40, 40, 40] }
-    });
-
     const tableData = [["Test N°", "Description", "Résultat", "Commentaires"]];
 
-    document.querySelectorAll('.test-item').forEach((testItem, index) => {
-        const description = testItem.querySelector('label').textContent.trim();
-        const result = testItem.querySelector('input[type="radio"]:checked')?.value || "Non renseigné";
-        const comments = testItem.querySelector('textarea')?.value.trim() || "Aucun commentaire";
+    let testIndex = 1;
+    document.querySelectorAll('.test-item').forEach((testItem) => {
+        // Vérifie si cet élément n'est pas la section des commentaires finaux
+        if (!testItem.querySelector('#finalComments')) {
+            const labelElement = testItem.querySelector('label');
+            const description = labelElement ? labelElement.textContent.trim() : `Test ${testIndex}`;
+            const radioChecked = testItem.querySelector('input[type="radio"]:checked');
+            const result = radioChecked ? radioChecked.value : " ";
+            const textArea = testItem.querySelector('textarea');
+            const comments = textArea ? textArea.value.trim() : "";
 
-        tableData.push([`Test ${index + 1}`, description, result, comments]);
+            tableData.push([`${testIndex}`, description, result, comments]);
+            testIndex++;
+        }
     });
 
     doc.autoTable({
@@ -122,6 +113,29 @@ document.getElementById('exportPdf').addEventListener('click', () => {
             1: { cellWidth: 70 },
             2: { cellWidth: 30 },
             3: { cellWidth: 70 },
+        }
+    });
+
+    const finalComments = document.getElementById('finalComments').value || "Aucun commentaire général";
+    
+    doc.autoTable({
+        startY: doc.lastAutoTable.finalY + 10,
+        head: [["Commentaires généraux de l'intervention"]],
+        body: [[finalComments]],
+        theme: 'grid',
+        styles: {
+            fontSize: 10,
+            halign: 'left',
+            fillColor: [255, 255, 255],
+            textColor: [40, 40, 40]
+        },
+        headStyles: { 
+            fillColor: [0, 113, 227], 
+            textColor: [255, 255, 255],
+            halign: 'center'
+        },
+        columnStyles: {
+            0: { cellWidth: 190 }
         }
     });
 
@@ -187,5 +201,6 @@ function downloadFiles() {
     link.download = 'bosconnect_test_files.zip';
     document.body.appendChild(link);
     link.click();
+
     document.body.removeChild(link);
 }
