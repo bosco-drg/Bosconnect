@@ -1,12 +1,25 @@
+:root {
+    --primary-color: #0071e3;
+    --primary-hover: #005bb5;
+    --background-color: #f5f5f7;
+    --text-color: #1d1d1f;
+    --border-color: #d2d2d7;
+    --shadow-color: rgba(0, 0, 0, 0.08);
+    --success-color: #28a745;
+    --danger-color: #dc3545;
+    --warning-bg: #fff3f3;
+    --warning-border: #ff3b30;
+}
+
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
-    background-color: #f5f5f7;
+    background-color: var(--background-color);
     margin: 0;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
     font-size: 16px;
-    color: #1d1d1f;
+    color: var(--text-color);
 }
 
 header, footer {
@@ -14,6 +27,18 @@ header, footer {
     backdrop-filter: saturate(180%) blur(20px);
     padding: 0.5rem 0;
     text-align: center;
+}
+
+header {
+    background-color: rgba(255, 255, 255, 0.72);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    border-bottom: none;
+    position: sticky;
+    text-align: center;
+    top: 0;
+    z-index: 100;
+    padding: 1rem 0;
 }
 
 footer {
@@ -60,16 +85,17 @@ footer a:hover {
 .section {
     display: none;
     max-width: 800px;
-    margin: 1.5rem auto;
-    padding: 1.5rem;
+    margin: 2rem auto;
+    padding: 2rem;
     border-radius: 20px;
-    background: rgba(255, 255, 255, 0.72);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 8px 32px var(--shadow-color);
+    border: 1px solid var(--border-color);
 }
 
 .section p {
-    margin: 1rem 0;
-    line-height: 1.6;
+    margin: 1.5rem 0;
+    line-height: 1.8;
 }
 
 .visible {
@@ -77,14 +103,14 @@ footer a:hover {
 }
 
 h1, h2, h3 {
-    color: #1d1d1f;
+    color: var(--text-color);
     text-align: center;
 }
 
 h1 {
     font-size: 1.8rem;
     font-weight: 600;
-    margin: 1rem 0 1.5rem 0;
+    margin: 2rem 0 2.5rem 0;
     letter-spacing: -0.025em;
 }
 
@@ -98,7 +124,7 @@ h2 {
 h3 {
     font-size: 1.2rem;
     font-weight: 600;
-    margin: 1.5rem 0 1rem 0;
+    margin: 2.5rem 0 2rem 0;
     letter-spacing: -0.022em;
 }
 
@@ -107,11 +133,17 @@ input[type="text"], input[type="date"], textarea {
     max-width: 700px;
     padding: 8px;
     margin: 8px auto;
-    border: 1px solid #d2d2d7;
+    border: 1px solid var(--border-color);
     border-radius: 12px;
     background: rgba(255, 255, 255, 0.8);
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
     display: block;
+    transition: all 0.2s ease;
+}
+
+input[type="text"]:focus, input[type="date"]:focus, textarea:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.1);
 }
 
 textarea {
@@ -124,7 +156,7 @@ textarea {
 }
 
 .submit-btn {
-    background: #0071e3;
+    background: var(--primary-color);
     color: white;
     padding: 0.7rem 1.5rem;
     border: none;
@@ -135,10 +167,12 @@ textarea {
     font-size: 1rem;
     min-width: 100px;
     transition: background-color 0.3s ease, transform 0.3s ease;
+    font-weight: 500;
+    letter-spacing: -0.01em;
 }
 
 .submit-btn:hover {
-    background-color: #005bb5;
+    background: var(--primary-hover);
     transform: scale(1.05);
 }
 
@@ -147,15 +181,17 @@ textarea {
 }
 
 .test-item {
-    margin: 1rem auto;
+    margin: 2rem auto;
     max-width: 680px;
+    padding: 0 1rem;
 }
 
 .test-item label {
     font-weight: 600;
-    color: #1d1d1f;
+    color: var(--text-color);
     font-size: 1rem;
     margin-bottom: 0.5rem;
+    display: block;
 }
 
 .test-item textarea,
@@ -163,7 +199,7 @@ textarea {
     width: 100%;
     padding: 0.8rem;
     border-radius: 12px;
-    border: 1px solid #d2d2d7;
+    border: 1px solid var(--border-color);
     background: rgba(255, 255, 255, 0.8);
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
     font-size: 1rem;
@@ -174,7 +210,7 @@ textarea {
 
 .test-item textarea:focus,
 .test-item input:focus {
-    border-color: #0066CC;
+    border-color: var(--primary-color);
     box-shadow: 0 0 0 4px rgba(0, 102, 204, 0.1);
     outline: none;
 }
@@ -186,13 +222,13 @@ textarea {
 
 .test-item input[type="radio"] + label {
     font-size: 0.9rem;
-    color: #1d1d1f;
+    color: var(--text-color);
     margin-left: 0.5rem;
 }
 
 .test-item p {
     margin: 1rem 0;
-    line-height: 1.6;
+    line-height: 1.8;
     font-size: 1rem;
 }
 
@@ -207,7 +243,7 @@ textarea {
 }
 
 .tools-table th {
-    background-color: rgba(0, 102, 204, 0.9);
+    background-color: var(--primary-color);
     color: #fff;
 }
 
@@ -227,10 +263,10 @@ textarea {
 
 .content-wrapper {
     flex: 1;
-    width: calc(100% - 2rem);
+    width: calc(100% - 4rem);
     max-width: 900px;
-    margin: 60px auto 0;
-    padding: 0 1rem;
+    margin: 60px auto 60px; /* Ajout d'une marge bottom égale à la marge top */
+    padding: 0 2rem;
     box-sizing: border-box;
 }
 
@@ -243,22 +279,23 @@ textarea {
 }
 
 .section:last-child {
-    margin-bottom: 40px;
+    margin-bottom: 60px; /* Ajustement de la marge du dernier élément */
 }
 
 .form-group {
-    margin: 0 auto 1rem;
+    margin: 0 auto 1.5rem;
     max-width: 700px;
     width: 100%;
+    padding: 0 1rem;
     box-sizing: border-box;
 }
 
 .form-group label {
     display: block;
     margin-bottom: 0.5rem;
-    font-weight: bold;
+    font-weight: 600;
     font-size: 1rem;
-    color: #1d1d1f;
+    color: var(--text-color);
     text-align: left;
 }
 
@@ -267,7 +304,7 @@ textarea {
     max-width: 700px;
     padding: 0.8rem;
     border-radius: 12px;
-    border: 1px solid #d2d2d7;
+    border: 1px solid var(--border-color);
     font-size: 0.9rem;
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     background-color: rgba(255, 255, 255, 0.9);
@@ -277,7 +314,7 @@ textarea {
 }
 
 .form-group input:focus, .form-group textarea:focus {
-    border-color: #0066CC;
+    border-color: var(--primary-color);
     box-shadow: 0 0 0 4px rgba(0, 102, 204, 0.1);
     outline: none;
 }
@@ -289,6 +326,12 @@ textarea {
     font-weight: normal;
     cursor: pointer;
     user-select: none;
+    padding: 0.5rem;
+    transition: transform 0.2s ease;
+}
+
+.radio-label:hover {
+    transform: translateX(2px);
 }
 
 section {
@@ -318,7 +361,7 @@ input[type="checkbox"], input[type="radio"] {
 
 .radio-group {
     display: flex;
-    gap: 20px;
+    gap: 1.5rem;
     margin: 1rem 0;
     align-items: center;
 }
@@ -326,15 +369,33 @@ input[type="checkbox"], input[type="radio"] {
 .button-group {
     display: flex;
     justify-content: space-around;
-    margin-top: 1rem;
+    margin: 2rem auto;
+    gap: 1rem;
 }
 
 .certification-container {
-    background-color: rgba(0, 102, 204, 0.05);
+    background-color: rgba(0, 113, 227, 0.05);
     border-radius: 12px;
-    padding: 1rem;
-    margin: 1.5rem auto;
-    border: 1px solid rgba(0, 102, 204, 0.2);
+    padding: 1.5rem;
+    margin: 2rem auto;
+    border: 1px solid rgba(0, 113, 227, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.certification-container input[type="checkbox"] {
+    margin: 0;
+    width: 20px;
+    height: 20px;
+}
+
+.certification-container label {
+    margin: 0;
+    line-height: 1.4;
+    flex: 1;
+    font-weight: 400;
 }
 
 .checkbox-wrapper {
@@ -352,20 +413,20 @@ input[type="checkbox"], input[type="radio"] {
 
 .checkbox-wrapper label {
     font-size: 0.95rem;
-    color: #1d1d1f;
+    color: var(--text-color);
     cursor: pointer;
     flex: 1;
     text-align: left;
     line-height: 1.4;
-    font-weight: 500;
+    font-weight: 400;
 }
 
 .test-completed-container {
     display: flex;
     align-items: center;
-    gap: 12px;
-    margin: 1.5rem auto;
-    padding: 1rem;
+    gap: 10px;
+    margin: 20px 0;
+    padding: 1.5rem;
     background-color: rgba(0, 102, 204, 0.05);
     border-radius: 12px;
     border: 1px solid rgba(0, 102, 204, 0.2);
@@ -380,17 +441,17 @@ input[type="checkbox"], input[type="radio"] {
 
 .test-completed-container label {
     font-size: 0.95rem;
-    color: #1d1d1f;
+    color: var(--text-color);
     cursor: pointer;
     flex: 1;
     text-align: left;
     line-height: 1.4;
-    font-weight: 500;
+    font-weight: 400;
 }
 
 .attention-panel {
-    background-color: #fff3f3;
-    border-left: 4px solid #ff3b30;
+    background-color: var(--warning-bg);
+    border-left: 4px solid var(--warning-border);
     color: #333333;
     padding: 0.8rem 1rem;
     margin: 1rem 0;
@@ -415,11 +476,11 @@ input[type="checkbox"], input[type="radio"] {
 }
 
 #sensorValue {
-    color: #0071e3;
+    color: var(--primary-color);
 }
 
 .on-btn {
-    background: #28a745;
+    background: var(--success-color);
     color: white;
 }
 
@@ -428,7 +489,7 @@ input[type="checkbox"], input[type="radio"] {
 }
 
 .off-btn {
-    background: #dc3545;
+    background: var(--danger-color);
     color: white;
 }
 
@@ -437,7 +498,7 @@ input[type="checkbox"], input[type="radio"] {
 }
 
 .sensor-control {
-    border: 1px solid #d2d2d7;
+    border: 1px solid var(--border-color);
     border-radius: 12px;
     padding: 0.8rem;
     background: rgba(255, 255, 255, 0.8);
@@ -468,7 +529,7 @@ input[type="checkbox"], input[type="radio"] {
 }
 
 .download-btn {
-    background: #0071e3;
+    background: var(--primary-color);
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -476,7 +537,7 @@ input[type="checkbox"], input[type="radio"] {
 }
 
 .download-btn:hover {
-    background-color: #005bb5;
+    background-color: var(--primary-hover);
 }
 
 @media screen and (max-width: 768px) {
@@ -485,17 +546,14 @@ input[type="checkbox"], input[type="radio"] {
     }
 
     .content-wrapper {
-        width: calc(100% - 1rem);
-        padding: 0 0.5rem;
-        margin-top: 40px;
+        width: calc(100% - 2rem);
+        padding: 0 1rem;
+        margin: 40px auto 40px; /* Marges réduites mais équilibrées sur mobile */
     }
 
     .section {
-        padding: 1rem;
-        margin: 1rem 0.5rem;
-        width: 100%;
-        margin: 1rem 0;
-        box-sizing: border-box;
+        padding: 1.5rem;
+        margin: 1.5rem auto;
     }
 
     h1 {
@@ -529,6 +587,32 @@ input[type="checkbox"], input[type="radio"] {
         width: 100%;
         max-width: 100%;
         box-sizing: border-box;
+    }
+
+    .section:last-child {
+        margin-bottom: 40px;
+    }
+
+    #step1.section {
+        padding: 1.5rem;
+    }
+
+    #step1 h2 {
+        font-size: 1.5rem;
+    }
+
+    #step1 label {
+        font-size: 1rem;
+    }
+
+    #step1 input[type="text"],
+    #step1 input[type="date"] {
+        padding: 10px;
+    }
+
+    .section {
+        margin: 1rem 0.5rem;
+        padding: 1.2rem;
     }
 }
 
@@ -626,4 +710,3 @@ input[type="checkbox"], input[type="radio"] {
         font-size: 0.8rem;
     }
 }
-

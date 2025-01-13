@@ -30,7 +30,7 @@
         <form id="interventionForm" class="main-container">
 
             <div id="step1" class="section  visible">
-                <h1>Informations</h1>
+                <h2>Informations</h2>
                 <div class="form-group">
                     <label for="interventionName">Nom intervenant:</label>
                     <input type="text" id="interventionName" name="interventionName" required>
@@ -59,21 +59,22 @@
                             <span>Test à la suite d’un problème signalé</span>
                         </label>
                     </div>
-                </div>
-                <div class="certification-container">
-                    <div class="checkbox-wrapper">
+
+                    <div class="certification-container">
+                        <input type="checkbox" id="technicianCheck" required>
                         <label for="technicianCheck">
                             Je certifie être un technicien qualifié selon la charte Bosconnect
                         </label>
-                        <input type="checkbox" id="technicianCheck" required>
                     </div>
+
                 </div>
+
                 <button type="button" class="submit-btn" onclick="goToStep(2)" id="nextButton" disabled>Suivant</button>
             </div>
 
             <div id="step2" class="section">
                 <h2>Guide pour la réalisation des tests</h2>
-                <main>
+                <div class="form-group">
                     <section>
                         <p>
                             La carte Bosconnect est un dispositif domotique innovant conçu pour mesurer divers
@@ -137,6 +138,36 @@
                             d'intervention doit être détaillée, claire et compréhensible, afin de pouvoir facilement
                             identifier les éventuelles anomalies ou problèmes.
                         </p>
+                        <div class="comment-guidelines">
+                            <p>Pour chaque test, vos commentaires doivent inclure :</p>
+                            <p>
+                                <strong>Pourcentage d'erreur :</strong> Indiquez l'écart en pourcentage par rapport aux
+                                valeurs
+                                attendues pour les mesures effectuées. Par exemple : "Écart de 2.3% sur la mesure de
+                                tension".
+                            </p>
+                            <p>
+                                <strong>Description des anomalies :</strong> Détaillez précisément toute anomalie
+                                constatée,
+                                même mineure. Exemple : "Légère fluctuation de tension observée sur la broche 3".
+                            </p>
+                            <p>
+                                <strong>Conditions de test :</strong> Notez les conditions environnementales lors des
+                                tests
+                                (température ambiante, humidité, luminosité) qui pourraient influencer les résultats.
+                            </p>
+                            <p>
+                                <strong>Valeurs mesurées :</strong> Inscrivez les valeurs exactes mesurées et les
+                                valeurs
+                                attendues pour permettre un suivi précis.
+                            </p>
+                            <p>
+                                <strong>Suggestions :</strong> Proposez des améliorations ou des actions de maintenance
+                                préventive si nécessaire.
+                            </p>
+                        </div>
+
+                        <h2>Documents</h2>
                         <p>
                             Dans le fichier compressé fourni ci-dessous, vous trouverez :
                         </p>
@@ -186,8 +217,8 @@
                     <section>
                         <h2>Finalisation des tests</h2>
                         <p>
-                            Si <strong>aucune anomalie</strong>
-                            n’est détectée, vous pouvez recompiler le programme utilisateur.
+                            Si aucune anomalie
+                            n'est détectée, vous pouvez recompiler le programme utilisateur.
                             Dans le cas contraire, contactez le service de réparation
                             (service.reparation@bosconnect.fr).
                         </p>
@@ -205,61 +236,64 @@
                         <button type="button" class="submit-btn" onclick="goToStep(1)">Précédent</button>
                         <button type="button" class="submit-btn" onclick="goToStep(3)">Suivant</button>
                     </div>
-                </main>
+                </div>
             </div>
 
             <div id="step3" class="section">
-                <h3>Contrôles visuels</h3>
+                <h2>Contrôles visuels</h2>
                 <div class="test-item">
-                    <label>Inspection de l'état général</label>
-                    <p>La carte est-elle exempte de dégradations visibles, telles que des rayures, des fissures ou des
-                        traces d'usure ? Le vernis de protection est-il intact et uniforme sur toute la surface de la
-                        carte ?</p>
+                    <label>Inspection visuelle : État général du PCB</label>
+                    <p>Examinez attentivement la carte pour détecter toute anomalie visible : rayures, fissures, traces d'usure, décoloration. 
+                    Vérifiez que le vernis de protection est intact et uniforme sur toute la surface. Assurez-vous que les bords sont proprement usinés, 
+                    sans bavures ni irrégularités.</p>
                     <div class="radio-group">
                         <label class="radio-label">
-                            <input type="radio" name="test1_1" value="OK" required>
+                            <input type="radio" name="testVisual1" value="OK" required>
                             OK
                         </label>
                         <label class="radio-label">
-                            <input type="radio" name="test1_1" value="NOK">
+                            <input type="radio" name="testVisual1" value="NOK">
                             NOK
                         </label>
                     </div>
-                    <textarea name="comments1_1" rows="4" placeholder="Commentaires ..."></textarea>
+                    <textarea name="commentsVisual1" rows="4" placeholder="Commentaires ..."></textarea>
                 </div>
+
                 <div class="test-item">
-                    <label>Vérification des composants</label>
-                    <p>Tous les composants prévus sont-ils présents et correctement soudés, conformément au schéma de la
-                        carte ? Assurez-vous que chaque composant est bien en place, sans soudures froides ou ponts de
-                        soudure, et que les connexions sont solides et fiables.</p>
+                    <label>Inspection visuelle : Composants et soudures</label>
+                    <p>Vérifiez l'état et le positionnement de tous les composants. Recherchez des signes de surchauffe, 
+                    des composants mal alignés ou endommagés. Examinez la qualité des soudures : elles doivent être brillantes, 
+                    bien formées, sans traces de résidus ou de soudures froides.</p>
                     <div class="radio-group">
                         <label class="radio-label">
-                            <input type="radio" name="test1_2" value="OK" required>
+                            <input type="radio" name="testVisual2" value="OK" required>
                             OK
                         </label>
                         <label class="radio-label">
-                            <input type="radio" name="test1_2" value="NOK">
+                            <input type="radio" name="testVisual2" value="NOK">
                             NOK
                         </label>
                     </div>
-                    <textarea name="comments1_2" rows="4" placeholder="Commentaires ..."></textarea>
+                    <textarea name="commentsVisual2" rows="4" placeholder="Commentaires ..."></textarea>
                 </div>
+
                 <div class="test-item">
-                    <label>Qualité de fabrication</label>
-                    <p>Vérifiez que les bords de la carte sont bien usinés, sans bavures ni irrégularités, et que les
-                        perçages sont conformes aux spécifications.</p>
+                    <label>Inspection visuelle : Connecteurs et points de connexion</label>
+                    <p>Inspectez tous les connecteurs, borniers et points de connexion. Vérifiez leur alignement, 
+                    leur fixation et l'absence d'oxydation. Les broches doivent être droites et non corrodées.</p>
                     <div class="radio-group">
                         <label class="radio-label">
-                            <input type="radio" name="test1_3" value="OK" required>
+                            <input type="radio" name="testVisual3" value="OK" required>
                             OK
                         </label>
                         <label class="radio-label">
-                            <input type="radio" name="test1_3" value="NOK">
+                            <input type="radio" name="testVisual3" value="NOK">
                             NOK
                         </label>
                     </div>
-                    <textarea name="comments1_3" rows="4" placeholder="Commentaires ..."></textarea>
+                    <textarea name="commentsVisual3" rows="4" placeholder="Commentaires ..."></textarea>
                 </div>
+
                 <div class="button-group">
                     <button type="button" class="submit-btn" onclick="goToStep(2)">Précédent</button>
                     <button type="button" class="submit-btn" onclick="goToStep(4)">Suivant</button>
@@ -267,31 +301,178 @@
             </div>
 
             <div id="step4" class="section">
-                <h3>Contrôle des mesures</h3>
-                <div class="test-item">
-                    <label>Mesures des tensions d'alimentation</label>
-                    <p>- Mesurez la tension sur les broches « GND » et assurez-vous qui y'en a pas</p>
-                    <p>- Mesurez la tension sur les broches d'entrée des capteurs de pression, température,
-                        luminosité, de l'écran TFT et du lecteur RFID alimentées en 3.3V.</p>
-                    <p>- Mesurez la tension sur la broche du capteur de gaz MQ9 alimentées en 5V.</p>
+                <h2>Tests de continuité</h2>
+                <div class="warning-section">
+                    <div class="attention-panel">
+                        <p>
+                            Ces tests doivent être effectués HORS TENSION. Assurez-vous que la carte n'est pas alimentée avant de procéder aux mesures.
+                        </p>
+                    </div>
+                </div>
 
-                    <p>Utilisez un multimètre en mode voltmètre pour vérifier que chaque mesure est correcte.
-                        Référez-vous au schéma structurel pour identifier les broches correspondantes.</p>
+                <div class="test-item">
+                    <label>Test de continuité : Circuit d'alimentation principale</label>
+                    <p>À l'aide d'un ohmmètre, vérifiez la continuité du circuit d'alimentation principale entre le connecteur USB-C et les points de test TP1 (5V) et TP2 (GND). La résistance mesurée doit être inférieure à 1Ω.</p>
                     <div class="radio-group">
                         <label class="radio-label">
-                            <input type="radio" name="test2_1" value="OK" required>
+                            <input type="radio" name="testCont1" value="OK" required>
                             OK
                         </label>
                         <label class="radio-label">
-                            <input type="radio" name="test2_1" value="NOK">
+                            <input type="radio" name="testCont1" value="NOK">
                             NOK
                         </label>
                     </div>
-                    <textarea name="comments2_1" rows="4" style="width: 100%;"
+                    <textarea name="commentsCont1" rows="4" placeholder="Commentaires ..."></textarea>
+                </div>
+
+                <div class="test-item">
+                    <label>Test de continuité : Connexions des relais</label>
+                    <p>Vérifiez la continuité entre les bornes des relais et leurs points de connexion sur le PCB. Mesurez la résistance entre chaque borne d'entrée des relais et les points de test correspondants (TP3 à TP8). La résistance doit être inférieure à 0.5Ω.</p>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="testCont2" value="OK" required>
+                            OK
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="testCont2" value="NOK">
+                            NOK
+                        </label>
+                    </div>
+                    <textarea name="commentsCont2" rows="4" placeholder="Commentaires ..."></textarea>
+                </div>
+
+                <div class="test-item">
+                    <label>Test de continuité : Bus I2C</label>
+                    <p>Vérifiez la continuité des lignes SDA et SCL du bus I2C entre l'ESP32 et chaque capteur (BMP280, BH1750) ainsi que l'écran TFT. La résistance mesurée doit être comprise entre 0Ω et 10kΩ (en tenant compte des résistances de pull-up).</p>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="testCont3" value="OK" required>
+                            OK
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="testCont3" value="NOK">
+                            NOK
+                        </label>
+                    </div>
+                    <textarea name="commentsCont3" rows="4" placeholder="Commentaires ..."></textarea>
+                </div>
+
+                <div class="test-item">
+                    <label>Test de continuité : Lignes de reset</label>
+                    <p>Vérifiez la continuité des lignes de reset de l'ESP32 et des autres composants réinitialisables. Mesurez la résistance entre les broches de reset et leurs points de test respectifs. La résistance doit être conforme aux spécifications (typiquement 10kΩ pour les pull-up de reset).</p>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="testCont4" value="OK" required>
+                            OK
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="testCont4" value="NOK">
+                            NOK
+                        </label>
+                    </div>
+                    <textarea name="commentsCont4" rows="4" placeholder="Commentaires ..."></textarea>
+                </div>
+
+                <div class="button-group">
+                    <button type="button" class="submit-btn" onclick="goToStep(3)">Précédent</button>
+                    <button type="button" class="submit-btn" onclick="goToStep(5)">Suivant</button>
+                </div>
+            </div>
+
+
+            <div id="step5" class="section">
+                <div class="form-group">
+                    <section class="warning-section">
+                        <div class="attention-panel">
+                            <p>
+                                Si tous les tests précédents ont été validés, vous pouvez alimenter la carte avec un
+                                chargeur 5V adéquat, soit par le port USB de la carte domotique, soit par celui de
+                                l'ESP32.
+                            </p>
+                        </div>
+                    </section>
+                </div>
+
+                <h2>Contrôles des mesures</h2>
+
+                <div class="test-item">
+                    <label>Test électrique : Vérification des masses (GND) et absence de court-circuit</label>
+                    <p>Utilisez un multimètre pour vérifier qu'il n'y a pas de tension sur les broches « GND ».
+                        La tension mesurée doit être strictement inférieure à 0.1V. Une tension supérieure pourrait
+                        indiquer un problème de masse ou un court-circuit sur la carte.</p>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="test2_1_1" value="OK" required>
+                            OK
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="test2_1_1" value="NOK">
+                            NOK
+                        </label>
+                    </div>
+                    <textarea name="comments2_1_1" rows="4" style="width: 100%;"
                         placeholder="Commentaires ..."></textarea>
                 </div>
+
                 <div class="test-item">
-                    <label>Vérification des indicateurs LED</label>
+                    <label>Test électrique : Mesure des tensions d'alimentation 3.3V sur les composants</label>
+                    <p>
+                        Mesurez la tension sur les broches d'entrée des capteurs de pression, température, luminosité,
+                        de
+                        l'écran TFT et du lecteur RFID alimentées en 3.3V. Pour ce test, une tension nominale de 3.3V
+                        est
+                        attendue.
+                        Une variation de ±15% est tolérée, ce qui signifie que la tension mesurée doit se situer entre
+                        2.8V
+                        et 3.8V.
+                        Toute valeur en dehors de cette plage est considérée comme non conforme. Effectuez les mesures à
+                        plusieurs
+                        reprises sur un intervalle de 30 secondes pour vérifier la stabilité de l'alimentation.
+                    </p>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="test2_1_2" value="OK" required>
+                            OK
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="test2_1_2" value="NOK">
+                            NOK
+                        </label>
+                    </div>
+                    <textarea name="comments2_1_2" rows="4" style="width: 100%;"
+                        placeholder="Commentaires ..."></textarea>
+                </div>
+
+                <div class="test-item">
+                    <label>Test électrique : Mesure des tensions d'alimentation 5V sur les composants</label>
+                    <p>
+                        Mesurez la tension sur la broche du capteur de gaz MQ9 alimentée en 5V. Pour ce test, une
+                        tension
+                        nominale
+                        de 5V est attendue. Une variation de ±15% est tolérée, ce qui signifie que la tension mesurée
+                        doit
+                        se situer
+                        entre 4.25V et 5.75V. Toute valeur en dehors de cette plage est considérée comme non conforme.
+                        Effectuez également
+                        une mesure sous charge en activant le capteur MQ9 pour vérifier la stabilité de l'alimentation.
+                    </p>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="test2_1_3" value="OK" required>
+                            OK
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="test2_1_3" value="NOK">
+                            NOK
+                        </label>
+                    </div>
+                    <textarea name="comments2_1_3" rows="4" style="width: 100%;"
+                        placeholder="Commentaires ..."></textarea>
+                </div>
+
+                <div class="test-item">
+                    <label>Test fonctionnel : Vérification des voyants LED et rétroéclairage</label>
                     <p>Les témoins lumineux du lecteur RFID, de l'ESP32 et du rétroéclairage de l'écran sont-ils
                         opérationnels et allumés ?</p>
                     <div class="radio-group">
@@ -308,21 +489,24 @@
                         placeholder="Commentaires ..."></textarea>
                 </div>
                 <div class="button-group">
-                    <button type="button" class="submit-btn" onclick="goToStep(3)">Précédent</button>
-                    <button type="button" class="submit-btn" onclick="goToStep(5)">Suivant</button>
+                    <button type="button" class="submit-btn" onclick="goToStep(4)">Précédent</button>
+                    <button type="button" class="submit-btn" onclick="goToStep(6)">Suivant</button>
                 </div>
             </div>
 
-            <div id="step5" class="section">
-                <h3>Contrôle des capteurs</h3>
+            <div id="step6" class="section">
+                <h2>Contrôle des capteurs</h2>
+
                 <div class="test-item">
-                    <label>Capteur MQ9 - Détection de gaz</label>
+                    <label>Test capteur : Fonctionnement et calibration du capteur de gaz MQ9</label>
                     <p>
                         Pour tester le capteur de gaz MQ9, vérifiez la cohérence des valeurs affichées dans le moniteur
                         série. Dans un environnement normal, les valeurs varient généralement entre 1000 et 1500 ppm.
-                    </p>
-                    <p>
-                        Tapez "MQ9" dans le moniteur série pour afficher les valeurs.
+                        Attendez au moins 2 minutes pour que le capteur se stabilise après sa mise sous tension. Pour
+                        valider
+                        le test, effectuez trois séries de mesures espacées d'une minute. Les variations entre les
+                        mesures
+                        ne doivent pas dépasser ±10%.
                     </p>
                     <div class="radio-group">
                         <label class="radio-label">
@@ -339,14 +523,15 @@
                 </div>
 
                 <div class="test-item">
-                    <label>BMP280 - Température et pression</label>
+                    <label>Test capteur : Mesures température et pression BMP280</label>
                     <p>
                         Pour tester le capteur BMP280, utilisez le moniteur série pour afficher les valeurs et vérifiez
-                        leur cohérence. Vous pouvez les comparer avec les données météorologiques locales.
-
-                    </p>
-                    <p>
-                        Tapez "BMP280" dans le moniteur série pour afficher les valeurs.
+                        leur cohérence. Vous pouvez les comparer avec les données météorologiques locales. La
+                        température
+                        doit être comprise dans une plage de ±2°C par rapport à la température ambiante mesurée. Pour la
+                        pression atmosphérique, une variation de ±2 hPa est acceptable par rapport aux données météo
+                        locales.
+                        Effectuez au moins 5 mesures sur 2 minutes pour vérifier la stabilité.
                     </p>
                     <div class="radio-group">
                         <label class="radio-label">
@@ -363,13 +548,16 @@
                 </div>
 
                 <div class="test-item">
-                    <label>BH1750 - Mesure de luminosité</label>
+                    <label>Test capteur : Réponse et précision du capteur de luminosité BH1750</label>
                     <p>
                         Pour tester le capteur BH1750, vérifiez la cohérence des valeurs sur le moniteur série. Vous
-                        pouvez faire varier la luminosité avec une lampe ou un téléphone.
-                    </p>
-                    <p>
-                        Tapez "BH1750" dans le moniteur série pour afficher les valeurs.
+                        pouvez faire varier la luminosité avec une lampe ou un téléphone. Testez trois conditions :
+                        obscurité
+                        (< 10 lux), lumière ambiante (100-500 lux), et forte luminosité (> 1000 lux). Le capteur doit
+                            réagir dans un délai inférieur à 1 seconde à chaque changement d'éclairage. Vérifiez aussi
+                            la
+                            linéarité
+                            des mesures en augmentant progressivement la luminosité.
                     </p>
                     <div class="radio-group">
                         <label class="radio-label">
@@ -386,15 +574,15 @@
                 </div>
 
                 <div class="button-group">
-                    <button type="button" class="submit-btn" onclick="goToStep(4)">Précédent</button>
-                    <button type="button" class="submit-btn" onclick="goToStep(6)">Suivant</button>
+                    <button type="button" class="submit-btn" onclick="goToStep(5)">Précédent</button>
+                    <button type="button" class="submit-btn" onclick="goToStep(7)">Suivant</button>
                 </div>
             </div>
 
-            <div id="step6" class="section">
-                <h3>Contrôle des actionneurs</h3>
+            <div id="step7" class="section">
+                <h2>Contrôle des actionneurs</h2>
                 <div class="test-item">
-                    <label>Test relais double n°1</label>
+                    <label>Test actionneur : Commutation et continuité du relais double n°1</label>
                     <p>
                         Pour tester le relais double de l'appareil 1, saisissez "RELAIS_1" dans le moniteur série.
                         Ensuite, mesurez la continuité entre les bornes à vis : PHASE_AP1 et
@@ -416,7 +604,7 @@
                 </div>
 
                 <div class="test-item">
-                    <label>Test relais double n°2</label>
+                    <label>Test actionneur : Commutation et continuité du relais double n°2</label>
                     <p>
                         Pour tester le relais double de l'appareil 2, saisissez "RELAIS_2" dans le moniteur série.
                         Ensuite, mesurez la continuité sur les bornes à vis : PHASE_AP2 et
@@ -437,7 +625,7 @@
                         placeholder="Commentaires ..."></textarea>
                 </div>
                 <div class="test-item">
-                    <label>Test relais RFID</label>
+                    <label>Test actionneur : Fonctionnement du relais de contrôle d'accès RFID</label>
                     <p>
                         Pour tester le relais simple associé au fonctionnement du RFID, saisissez "RELAIS_RFID" dans le
                         moniteur série. Ensuite, mesurez la continuité sur le bornier RELAIS_RFID.
@@ -459,7 +647,7 @@
                 </div>
 
                 <div class="test-item">
-                    <label>Test variateur de puissance</label>
+                    <label>Test actionneur : Vérification du variateur de puissance et signal de sortie</label>
                     <p>
                         Pour réaliser ce test, commencez par connecter un GBF (Générateur de Basse Fréquence) à l’entrée
                         du
@@ -495,16 +683,16 @@
                         placeholder="Commentaires ..."></textarea>
                 </div>
                 <div class="button-group">
-                    <button type="button" class="submit-btn" onclick="goToStep(5)">Précédent</button>
-                    <button type="button" class="submit-btn" onclick="goToStep(7)">Suivant</button>
+                    <button type="button" class="submit-btn" onclick="goToStep(6)">Précédent</button>
+                    <button type="button" class="submit-btn" onclick="goToStep(8)">Suivant</button>
                 </div>
             </div>
 
 
-            <div id="step7" class="section">
-                <h3>Contrôle des indicateurs</h3>
+            <div id="step8" class="section">
+                <h2>Contrôle des indicateurs</h2>
                 <div class="test-item">
-                    <label>Test afficheur TFT tactile</label>
+                    <label>Test interface : Calibration et réponse de l'écran TFT tactile</label>
                     <p>
                         Pour tester l'écran tactile, utilisez le stylet fourni et saisissez "ECRAN" dans le moniteur
                         série.
@@ -530,7 +718,7 @@
                 </div>
 
                 <div class="test-item">
-                    <label>Test indicateur RGB</label>
+                    <label>Test interface : Séquence de couleurs LED RGB de statut</label>
                     <p>
                         Pour tester la LED RGB, saisissez "RGB" dans le moniteur série. Vérifiez si la LED change
                         correctement de couleur toutes les secondes.
@@ -549,15 +737,15 @@
                         placeholder="Commentaires ..."></textarea>
                 </div>
                 <div class="button-group">
-                    <button type="button" class="submit-btn" onclick="goToStep(6)">Précédent</button>
-                    <button type="button" class="submit-btn" onclick="goToStep(8)">Suivant</button>
+                    <button type="button" class="submit-btn" onclick="goToStep(7)">Précédent</button>
+                    <button type="button" class="submit-btn" onclick="goToStep(9)">Suivant</button>
                 </div>
             </div>
 
-            <div id="step8" class="section">
-                <h3>Contrôle de la connectivité</h3>
+            <div id="step9" class="section">
+                <h2>Contrôle de la connectivité</h2>
                 <div class="test-item">
-                    <label>Test connexion réseau</label>
+                    <label>Test connectivité : Configuration et connexion au réseau Wi-Fi</label>
                     <p>
                         Dans le code C++ fourni, modifiez le SSID du wifi et le mot de passe, puis téléversez le code.
                         Dans le moniteur série, saisissez "WIFI" pour vérifier la connexion. Suivez les étapes sur le
@@ -578,7 +766,7 @@
                 </div>
 
                 <div class="test-item">
-                    <label>Test communication Firebase</label>
+                    <label>Test connectivité : Communication bidirectionnelle avec Firebase</label>
                     <p>
                         Si la carte est correctement connectée au Wi-Fi, après avoir saisi "FIREBASE" dans le terminal
                         série, vous pourrez contrôler la LED de l'ESP32 et lire les données du capteur de luminosité
@@ -612,16 +800,18 @@
                         importantes concernant l'intervention.</p>
                     <textarea name="finalComments" id="finalComments" rows="6" style="width: 100%;"
                         placeholder="Commentaires généraux sur l'intervention..."></textarea>
+
+                    <div class="certification-container">
+                        <input type="checkbox" id="testsCompleted" required>
+                        <label for="technicianCheck">
+                            Je certifie que tous les tests ont été correctement réalisés.
+                        </label>
+                    </div>
                 </div>
 
-                <div class="test-completed-container">
-                    <input type="checkbox" id="testsCompleted" required>
-                    <label for="testsCompleted">
-                        Je certifie que tous les tests ont été correctement réalisés.
-                    </label>
-                </div>
+
                 <div class="button-group">
-                    <button type="button" class="submit-btn" onclick="goToStep(7)">Précédent</button>
+                    <button type="button" class="submit-btn" onclick="goToStep(8)">Précédent</button>
                     <button type="button" id="exportPdf" class="submit-btn" disabled>Exporter en PDF</button>
                 </div>
             </div>

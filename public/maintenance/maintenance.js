@@ -73,8 +73,8 @@ document.getElementById('exportPdf').addEventListener('click', () => {
         ],
         theme: 'plain',
         styles: { halign: 'left', fillColor: [255, 255, 255], textColor: [40, 40, 40] },
-        headStyles: { fillColor: [0, 113, 227], textColor: [255, 255, 255], fontSize: 14, fontStyle: 'bold' },
-        bodyStyles: { fillColor: [255, 255, 255], textColor: [40, 40, 40], fontSize: 12 }
+        headStyles: { fillColor: [0, 113, 227], textColor: [255, 255, 255], fontSize: 10, fontStyle: 'bold' },
+        bodyStyles: { fillColor: [255, 255, 255], textColor: [40, 40, 40], fontSize: 10 }
     });
 
     const tableData = [["Test N°", "Description", "Résultat", "Commentaires"]];
@@ -115,7 +115,7 @@ document.getElementById('exportPdf').addEventListener('click', () => {
         }
     });
 
-    const finalComments = document.getElementById('finalComments').value || "Aucun commentaire général";
+    const finalComments = document.getElementById('finalComments').value || " ";
     
     doc.autoTable({
         startY: doc.lastAutoTable.finalY + 10,
