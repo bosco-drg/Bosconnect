@@ -243,9 +243,11 @@
                 <h2>Contrôles visuels</h2>
                 <div class="test-item">
                     <label>Inspection visuelle : État général du PCB</label>
-                    <p>Examinez attentivement la carte pour détecter toute anomalie visible : rayures, fissures, traces d'usure, décoloration. 
-                    Vérifiez que le vernis de protection est intact et uniforme sur toute la surface. Assurez-vous que les bords sont proprement usinés, 
-                    sans bavures ni irrégularités.</p>
+                    <p>Examinez attentivement la carte pour détecter toute anomalie visible : rayures, fissures, traces
+                        d'usure, décoloration.
+                        Vérifiez que le vernis de protection est intact et uniforme sur toute la surface. Assurez-vous
+                        que les bords sont proprement usinés,
+                        sans bavures ni irrégularités.</p>
                     <div class="radio-group">
                         <label class="radio-label">
                             <input type="radio" name="testVisual1" value="OK" required>
@@ -261,9 +263,10 @@
 
                 <div class="test-item">
                     <label>Inspection visuelle : Composants et soudures</label>
-                    <p>Vérifiez l'état et le positionnement de tous les composants. Recherchez des signes de surchauffe, 
-                    des composants mal alignés ou endommagés. Examinez la qualité des soudures : elles doivent être brillantes, 
-                    bien formées, sans traces de résidus ou de soudures froides.</p>
+                    <p>Vérifiez l'état et le positionnement de tous les composants. Recherchez des signes de surchauffe,
+                        des composants mal alignés ou endommagés. Examinez la qualité des soudures : elles doivent être
+                        brillantes,
+                        bien formées, sans traces de résidus ou de soudures froides.</p>
                     <div class="radio-group">
                         <label class="radio-label">
                             <input type="radio" name="testVisual2" value="OK" required>
@@ -279,8 +282,8 @@
 
                 <div class="test-item">
                     <label>Inspection visuelle : Connecteurs et points de connexion</label>
-                    <p>Inspectez tous les connecteurs, borniers et points de connexion. Vérifiez leur alignement, 
-                    leur fixation et l'absence d'oxydation. Les broches doivent être droites et non corrodées.</p>
+                    <p>Inspectez tous les connecteurs, borniers et points de connexion. Vérifiez leur alignement,
+                        leur fixation et l'absence d'oxydation. Les broches doivent être droites et non corrodées.</p>
                     <div class="radio-group">
                         <label class="radio-label">
                             <input type="radio" name="testVisual3" value="OK" required>
@@ -302,17 +305,30 @@
 
             <div id="step4" class="section">
                 <h2>Tests de continuité</h2>
-                <div class="warning-section">
-                    <div class="attention-panel">
-                        <p>
-                            Ces tests doivent être effectués HORS TENSION. Assurez-vous que la carte n'est pas alimentée avant de procéder aux mesures.
-                        </p>
+                <div class="form-group">
+                    <div class="warning-section">
+                        <div class="attention-panel">
+                            <p>
+                                Ces tests doivent être effectués HORS TENSION. Assurez-vous que la carte n'est pas
+                                alimentée
+                                avant de procéder aux mesures. Utilisez un multimètre en mode ohmmètre ou testeur de
+                                continuité pour réaliser les tests suivants. Référez-vous au schéma de la carte et, si
+                                besoin,
+                                aux documentations techniques des composants pour
+                                identifier les points de test. Attention, un test réalisé sur un mauvais pin n'est pas
+                                valide !
+                            </p>
+                        </div>
                     </div>
                 </div>
 
                 <div class="test-item">
-                    <label>Test de continuité : Circuit d'alimentation principale</label>
-                    <p>À l'aide d'un ohmmètre, vérifiez la continuité du circuit d'alimentation principale entre le connecteur USB-C et les points de test TP1 (5V) et TP2 (GND). La résistance mesurée doit être inférieure à 1Ω.</p>
+                    <label>Test de continuité : Connexion analogique</label>
+                    <p>Vérifiez la continuité entre le pin analogique du capteur MQ9 et le GPIO correspondant (GPIO5),
+                        ainsi que les pins ZVC et TRIAC du variateur et leurs correspondances sur l'ESP32 (ZVC : GPIO1 /
+                        TRIAC : GPIO11). Une résistance peut être mesurée sur les lignes ZVC et TRIAC en raison des
+                        tirages et de la résistance en série présents sur la ligne. Si nécessaire, consultez la
+                        datasheet pour les pins correspondants des optocoupleurs.</p>
                     <div class="radio-group">
                         <label class="radio-label">
                             <input type="radio" name="testCont1" value="OK" required>
@@ -328,7 +344,12 @@
 
                 <div class="test-item">
                     <label>Test de continuité : Connexions des relais</label>
-                    <p>Vérifiez la continuité entre les bornes des relais et leurs points de connexion sur le PCB. Mesurez la résistance entre chaque borne d'entrée des relais et les points de test correspondants (TP3 à TP8). La résistance doit être inférieure à 0.5Ω.</p>
+                    <p>Vérifiez la continuité entre les broches de commande des transistors de commande des relais et
+                        les pins associés (Relais 1 : GPIO15 / Relais RFID : GPIO22 / Relais 2 : GPIO23). Référez-vous à
+                        la documentation technique des
+                        transistors si nécessaire. Pour simplifier ce test, il est recommandé de vérifier la continuité
+                        sur la face arrière de la carte. Notez qu'une légère résistance de l'ordre de 0.3 ohm peut être
+                        lue, ce qui est normal et dû à la résistance de pull down</p>
                     <div class="radio-group">
                         <label class="radio-label">
                             <input type="radio" name="testCont2" value="OK" required>
@@ -344,7 +365,9 @@
 
                 <div class="test-item">
                     <label>Test de continuité : Bus I2C</label>
-                    <p>Vérifiez la continuité des lignes SDA et SCL du bus I2C entre l'ESP32 et chaque capteur (BMP280, BH1750) ainsi que l'écran TFT. La résistance mesurée doit être comprise entre 0Ω et 10kΩ (en tenant compte des résistances de pull-up).</p>
+                    <p>Vérifiez la continuité des lignes SDA et SCL du bus I2C entre l'ESP32 et chaque capteur (BMP280,
+                        BH1750). Placez une pointe de test sur la ligne correspondante de l'ESP32 (SDA : GPIO6 / SCL :
+                        GPIO7) et l'autre pointe sur les connexions des capteurs.</p>
                     <div class="radio-group">
                         <label class="radio-label">
                             <input type="radio" name="testCont3" value="OK" required>
@@ -359,8 +382,15 @@
                 </div>
 
                 <div class="test-item">
-                    <label>Test de continuité : Lignes de reset</label>
-                    <p>Vérifiez la continuité des lignes de reset de l'ESP32 et des autres composants réinitialisables. Mesurez la résistance entre les broches de reset et leurs points de test respectifs. La résistance doit être conforme aux spécifications (typiquement 10kΩ pour les pull-up de reset).</p>
+                    <label>Test de continuité : Bus SPI</label>
+                    <p>Vérifiez la continuité des lignes MOSI, MISO et SCK du bus SPI entre l'ESP32 et les composants
+                        connectés (écran et lecteur RFID). Placez une pointe de test sur la ligne correspondante de
+                        l'ESP32 (MISO : GPIO20 / MOSI : GPIO19 / SCK : GPIO21) et l'autre pointe sur les connexions des
+                        composants.</p>
+                    <p>Vérifiez également les trois pins d'activation des SPI Chip Select (TOUCH_CS : GPIO2 / RFID_CS :
+                        GPIO4 / TFT_CS : GPIO18) et les pins correspondants sur l'écran et le lecteur RFID.</p>
+                    </label>
+                    <p></p>
                     <div class="radio-group">
                         <label class="radio-label">
                             <input type="radio" name="testCont4" value="OK" required>
@@ -386,8 +416,8 @@
                     <section class="warning-section">
                         <div class="attention-panel">
                             <p>
-                                Si tous les tests précédents ont été validés, vous pouvez alimenter la carte avec un
-                                chargeur 5V adéquat, soit par le port USB de la carte domotique, soit par celui de
+                                Si tous les tests précédents sont validés, vous pouvez alimenter la carte avec un
+                                chargeur 5V approprié, soit via le port USB de la carte domotique, soit via celui de
                                 l'ESP32.
                             </p>
                         </div>
@@ -426,9 +456,7 @@
                         Une variation de ±15% est tolérée, ce qui signifie que la tension mesurée doit se situer entre
                         2.8V
                         et 3.8V.
-                        Toute valeur en dehors de cette plage est considérée comme non conforme. Effectuez les mesures à
-                        plusieurs
-                        reprises sur un intervalle de 30 secondes pour vérifier la stabilité de l'alimentation.
+                        Toute valeur en dehors de cette plage est considérée comme non conforme.
                     </p>
                     <div class="radio-group">
                         <label class="radio-label">
@@ -454,8 +482,6 @@
                         doit
                         se situer
                         entre 4.25V et 5.75V. Toute valeur en dehors de cette plage est considérée comme non conforme.
-                        Effectuez également
-                        une mesure sous charge en activant le capteur MQ9 pour vérifier la stabilité de l'alimentation.
                     </p>
                     <div class="radio-group">
                         <label class="radio-label">
@@ -495,6 +521,19 @@
             </div>
 
             <div id="step6" class="section">
+
+                <div class="form-group">
+                    <div class="warning-section">
+                        <div class="attention-panel">
+                            <p>
+                                Si tous les tests précédents sont corrects, vous pouvez passer à la programmation de la
+                                carte. Utilisez un environnement Arduino pour compiler le programme sur le port USB-C
+                                "CH340C" de la carte.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
                 <h2>Contrôle des capteurs</h2>
 
                 <div class="test-item">
@@ -502,11 +541,7 @@
                     <p>
                         Pour tester le capteur de gaz MQ9, vérifiez la cohérence des valeurs affichées dans le moniteur
                         série. Dans un environnement normal, les valeurs varient généralement entre 1000 et 1500 ppm.
-                        Attendez au moins 2 minutes pour que le capteur se stabilise après sa mise sous tension. Pour
-                        valider
-                        le test, effectuez trois séries de mesures espacées d'une minute. Les variations entre les
-                        mesures
-                        ne doivent pas dépasser ±10%.
+                        Pour relais le test saississez "MQ9" dans le moniteur série.
                     </p>
                     <div class="radio-group">
                         <label class="radio-label">
@@ -525,13 +560,13 @@
                 <div class="test-item">
                     <label>Test capteur : Mesures température et pression BMP280</label>
                     <p>
-                        Pour tester le capteur BMP280, utilisez le moniteur série pour afficher les valeurs et vérifiez
+                        Pour tester le capteur BMP280, utilisez le moniteur série après avoir saisi "BMP280" pour
+                        afficher les valeurs et vérifiez
                         leur cohérence. Vous pouvez les comparer avec les données météorologiques locales. La
                         température
-                        doit être comprise dans une plage de ±2°C par rapport à la température ambiante mesurée. Pour la
-                        pression atmosphérique, une variation de ±2 hPa est acceptable par rapport aux données météo
+                        doit être comprise dans une plage de ±5°C par rapport à la température ambiante mesurée. Pour la
+                        pression atmosphérique, une variation de ±10 hPa est acceptable par rapport aux données météo
                         locales.
-                        Effectuez au moins 5 mesures sur 2 minutes pour vérifier la stabilité.
                     </p>
                     <div class="radio-group">
                         <label class="radio-label">
@@ -550,7 +585,8 @@
                 <div class="test-item">
                     <label>Test capteur : Réponse et précision du capteur de luminosité BH1750</label>
                     <p>
-                        Pour tester le capteur BH1750, vérifiez la cohérence des valeurs sur le moniteur série. Vous
+                        Pour tester le capteur BH1750, vérifiez la cohérence des valeurs sur le moniteur série après
+                        avoir saisi "BH1750". Vous
                         pouvez faire varier la luminosité avec une lampe ou un téléphone. Testez trois conditions :
                         obscurité
                         (< 10 lux), lumière ambiante (100-500 lux), et forte luminosité (> 1000 lux). Le capteur doit
@@ -660,13 +696,10 @@
 
                     <p>
                         Lancez ensuite le programme en utilisant la commande "VARIATEUR" sur le terminal série. Vous
-                        devriez
-                        constater
-                        que l’onde sinusoïdale de sortie est modulée en fonction des paramètres du variateur, ce qui
-                        reflète
-                        les changements effectués par ce dernier. Vérifiez que cette modulation est cohérente et
-                        conforme
-                        aux attentes.
+                        devriez constater que l’onde sinusoïdale de sortie est modulée en fonction des paramètres du
+                        variateur, ce qui
+                        reflète les changements effectués par ce dernier. Vérifiez que cette modulation est cohérente et
+                        conforme aux attentes et aux informations du moniteur série.
                     </p>
 
                     <div class="radio-group">
@@ -694,14 +727,33 @@
                 <div class="test-item">
                     <label>Test interface : Calibration et réponse de l'écran TFT tactile</label>
                     <p>
-                        Pour tester l'écran tactile, utilisez le stylet fourni et saisissez "ECRAN" dans le moniteur
-                        série.
+                        Pour tester l'écran tactile, utilisez le stylet fourni et saisissez "TACTILE" dans le moniteur
+                        série. Suivez ensuite les indications de calibrage affichées à l'écran. Assurez-vous que chaque
+                        zone de l'écran réagit correctement au toucher et qu'il n'y a pas de zones mortes. Vérifiez
+                        également
+                        l'absence de pixels défectueux ou manquants. Notez toute irrégularité ou problème de sensibilité
+                        dans vos commentaires.
                     </p>
 
                     <p>
-                        Suivez ensuite les indications de calibrage affichées à l'écran. Vérifiez si tous les endroits
-                        de l'écran répondent correctement, ainsi que l'absence de couleurs ou de pixels manquants.
+                        Ensuite, saisissez "ECRAN" dans le moniteur série pour tester les couleurs de l'écran. L'écran
+                        doit afficher une séquence de couleurs pour vérifier la fidélité
+                        des couleurs et l'uniformité de l'affichage. Comparez les couleurs affichées avec celles
+                        attendues. Assurez-vous que les couleurs sont uniformes et qu'il n'y a
+                        pas de zones plus sombres ou plus claires.
                     </p>
+                    <div class="warning-section">
+                        <div class="attention-panel">
+                            <p>
+                                Si l'écran ne répond pas, vous pouvez mettre hors tension la carte et tester la
+                                continuité des 14 pins de l'écran avec un multimètre. Notez les pins qui ne sont pas
+                                connectés correctement. (Référez-vous au schéma structurel pour identifier les
+                                connexions).
+                            </p>
+                        </div>
+                    </div>
+
+
 
                     <div class="radio-group">
                         <label class="radio-label">
@@ -744,6 +796,43 @@
 
             <div id="step9" class="section">
                 <h2>Contrôle de la connectivité</h2>
+                <div class="test-item">
+                    <label>Test RFID : Lecture de l'UID de la carte</label>
+                    <p>
+                        Pour tester le lecteur RFID, placez différentes cartes RFID sur le lecteur et tapez "RFID" dans
+                        le terminal série pour lire les UID. Notez la rapidité de lecture et vérifiez que chaque UID est
+                        correctement affiché dans le moniteur série. Assurez-vous que le lecteur détecte chaque carte
+                        rapidement et sans erreur. Si une carte n'est pas lue correctement, essayez de la repositionner
+                        et de la scanner à nouveau.
+                    </p>
+
+                    <div class="warning-section">
+                        <div class="attention-panel">
+                            <p>
+                                Si le lecteur RFID ne répond pas, vous pouvez mettre hors tension la carte et tester
+                                la
+                                continuité des connexions du lecteur RFID avec un multimètre. Notez les connexions
+                                qui ne sont pas
+                                correctement connectées. (Référez-vous au schéma structurel pour identifier les
+                                connexions).
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="testRFID" value="OK" required>
+                            OK
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="testRFID" value="NOK">
+                            NOK
+                        </label>
+                    </div>
+                    <textarea name="commentsRFID" rows="4" style="width: 100%;"
+                        placeholder="Commentaires ..."></textarea>
+                </div>
+
                 <div class="test-item">
                     <label>Test connectivité : Configuration et connexion au réseau Wi-Fi</label>
                     <p>
