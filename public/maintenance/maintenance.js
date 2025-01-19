@@ -106,7 +106,7 @@ document.getElementById('exportPdf').addEventListener('click', () => {
             textColor: [40, 40, 40]
         },
         headStyles: { fillColor: [0, 113, 227], textColor: [255, 255, 255] },
-        bodyStyles: { fillColor: [245, 245, 245], textColor: [40, 40, 40] },
+        bodyStyles: { fillColor: [255, 255, 255], textColor: [40, 40, 40] },
         columnStyles: {
             0: { cellWidth: 20 },
             1: { cellWidth: 70 },

@@ -117,7 +117,7 @@
                                     <td>Testeur de continuité</td>
                                 </tr>
                                 <tr>
-                                    <td>Ordinateur avec un logiciel de communication série tel que VSCode ou Arduino IDE
+                                    <td>Ordinateur avec un logiciel de programmation C tel que VSCode ou Arduino IDE
                                     </td>
                                 </tr>
                             </tbody>
@@ -187,6 +187,9 @@
                                 <tr>
                                     <td>La schématique de la carte Bosconnect</td>
                                 </tr>
+                                <tr>
+                                    <td>Les datasheets des optocoupleurs, des relais, des transistors et du triac</td>
+                                </tr>
                             </tbody>
                         </table>
 
@@ -227,7 +230,7 @@
                     <section class="warning-section">
                         <div class="attention-panel">
                             <p>
-                                La carte ne doit être alimentée ni reprogrammée que si cela a été correctement demandé !
+                                Attention : La carte ne doit être alimentée ni reprogrammée que si cela a été correctement demandé !
                             </p>
                         </div>
                     </section>
@@ -315,11 +318,31 @@
                                 continuité pour réaliser les tests suivants. Référez-vous au schéma de la carte et, si
                                 besoin,
                                 aux documentations techniques des composants pour
-                                identifier les points de test. Attention, un test réalisé sur un mauvais pin n'est pas
+                                identifier les points de test. Attention, un test réalisé sur une mauvaise broche n'est
+                                pas
                                 valide !
                             </p>
                         </div>
                     </div>
+                </div>
+                <div class="test-item">
+                    <label>Test de continuité : Vérification d'absence de court-circuit</label>
+                    <p>Vérifiez l'isolation entre la masse (GND) et les lignes d'alimentation. Mesurez la résistance
+                        entre GND et 5V, puis entre GND et 3.3V.
+                        La résistance mesurée doit être supérieure à 100kΩ dans les deux cas. Une résistance plus faible
+                        pourrait indiquer un court-circuit potentiel.
+                        Effectuez les mesures sur plusieurs points de test pour confirmer l'isolation.</p>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="testContIsolation" value="OK" required>
+                            OK
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="testContIsolation" value="NOK">
+                            NOK
+                        </label>
+                    </div>
+                    <textarea name="commentsContIsolation" rows="4" placeholder="Commentaires ..."></textarea>
                 </div>
 
                 <div class="test-item">
@@ -349,7 +372,7 @@
                         la documentation technique des
                         transistors si nécessaire. Pour simplifier ce test, il est recommandé de vérifier la continuité
                         sur la face arrière de la carte. Notez qu'une légère résistance de l'ordre de 0.3 ohm peut être
-                        lue, ce qui est normal et dû à la résistance de pull down</p>
+                        lue, ce qui est normal et dû à la résistance de pull down.</p>
                     <div class="radio-group">
                         <label class="radio-label">
                             <input type="radio" name="testCont2" value="OK" required>
@@ -499,7 +522,7 @@
 
                 <div class="test-item">
                     <label>Test fonctionnel : Vérification des voyants LED et rétroéclairage</label>
-                    <p>Les témoins lumineux du lecteur RFID, de l'ESP32 et du rétroéclairage de l'écran sont-ils
+                    <p>Les témoins lumineux du lecteur RFID, du capteur MQ9 et du rétroéclairage de l'écran sont-ils
                         opérationnels et allumés ?</p>
                     <div class="radio-group">
                         <label class="radio-label">
@@ -541,7 +564,7 @@
                     <p>
                         Pour tester le capteur de gaz MQ9, vérifiez la cohérence des valeurs affichées dans le moniteur
                         série. Dans un environnement normal, les valeurs varient généralement entre 1000 et 1500 ppm.
-                        Pour relais le test saississez "MQ9" dans le moniteur série.
+                        Pour realiser le test saississez "MQ9" dans le moniteur série.
                     </p>
                     <div class="radio-group">
                         <label class="radio-label">
@@ -620,7 +643,7 @@
                 <div class="test-item">
                     <label>Test actionneur : Commutation et continuité du relais double n°1</label>
                     <p>
-                        Pour tester le relais double de l'appareil 1, saisissez "RELAIS_1" dans le moniteur série.
+                        Pour tester le relais double de l'appareil 1, saisissez "RELAIS1" dans le moniteur série.
                         Ensuite, mesurez la continuité entre les bornes à vis : PHASE_AP1 et
                         NEUTRE_AP1.
                     </p>
@@ -642,7 +665,7 @@
                 <div class="test-item">
                     <label>Test actionneur : Commutation et continuité du relais double n°2</label>
                     <p>
-                        Pour tester le relais double de l'appareil 2, saisissez "RELAIS_2" dans le moniteur série.
+                        Pour tester le relais double de l'appareil 2, saisissez "RELAIS2" dans le moniteur série.
                         Ensuite, mesurez la continuité sur les bornes à vis : PHASE_AP2 et
                         NEUTRE_AP2.
                     </p>
@@ -663,7 +686,7 @@
                 <div class="test-item">
                     <label>Test actionneur : Fonctionnement du relais de contrôle d'accès RFID</label>
                     <p>
-                        Pour tester le relais simple associé au fonctionnement du RFID, saisissez "RELAIS_RFID" dans le
+                        Pour tester le relais simple associé au fonctionnement du RFID, saisissez "RELAISRFID" dans le
                         moniteur série. Ensuite, mesurez la continuité sur le bornier RELAIS_RFID.
                     </p>
 
@@ -772,8 +795,7 @@
                 <div class="test-item">
                     <label>Test interface : Séquence de couleurs LED RGB de statut</label>
                     <p>
-                        Pour tester la LED RGB, saisissez "RGB" dans le moniteur série. Vérifiez si la LED change
-                        correctement de couleur toutes les secondes.
+                        Pour tester la LED RGB, saisissez "RGB" dans le moniteur série. La LED doit effectuer une séquence de 7 couleurs (rouge, vert, bleu, jaune, cyan, magenta, blanc) avec un changement toutes les secondes. Vérifiez que chaque couleur est pure et distincte, sans scintillement ni variation d'intensité. Les couleurs affichées doivent correspondre exactement à celles indiquées dans le moniteur série. Portez une attention particulière à la transition entre les couleurs et à l'uniformité de la luminosité.
                     </p>
                     <div class="radio-group">
                         <label class="radio-label">
@@ -860,6 +882,9 @@
                         Si la carte est correctement connectée au Wi-Fi, après avoir saisi "FIREBASE" dans le terminal
                         série, vous pourrez contrôler la LED de l'ESP32 et lire les données du capteur de luminosité
                         depuis la page de contrôle ci-dessous. Les données sont-elles transmises correctement ?
+                    </p>
+                    <p>
+                        Vous pouvez modifier l'entête du programme pour spécifier un autre appareil à contrôler et capteur à lire.
                     </p>
                     <div class="sensor-control">
                         <div class="button-group">
