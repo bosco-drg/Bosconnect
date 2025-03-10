@@ -1,78 +1,76 @@
-# Bosconnect - Système Domotique Intelligent
-## Présentation du projet
+# Bosconnect - Intelligent Home Automation System
+## Project Overview
 
-Bosconnect est un projet de domotique visant à concevoir un système connecté polyvalent pour la surveillance et le contrôle d'un environnement domestique. Développé dans le cadre d'un projet de deuxième année de BUT GEII (Génie Électrique et Informatique Industrielle), il propose une solution complète combinant matériel personnalisé et interface web ergonomique.
+Bosconnect is a home automation project aimed at designing a versatile connected system for monitoring and controlling a domestic environment. Developed as part of a second-year project in BUT GEII (Electrical Engineering and Industrial Computing), it offers a complete solution combining custom hardware and an ergonomic web interface.
 
 <br>
 <div align="center">
   <figure>
-    <img src="docs/carte_domotique_pcb.PNG" alt="Carte Bosconnect" width="500" style="max-width: 100%;">
-    <p><em>Vue d'ensemble de la carte domotique Bosconnect avec ses composants</em></p>
+    <img src="docs/carte_domotique_pcb.PNG" alt="Bosconnect Board" width="500" style="max-width: 100%;">
+    <p><em>Overview of the Bosconnect home automation board with its components</em></p>
   </figure>
 </div>
 <br>
 
+## Objectives
 
-## Objectifs
+1. **Create an accessible home automation hub** allowing any user to monitor and control their home
+2. **Develop an integrated solution** combining environmental sensors and device control
+3. **Offer an intuitive interface** both on the physical device and remotely via the web
+4. **Enable task automation** based on time or environmental conditions
 
-1. **Créer une centrale domotique accessible** permettant à tout utilisateur de surveiller et contrôler son habitat
-2. **Développer une solution intégrée** associant capteurs environnementaux et contrôle d'appareils
-3. **Offrir une interface intuitive** à la fois sur le dispositif physique et à distance via le web
-4. **Permettre l'automatisation de tâches** basée sur des conditions temporelles ou environnementales
+## System Operation
 
-## Fonctionnement du système
+The Bosconnect system is based on two fundamental components:
 
-Le système Bosconnect est basé sur deux composants fondamentaux :
+### 1. ESP32 Hardware Module
 
-### 1. Module matériel ESP32
+At the heart of the system is an electronic board based on an ESP32 that:
+- **Collects environmental data** via several sensors (temperature, pressure, light, gas)
+- **Controls electrical devices** through integrated relays and a dimmer
+- **Manages access** with an RFID system for security
+- **Offers a local interface** via a TFT touch screen
+- **Communicates with the cloud** via Wi-Fi connection
 
-Au cœur du système se trouve une carte électronique basée sur un ESP32 qui :
-- **Collecte des données environnementales** via plusieurs capteurs (température, pression, luminosité, gaz)
-- **Contrôle des appareils électriques** grâce à des relais intégrés et un variateur
-- **Gère l'accès** par un système RFID pour la sécurité
-- **Offre une interface locale** par écran tactile TFT
-- **Communique avec le cloud** via connexion Wi-Fi
+### 2. Firebase Database
 
+The database system complements the physical device by:
+- **Storing sensor data** in real-time
+- **Allowing remote control** of connected devices
+- **Visualizing trends** through historical graphs
+- **Managing automations** based on time or conditions
+- **Securing access** through user authentication
 
-### 2. Base de données Firebase
-
-Le système de base de données complète l'appareil physique en :
-- **Stockant les données** des capteurs en temps réel
-- **Permettant le contrôle à distance** des appareils connectés
-- **Visualisant les tendances** par des graphiques d'historique
-- **Gérant les automatisations** temporelles ou conditionnelles
-- **Sécurisant l'accès** par authentification utilisateur
-
-## Caractéristiques techniques principales
+## Main Technical Features
 
 <br>
 <div align="center">
   <figure>
     <img src="docs/carte_domotique.png" width="500" style="max-width: 100%;">
-    <p><em>Schématique de la carte domotique</em></p>
+    <p><em>Schematic of the home automation board</em></p>
   </figure>
 </div>
 <br>
 
-- **Capteurs** : BMP280 (température/pression), BH1750 (luminosité), MQ9 (gaz)
-- **Actionneurs** : 2 relais doubles, 1 variateur de puissance, 1 relais pour contrôle d'accès RFID
-- **Interface locale** : Écran tactile TFT
-- **Connectivité** : Wi-Fi pour connexion à la base de données
-- **Plateforme de données** : Firebase (authentification, base de données en temps réel)
+- **Sensors**: BMP280 (temperature/pressure), BH1750 (light), MQ9 (gas)
+- **Actuators**: 2 double relays, 1 power dimmer, 1 relay for RFID access control
+- **Local Interface**: TFT touch screen
+- **Connectivity**: Wi-Fi for database connection
+- **Data Platform**: Firebase (authentication, real-time database)
 
-## Application pratique
+## Practical Application
 
-Bosconnect peut être utilisé pour diverses applications domotiques :
-- Surveillance de la qualité de l'air intérieur
-- Contrôle d'éclairage intelligent (on/off et variation)
-- Automatisation d'appareils électriques selon des planifications temporelles
-- Sécurisation d'accès par technologie RFID
-- Création de scénarios conditionnels (si température > X alors action Y)
+Bosconnect can be used for various home automation applications:
+- Indoor air quality monitoring
+- Intelligent lighting control (on/off and dimming)
+- Automation of electrical devices based on time schedules
+- Access security with RFID technology
+- Creation of conditional scenarios (if temperature > X then action Y)
 
-## Note de sécurité
+### Security Note
 
-Pour des raisons de sécurité, certaines parties des configurations ont été supprimées de ce dépôt, notamment les informations d'accès à Firebase et autres données sensibles d'authentification. Ces informations sont nécessaires au fonctionnement complet du système mais ne sont pas partagées publiquement.
+For security reasons, some configuration parts have been removed from this repository, including Firebase access information and other sensitive authentication data. These details are necessary for the full operation of the system but are not shared publicly.
 
 ---
 
-© 2024 BOSCONNECT. Développé par Bosco.
+© 2024 BOSCONNECT. Developed by Bosco.
