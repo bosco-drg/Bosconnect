@@ -7,7 +7,7 @@ Bosconnect est un projet de domotique visant à concevoir un système connecté 
 <div align="center">
   <figure>
     <img src="docs/carte_domotique_pcb.PNG" alt="Carte Bosconnect" width="500" style="max-width: 100%;">
-    <figcaption><em>Vue d'ensemble de la carte domotique Bosconnect avec ses composants</em></figcaption>
+    <p><em>Vue d'ensemble de la carte domotique Bosconnect avec ses composants</em></p>
   </figure>
 </div>
 <br>
@@ -49,7 +49,7 @@ Le système de base de données complète l'appareil physique en :
 <div align="center">
   <figure>
     <img src="docs/carte_domotique.png" width="500" style="max-width: 100%;">
-    <figcaption><em>Schématique de la carte domotique</em></figcaption>
+    <p><em>Schématique de la carte domotique</em></p>
   </figure>
 </div>
 <br>
@@ -68,8 +68,6 @@ Bosconnect peut être utilisé pour diverses applications domotiques :
 - Automatisation d'appareils électriques selon des planifications temporelles
 - Sécurisation d'accès par technologie RFID
 - Création de scénarios conditionnels (si température > X alors action Y)
-
----
 
 ## Note de sécurité
 
