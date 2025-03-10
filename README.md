@@ -5,7 +5,7 @@ Bosconnect est un projet de domotique visant à concevoir un système connecté 
 
 <br>
 <div align="center">
-  <img src="docs/carte_domotique_pcb.png" alt="Carte Bosconnect" width="500" style="max-width: 100%;">
+  <img src="docs/carte_domotique_pcb.PNG" alt="Carte Bosconnect" width="500" style="max-width: 100%;">
 </div>
 <br>
 
