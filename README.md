@@ -66,3 +66,7 @@ Bosconnect peut être utilisé pour diverses applications domotiques :
 ---
 
 © 2024 BOSCONNECT. Développé par Bosco.
+
+## Note de sécurité
+
+Pour des raisons de sécurité, certaines parties des configurations ont été supprimées de ce dépôt, notamment les informations d'accès à Firebase et autres données sensibles d'authentification. Ces informations sont nécessaires au fonctionnement complet du système mais ne sont pas partagées publiquement.
