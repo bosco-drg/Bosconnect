@@ -1,6 +1,88 @@
 # Bosconnect - Intelligent Home Automation System
 ## Project Overview
 
+<!--portfolio
+{
+  "id": "bosconnect",
+  "repo": "https://github.com/bosco-drg/bosconnect",
+  "date": "2024-07-01",
+  "images": [
+    "https://raw.githubusercontent.com/bosco-drg/bosconnect/main/docs/carte_domotique_pcb.PNG",
+    "https://raw.githubusercontent.com/bosco-drg/bosconnect/main/docs/carte_domotique.png"
+  ],
+  "tags": [
+    "iot", "esp32", "firebase", "hardware", "web", "automation", "security"
+  ],
+  "title_fr": "Bosconnect - Système domotique intelligent",
+  "title_en": "Bosconnect - Intelligent Home Automation System",
+  "short_desc_fr": "Solution domotique complète avec capteurs, actionneurs, interface tactile et cloud.",
+  "short_desc_en": "Complete home automation solution with sensors, actuators, touchscreen and cloud.",
+  "desc_fr": "Bosconnect est un projet domotique développé en BUT GEII, combinant une carte ESP32, des capteurs environnementaux, des relais, un variateur, un écran tactile et une base de données Firebase pour le contrôle et la supervision à distance. Il permet la gestion intelligente de l'habitat, l'automatisation des tâches, la sécurité par RFID et la visualisation des données via une interface web.",
+  "desc_en": "Bosconnect is a home automation project developed in BUT GEII, combining an ESP32 board, environmental sensors, relays, a dimmer, a touchscreen, and a Firebase database for remote control and supervision. It enables smart home management, task automation, RFID security, and data visualization through a web interface.",
+  "sections": [
+    {
+      "type": "text",
+      "value": [
+        "project_bosconnect_desc"
+      ]
+    },
+    {
+      "type": "image",
+      "src": "https://raw.githubusercontent.com/bosco-drg/bosconnect/main/docs/carte_domotique_pcb.PNG",
+      "caption_i18n": "project_bosconnect_img_caption1"
+    },
+    {
+      "type": "image",
+      "src": "https://raw.githubusercontent.com/bosco-drg/bosconnect/main/docs/carte_domotique.png",
+      "caption_i18n": "project_bosconnect_img_caption2"
+    },
+    {
+      "type": "hr"
+    },
+    {
+      "type": "text",
+      "value": [
+        "project_bosconnect_features_intro",
+        "project_bosconnect_features_list"
+      ]
+    },
+    {
+      "type": "list",
+      "items": [
+        "project_bosconnect_list_item1",
+        "project_bosconnect_list_item2",
+        "project_bosconnect_list_item3",
+        "project_bosconnect_list_item4"
+      ]
+    },
+    {
+      "type": "table",
+      "headers": [
+        "project_bosconnect_table_header1",
+        "project_bosconnect_table_header2"
+      ],
+      "rows": [
+        [
+          "project_bosconnect_table_row1col1",
+          "project_bosconnect_table_row1col2"
+        ],
+        [
+          "project_bosconnect_table_row2col1",
+          "project_bosconnect_table_row2col2"
+        ]
+      ]
+    },
+    {
+      "type": "link",
+      "href": "https://github.com/bosco-drg/bosconnect",
+      "caption_i18n": "project_bosconnect_link_caption",
+      "target": "_blank"
+    }
+  ]
+}
+-->
+
+
 Bosconnect is a home automation project aimed at designing a versatile connected system for monitoring and controlling a domestic environment. Developed as part of a second-year project in BUT GEII (Electrical Engineering and Industrial Computing), it offers a complete solution combining custom hardware and an ergonomic web interface.
 
 <br>
